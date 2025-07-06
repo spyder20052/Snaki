@@ -170,10 +170,10 @@ export default function PromotionsPage() {
       </div>
       <div className="max-w-3xl mx-auto text-center text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-10 space-y-2">
         <div>
-          Les prix sont en FCFA. Taxes éventuelles incluses. Paiement sécurisé.
+          Les prix sont fait pour vous. Pour 1 mois de pure plaisir. Paiement sécurisé.
         </div>
         <div>
-          Si vous n'êtes pas satisfait, nous vous remboursons. Aucune question posée. Contactez-nous à <a href="mailto:contact@snaki.com" className="underline text-orange-600">contact@snaki.com</a>
+          Pour toutes préoccupations, n'hésitez pas à nous contacter au : <a href="https://wa.me/22953305896" className="underline text-orange-600" target="_blank">+22953305896</a>
         </div>
       </div>
 
