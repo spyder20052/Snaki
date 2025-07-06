@@ -229,10 +229,10 @@ const ProductPage = () => {
                       <div className="text-xs sm:text-sm md:text-base text-muted-foreground">
                         <h3 className="font-semibold text-foreground mb-2">Valeurs nutritionnelles :</h3>
                         <div className="grid grid-cols-2 gap-2">
-                          <div>Calories: <span className="font-medium">{product.nutrition?.calories || 'N/A'}</span></div>
-                          <div>Protéines: <span className="font-medium">{product.nutrition?.protein || 'N/A'}g</span></div>
-                          <div>Glucides: <span className="font-medium">{product.nutrition?.carbs || 'N/A'}g</span></div>
-                          <div>Lipides: <span className="font-medium">{product.nutrition?.fat || 'N/A'}g</span></div>
+                          <div>Calories: <span className="font-medium">{product.nutritionalInfo?.calories ?? 'N/A'}</span></div>
+                          <div>Protéines: <span className="font-medium">{product.nutritionalInfo?.protein ? `${product.nutritionalInfo.protein}` : 'N/A'}{product.nutritionalInfo?.protein ? 'g' : ''}</span></div>
+                          <div>Glucides: <span className="font-medium">{product.nutritionalInfo?.carbs ? `${product.nutritionalInfo.carbs}` : 'N/A'}{product.nutritionalInfo?.carbs ? 'g' : ''}</span></div>
+                          <div>Lipides: <span className="font-medium">{product.nutritionalInfo?.fat ? `${product.nutritionalInfo.fat}` : 'N/A'}{product.nutritionalInfo?.fat ? 'g' : ''}</span></div>
                         </div>
                       </div>
                     )}
@@ -258,10 +258,7 @@ const ProductPage = () => {
                                   : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
                               }`}
                             >
-                              {choice.name}
-                              {choice.price && choice.price > 0 && (
-                                <span className="ml-1 text-xs">+{choice.price.toFixed(2)} fcfa</span>
-                              )}
+                              {choice.label || (choice.id === 'with_milk' ? 'Avec lait' : choice.id === 'without_milk' ? 'Sans lait' : choice.id)}
                             </button>
                           ))}
                         </div>

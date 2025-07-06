@@ -23,9 +23,9 @@ export const products = [
     ingredients: ["Tapioca", "Milo", "Lait"],
     nutritionalInfo: {
       calories: 320,
-      protein: "7g",
-      carbs: "48g",
-      fat: "5g"
+      protein: "7",
+      carbs: "48",
+      fat: "5"
     },
     options: {
       milk: {
@@ -49,9 +49,9 @@ export const products = [
     ingredients: ["Tapioca", "Sirop de menthe", "Lait"],
     nutritionalInfo: {
       calories: 280,
-      protein: "6g",
-      carbs: "45g",
-      fat: "4g"
+      protein: "6",
+      carbs: "45",
+      fat: "4"
     },
     options: {
       milk: {
@@ -75,9 +75,9 @@ export const products = [
     ingredients: ["Tapioca", "Sirop tropical", "Lait"],
     nutritionalInfo: {
       calories: 260,
-      protein: "5g",
-      carbs: "42g",
-      fat: "3g"
+      protein: "5",
+      carbs: "42",
+      fat: "3"
     },
     options: {
       milk: {
@@ -101,9 +101,9 @@ export const products = [
     ingredients: ["Tapioca", "Sirop de menthe", "Sirop tropical", "Lait"],
     nutritionalInfo: {
       calories: 300,
-      protein: "6g",
-      carbs: "47g",
-      fat: "4g"
+      protein: "6",
+      carbs: "47",
+      fat: "4"
     },
     options: {
       milk: {
@@ -129,9 +129,9 @@ export const products = [
     ingredients: ["Boba fraise", "Sirop de fraise", "Lait"],
     nutritionalInfo: {
       calories: 290,
-      protein: "5g",
-      carbs: "46g",
-      fat: "4g"
+      protein: "5",
+      carbs: "46",
+      fat: "4"
     },
     options: {
       milk: {
@@ -155,9 +155,9 @@ export const products = [
     ingredients: ["Boba fraise", "Milo", "Lait"],
     nutritionalInfo: {
       calories: 320,
-      protein: "7g",
-      carbs: "48g",
-      fat: "5g"
+      protein: "7",
+      carbs: "48",
+      fat: "5"
     },
     options: {
       milk: {
@@ -181,9 +181,9 @@ export const products = [
     ingredients: ["Boba fraise", "Sirop tropical", "Lait"],
     nutritionalInfo: {
       calories: 275,
-      protein: "5g",
-      carbs: "44g",
-      fat: "4g"
+      protein: "5",
+      carbs: "44",
+      fat: "4"
     },
     options: {
       milk: {
@@ -207,9 +207,9 @@ export const products = [
     ingredients: ["Boba fraise", "Sirop de menthe", "Lait"],
     nutritionalInfo: {
       calories: 270,
-      protein: "5g",
-      carbs: "43g",
-      fat: "3g"
+      protein: "5",
+      carbs: "43",
+      fat: "3"
     },
     options: {
       milk: {
@@ -235,9 +235,9 @@ export const products = [
     ingredients: ["Boba passion", "Sirop tropical", "Lait"],
     nutritionalInfo: {
       calories: 290,
-      protein: "6g",
-      carbs: "47g",
-      fat: "4g"
+      protein: "6",
+      carbs: "47",
+      fat: "4"
     },
     options: {
       milk: {
@@ -261,9 +261,9 @@ export const products = [
     ingredients: ["Boba passion", "Lait"],
     nutritionalInfo: {
       calories: 260,
-      protein: "5g",
-      carbs: "43g",
-      fat: "3g"
+      protein: "5",
+      carbs: "43",
+      fat: "3"
     },
     options: {
       milk: {
@@ -287,9 +287,9 @@ export const products = [
     ingredients: ["Boba passion", "Sirop de menthe", "Lait"],
     nutritionalInfo: {
       calories: 270,
-      protein: "5g",
-      carbs: "44g",
-      fat: "3g"
+      protein: "5",
+      carbs: "44",
+      fat: "3"
     },
     options: {
       milk: {
