@@ -1,0 +1,325 @@
+import b1Image from './src/b1.jpeg'; // exemple d'import image locale, adapte selon tes images
+import b2Image from './src/b2.jpeg'; // autres images pour variété
+import b3Image from './src/b3.jpeg';
+import bubbletwist from './src/bubbletea/bubbletwist.png';
+import chocoperle from './src/bubbletea/chocoperle.png';
+import fraiseparty from './src/bubbletea/fraiseparty.png';
+import menthefraise from './src/bubbletea/menthefraise.png';
+import menthelatte from './src/bubbletea/menthelatte.png';
+import passionlait from './src/bubbletea/passionlait.png';
+import passionmint from './src/bubbletea/passionmint.png';
+import strawmilo from './src/bubbletea/strawmilo.png';
+import sweettropik from './src/bubbletea/sweettropik.png';
+import tropicpearl from './src/bubbletea/tropicpearl.png';
+import tropipop from './src/bubbletea/tropipop.png';
+
+export const products = [
+  // Bubble Tea
+  {
+    id: 101,
+    name: "Choco Perle",
+    description: "Tapioca + Milo + Lait",
+    price: 1500,
+    category: "bubble-tea",
+    image: chocoperle,
+    popular: true,
+    ingredients: ["Tapioca", "Milo", "Lait"],
+    nutritionalInfo: {
+      calories: 320,
+      protein: "7g",
+      carbs: "48g",
+      fat: "5g"
+    },
+    options: {
+      milk: {
+        type: "radio",
+        label: "Préférence",
+        choices: [
+          { id: "with_milk", label: "Avec lait", price: 500 },
+          { id: "without_milk", label: "Sans lait", price: 0 }
+        ]
+      }
+    }
+  },
+  {
+    id: 102,
+    name: "Menthe Latté",
+    description: "Tapioca + Sirop de menthe + Lait",
+    price: 1500,
+    category: "bubble-tea",
+    image: menthelatte,
+    popular: true,
+    ingredients: ["Tapioca", "Sirop de menthe", "Lait"],
+    nutritionalInfo: {
+      calories: 280,
+      protein: "6g",
+      carbs: "45g",
+      fat: "4g"
+    },
+    options: {
+      milk: {
+        type: "radio",
+        label: "Préférence",
+        choices: [
+          { id: "with_milk", label: "Avec lait", price: 500 },
+          { id: "without_milk", label: "Sans lait", price: 0 }
+        ]
+      }
+    }
+  },
+  {
+    id: 103,
+    name: "Tropic Pearl",
+    description: "Tapioca + Sirop tropical + Lait",
+    price: 1500,
+    category: "bubble-tea",
+    image: tropicpearl,
+    popular: true,
+    ingredients: ["Tapioca", "Sirop tropical", "Lait"],
+    nutritionalInfo: {
+      calories: 260,
+      protein: "5g",
+      carbs: "42g",
+      fat: "3g"
+    },
+    options: {
+      milk: {
+        type: "radio",
+        label: "Préférence",
+        choices: [
+          { id: "with_milk", label: "Avec lait", price: 500 },
+          { id: "without_milk", label: "Sans lait", price: 0 }
+        ]
+      }
+    }
+  },
+  {
+    id: 104,
+    name: "Bubble Twist",
+    description: "Tapioca + Sirop de menthe + Sirop tropical + Lait",
+    price: 1500,
+    category: "bubble-tea",
+    image: bubbletwist,
+    popular: false,
+    ingredients: ["Tapioca", "Sirop de menthe", "Sirop tropical", "Lait"],
+    nutritionalInfo: {
+      calories: 300,
+      protein: "6g",
+      carbs: "47g",
+      fat: "4g"
+    },
+    options: {
+      milk: {
+        type: "radio",
+        label: "Préférence",
+        choices: [
+          { id: "with_milk", label: "Avec lait", price: 500 },
+          { id: "without_milk", label: "Sans lait", price: 0 }
+        ]
+      }
+    }
+  },
+
+  // Bubble Tea BOBA FRAISE BASE
+  {
+    id: 105,
+    name: "Fraise Party",
+    description: "Boba fraise + Sirop de fraise + Lait",
+    price: 1500,
+    category: "bubble-tea",
+    image: fraiseparty,
+    popular: true,
+    ingredients: ["Boba fraise", "Sirop de fraise", "Lait"],
+    nutritionalInfo: {
+      calories: 290,
+      protein: "5g",
+      carbs: "46g",
+      fat: "4g"
+    },
+    options: {
+      milk: {
+        type: "radio",
+        label: "Préférence",
+        choices: [
+          { id: "with_milk", label: "Avec lait", price: 500 },
+          { id: "without_milk", label: "Sans lait", price: 0 }
+        ]
+      }
+    }
+  },
+  {
+    id: 106,
+    name: "StrawMilo",
+    description: "Boba fraise + Milo + Lait",
+    price: 1500,
+    category: "bubble-tea",
+    image: strawmilo,
+    popular: true,
+    ingredients: ["Boba fraise", "Milo", "Lait"],
+    nutritionalInfo: {
+      calories: 320,
+      protein: "7g",
+      carbs: "48g",
+      fat: "5g"
+    },
+    options: {
+      milk: {
+        type: "radio",
+        label: "Préférence",
+        choices: [
+          { id: "with_milk", label: "Avec lait", price: 500 },
+          { id: "without_milk", label: "Sans lait", price: 0 }
+        ]
+      }
+    }
+  },
+  {
+    id: 107,
+    name: "Sweet Tropik",
+    description: "Boba fraise + Sirop tropical + Lait",
+    price: 1500,
+    category: "bubble-tea",
+    image: sweettropik,
+    popular: false,
+    ingredients: ["Boba fraise", "Sirop tropical", "Lait"],
+    nutritionalInfo: {
+      calories: 275,
+      protein: "5g",
+      carbs: "44g",
+      fat: "4g"
+    },
+    options: {
+      milk: {
+        type: "radio",
+        label: "Préférence",
+        choices: [
+          { id: "with_milk", label: "Avec lait", price: 500 },
+          { id: "without_milk", label: "Sans lait", price: 0 }
+        ]
+      }
+    }
+  },
+  {
+    id: 108,
+    name: "Menthe Fraise",
+    description: "Boba fraise + Sirop de menthe + Lait",
+    price: 1500,
+    category: "bubble-tea",
+    image: menthefraise,
+    popular: true,
+    ingredients: ["Boba fraise", "Sirop de menthe", "Lait"],
+    nutritionalInfo: {
+      calories: 270,
+      protein: "5g",
+      carbs: "43g",
+      fat: "3g"
+    },
+    options: {
+      milk: {
+        type: "radio",
+        label: "Préférence",
+        choices: [
+          { id: "with_milk", label: "Avec lait", price: 500 },
+          { id: "without_milk", label: "Sans lait", price: 0 }
+        ]
+      }
+    }
+  },
+
+  // Bubble Tea BOBA PASSION BASE
+  {
+    id: 109,
+    name: "TropiPop",
+    description: "Boba passion + Sirop tropical + Lait",
+    price: 1500,
+    category: "bubble-tea",
+    image: tropipop,
+    popular: true,
+    ingredients: ["Boba passion", "Sirop tropical", "Lait"],
+    nutritionalInfo: {
+      calories: 290,
+      protein: "6g",
+      carbs: "47g",
+      fat: "4g"
+    },
+    options: {
+      milk: {
+        type: "radio",
+        label: "Préférence",
+        choices: [
+          { id: "with_milk", label: "Avec lait", price: 500 },
+          { id: "without_milk", label: "Sans lait", price: 0 }
+        ]
+      }
+    }
+  },
+  {
+    id: 110,
+    name: "Passion Lait",
+    description: "Boba passion + Lait",
+    price: 1500,
+    category: "bubble-tea",
+    image: passionlait,
+    popular: true,
+    ingredients: ["Boba passion", "Lait"],
+    nutritionalInfo: {
+      calories: 260,
+      protein: "5g",
+      carbs: "43g",
+      fat: "3g"
+    },
+    options: {
+      milk: {
+        type: "radio",
+        label: "Préférence",
+        choices: [
+          { id: "with_milk", label: "Avec lait", price: 500 },
+          { id: "without_milk", label: "Sans lait", price: 0 }
+        ]
+      }
+    }
+  },
+  {
+    id: 111,
+    name: "Passion Mint",
+    description: "Boba passion + Sirop de menthe + Lait",
+    price: 1500,
+    category: "bubble-tea",
+    image: passionmint,
+    popular: false,
+    ingredients: ["Boba passion", "Sirop de menthe", "Lait"],
+    nutritionalInfo: {
+      calories: 270,
+      protein: "5g",
+      carbs: "44g",
+      fat: "3g"
+    },
+    options: {
+      milk: {
+        type: "radio",
+        label: "Préférence",
+        choices: [
+          { id: "with_milk", label: "Avec lait", price: 500 },
+          { id: "without_milk", label: "Sans lait", price: 0 }
+        ]
+      }
+    }
+  }
+];
+
+export const categories = [
+  { id: "tacos", name: "Tacos", icon: "taco" },
+  { id: "bubble-tea", name: "Bubble Tea", icon: "cup" }
+];
+
+export const getProductById = (id) => {
+  return products.find(product => product.id === parseInt(id));
+};
+
+export const getProductsByCategory = (categoryId) => {
+  return products.filter(product => product.category === categoryId);
+};
+
+export const getPopularProducts = () => {
+  return products.filter(product => product.popular);
+};

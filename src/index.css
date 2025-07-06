@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 16 85% 50%; /* Orange vif */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 45 90% 55%; /* Jaune-orange */
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 30 95% 60%; /* Orange plus clair */
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 16 85% 50%; /* Orange vif pour les focus */
+    --radius: 0.75rem; /* Bords plus arrondis */
+  }
+ 
+  .dark {
+    --background: 20 14.3% 4.1%; /* Marron foncé pour le fond */
+    --foreground: 60 9.1% 97.8%;
+    --card: 24 9.8% 10%; /* Marron un peu plus clair pour les cartes */
+    --card-foreground: 60 9.1% 97.8%;
+    --popover: 20 14.3% 4.1%;
+    --popover-foreground: 60 9.1% 97.8%;
+    --primary: 16 85% 50%; /* Orange vif */
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 45 90% 55%; /* Jaune-orange */
+    --secondary-foreground: 60 9.1% 97.8%;
+    --muted: 24 9.8% 10%;
+    --muted-foreground: 24 5.4% 63.9%;
+    --accent: 30 95% 60%; /* Orange plus clair */
+    --accent-foreground: 60 9.1% 97.8%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 24 5.4% 19.0%; /* Bordures plus subtiles */
+    --input: 24 5.4% 19.0%;
+    --ring: 16 85% 50%; /* Orange vif pour les focus */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply antialiased;
+  }
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, rgba(255, 107, 0, 0.85) 0%, rgba(255, 69, 0, 0.9) 100%);
+}
+
+.food-card {
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  @apply rounded-2xl overflow-hidden; /* Bords plus arrondis */
+}
+
+.food-card:hover {
+  transform: translateY(-8px) scale(1.03); /* Effet de "saut" plus prononcé */
+  box-shadow: 0 15px 35px rgba(255, 107, 0, 0.2), 0 5px 15px rgba(0,0,0,0.1); /* Ombre plus douce et colorée */
+}
+
+.food-card img {
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.food-card:hover img {
+  transform: scale(1.15); /* Zoom plus important sur l'image */
+}
+
+.category-badge {
+  background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent))); /* Utilisation des variables CSS pour les dégradés */
+  @apply shadow-md;
+}
+
+.cart-item-enter {
+  opacity: 0;
+  transform: translateX(-20px) scale(0.95);
+}
+.cart-item-enter-active {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+.cart-item-exit {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+.cart-item-exit-active {
+  opacity: 0;
+  transform: translateX(20px) scale(0.95);
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+
+.menu-section {
+  scroll-margin-top: 120px; /* Ajustement pour la barre de navigation sticky */
+}
+
+/* Style pour cacher la scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Effet "Glow" pour les boutons principaux */
+.button-glow {
+  @apply relative overflow-hidden;
+}
+.button-glow::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, hsla(var(--primary), 0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+.button-glow:hover::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+.button-glow > * { /* S'assurer que le contenu du bouton est au-dessus du glow */
+  @apply relative z-10;
+}
+
+
+/* Animation pour le titre */
+.title-char-animation span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px) rotate(5deg);
+  animation: char-appear 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes char-appear {
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+/* Effet de "pulsation" subtile pour les badges/promotions */
+.pulse-badge {
+  animation: pulse-effect 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes pulse-effect {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+/* Neumorphism subtil pour certains éléments UI */
+.neumorphic-shadow {
+  background-color: hsl(var(--background));
+  box-shadow: 8px 8px 16px hsla(var(--foreground), 0.05),
+              -8px -8px 16px hsla(var(--background), 1),
+              inset 2px 2px 4px hsla(var(--background), 0.7),
+              inset -2px -2px 4px hsla(var(--foreground), 0.03);
+}
+.dark .neumorphic-shadow {
+  box-shadow: 8px 8px 16px hsla(var(--foreground), 0.02), /* Moins d'ombre noire */
+              -8px -8px 16px hsla(var(--background), 0.5), /* Ombre claire plus visible */
+              inset 2px 2px 4px hsla(var(--background), 0.3),
+              inset -2px -2px 4px hsla(var(--foreground), 0.01);
+}
+
+/* Pour les inputs et boutons de quantité */
+.quantity-control-button {
+  @apply transition-all duration-200 ease-in-out;
+}
+.quantity-control-button:hover {
+  @apply bg-primary/20 scale-110;
+}
+.quantity-control-button:active {
+  @apply scale-95;
+}
