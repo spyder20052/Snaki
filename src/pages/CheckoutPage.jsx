@@ -41,6 +41,15 @@ const CheckoutPage = () => {
     }
   }, [itemCount, navigate, toast, orderComplete]);
 
+  useEffect(() => {
+    if (orderComplete) {
+      const timer = setTimeout(() => {
+        navigate('/');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [orderComplete, navigate]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -125,107 +134,31 @@ const CheckoutPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    if (currentStep !== 3) {
+      handleNextStep(e);
+      return;
+    }
+    setIsSubmitting(true);
     try {
-      // Valider les données de paiement
-      const customerData = {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phone: formData.phone,
-        whatsappNumber: formData.whatsappNumber,
-        address: formData.address,
-        city: formData.city,
-        deliveryDate: formData.deliveryDate,
-        deliveryTime: formData.deliveryTime,
-        customerId: `customer-${Date.now()}`
-      };
-
-      const orderData = {
-        orderId: `order-${Date.now()}`,
-        cartItems: cart,
-        cartTotal: cartTotal,
-        deliveryFee: deliveryFee,
-        totalAmount: totalAmount
-      };
-
-      // Valider les données
       // Validation simplifiée
-      if (!customerData.firstName || !customerData.lastName || !customerData.email || !customerData.phone) {
+      if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
         throw new Error("Veuillez remplir tous les champs obligatoires");
       }
-      
-      // Afficher les informations de paiement
-      setShowPaymentInfo(true);
+      // Générer le message WhatsApp
+      const message = formatOrderForWhatsApp();
+      const whatsappUrl = `https://wa.me/22953305896?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+      setOrderComplete(true);
+      clearCart();
     } catch (error) {
       toast({
         title: "Données invalides",
         description: error.message,
         variant: "destructive",
       });
-    }
-  };
-
-  const handleProceedToPayment = async () => {
-    console.log('🔵 handleProceedToPayment appelé');
-    setShowPaymentInfo(false);
-    setIsSubmitting(true);
-    
-    try {
-      console.log('🔵 Préparation des données client');
-      const customerData = {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phone: formData.phone,
-        whatsappNumber: formData.whatsappNumber,
-        address: formData.address,
-        city: formData.city,
-        deliveryDate: formData.deliveryDate,
-        deliveryTime: formData.deliveryTime,
-        customerId: `customer-${Date.now()}`
-      };
-
-      console.log('🔵 Préparation des données commande');
-      const orderData = {
-        orderId: `order-${Date.now()}`,
-        cartItems: cart,
-        cartTotal: cartTotal,
-        deliveryFee: deliveryFee,
-        totalAmount: totalAmount
-      };
-
-      console.log('🔵 Traitement de la commande');
-      // Traitement simplifié de la commande
-      const orderComplete = true;
-      setOrderComplete(orderComplete);
-      
-      console.log('🔵 Commande traitée avec succès');
-    } catch (error) {
-      console.error('❌ Erreur traitement commande:', error);
-      toast({
-        title: "Commande échouée",
-        description: error.message || "La commande n'a pas pu être traitée.",
-        variant: "destructive",
-      });
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const sendOrderToWhatsApp = (fromNumber = formData.whatsappNumber) => {
-    const message = formatOrderForWhatsApp();
-    const whatsappNumber = "+22953305896"; // Assurez-vous que ce numéro est valide et au format international
-    const encodedMessage = encodeURIComponent(message);
-  
-    // Vérifier le message et l'URL générée dans la console
-    console.log(`Numéro WhatsApp: ${whatsappNumber}`);
-    console.log(`Message encodé: ${encodedMessage}`);
-  
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-  
-    // Test simple de l'URL dans un nouvel onglet
-    window.open(whatsappUrl, '_blank');
   };
 
   const stepVariants = {
