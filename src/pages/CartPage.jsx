@@ -6,9 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import CartItem from '@/components/CartItem';
 import { useCart } from '@/contexts/CartContext';
-import { FedaCheckoutButton } from 'fedapay-reactjs';
 
-const PUBLIC_KEY = 'pk_sandbox_u8So2ARbuAK4_ybYRh66yWL9'; // Remplace par ta clé publique FedaPay
 
 const CartPage = () => {
   const { cart, cartTotal, clearCart, itemCount } = useCart();

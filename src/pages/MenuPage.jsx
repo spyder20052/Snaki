@@ -204,7 +204,7 @@ const MenuPage = () => {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                     >
-                      Oops! Aucun délice ne correspond à votre recherche dans cette catégorie.
+                      ✨ Bientôt disponible chez Snaki !
                     </motion.p>
                   )}
                 </AnimatePresence>

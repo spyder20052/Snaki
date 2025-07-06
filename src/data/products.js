@@ -1,17 +1,14 @@
-import b1Image from './src/b1.jpeg'; // exemple d'import image locale, adapte selon tes images
-import b2Image from './src/b2.jpeg'; // autres images pour variété
-import b3Image from './src/b3.jpeg';
-import bubbletwist from './src/bubbletea/bubbletwist.png';
-import chocoperle from './src/bubbletea/chocoperle.png';
-import fraiseparty from './src/bubbletea/fraiseparty.png';
-import menthefraise from './src/bubbletea/menthefraise.png';
-import menthelatte from './src/bubbletea/menthelatte.png';
-import passionlait from './src/bubbletea/passionlait.png';
-import passionmint from './src/bubbletea/passionmint.png';
-import strawmilo from './src/bubbletea/strawmilo.png';
-import sweettropik from './src/bubbletea/sweettropik.png';
-import tropicpearl from './src/bubbletea/tropicpearl.png';
-import tropipop from './src/bubbletea/tropipop.png';
+import bubbletwist from './src/bubbletea/bubbletwist.webp';
+import chocoperle from './src/bubbletea/chocoperle.webp';
+import fraiseparty from './src/bubbletea/fraiseparty.webp';
+import menthefraise from './src/bubbletea/menthefraise.webp';
+import menthelatte from './src/bubbletea/menthelatte.webp';
+import passionlait from './src/bubbletea/passionlait.webp';
+import passionmint from './src/bubbletea/passionmint.webp';
+import strawmilo from './src/bubbletea/strawmilo.webp';
+import sweettropik from './src/bubbletea/sweettropik.webp';
+import tropicpearl from './src/bubbletea/tropicpearl.webp';
+import tropipop from './src/bubbletea/tropipop.webp';
 
 export const products = [
   // Bubble Tea

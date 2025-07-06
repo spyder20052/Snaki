@@ -7,8 +7,7 @@ import MenuPage from '@/pages/MenuPage';
 import ProductPage from '@/pages/ProductPage';
 import CartPage from '@/pages/CartPage';
 import CheckoutPage from '@/pages/CheckoutPage';
-import PaymentCallbackPage from '@/pages/PaymentCallbackPage';
-import PaymentCancelPage from '@/pages/PaymentCancelPage';
+
 import Layout from '@/components/Layout';
 import LoadingScreen from '@/components/LoadingScreen';
 import { AnimatePresence } from 'framer-motion';
@@ -38,8 +37,6 @@ function App() {
               <Route path="/product/:id" element={<ProductPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/payment-callback" element={<PaymentCallbackPage />} />
-              <Route path="/payment-cancel" element={<PaymentCancelPage />} />
               <Route path="/promotions" element={<PromotionsPage />} />
             </Routes>
           </Layout>

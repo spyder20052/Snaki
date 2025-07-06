@@ -8,8 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useCart } from '@/contexts/CartContext';
 import { useToast } from '@/components/ui/use-toast';
-import fedaPayService from '@/services/fedaPayService';
-import FedaPaymentInfo from '@/components/FedaPaymentInfo';
+
 
 const CheckoutPage = () => {
   const { cart, cartTotal, clearCart, itemCount } = useCart();
@@ -23,7 +22,7 @@ const CheckoutPage = () => {
     firstName: '', lastName: '', email: '', phone: '', whatsappNumber: '',
     address: '', city: '',
     deliveryDate: '', deliveryTime: '',
-    paymentMethod: 'fedapay',
+    paymentMethod: 'card',
     cardName: '', cardNumber: '', cardExpiry: '', cardCVC: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -143,7 +142,7 @@ const CheckoutPage = () => {
       };
 
       const orderData = {
-        orderId: fedaPayService.generateOrderId(),
+        orderId: `order-${Date.now()}`,
         cartItems: cart,
         cartTotal: cartTotal,
         deliveryFee: deliveryFee,
@@ -151,7 +150,10 @@ const CheckoutPage = () => {
       };
 
       // Valider les données
-      fedaPayService.validatePaymentData(customerData, orderData);
+      // Validation simplifiée
+      if (!customerData.firstName || !customerData.lastName || !customerData.email || !customerData.phone) {
+        throw new Error("Veuillez remplir tous les champs obligatoires");
+      }
       
       // Afficher les informations de paiement
       setShowPaymentInfo(true);
@@ -186,35 +188,24 @@ const CheckoutPage = () => {
 
       console.log('🔵 Préparation des données commande');
       const orderData = {
-        orderId: fedaPayService.generateOrderId(),
+        orderId: `order-${Date.now()}`,
         cartItems: cart,
         cartTotal: cartTotal,
         deliveryFee: deliveryFee,
         totalAmount: totalAmount
       };
 
-      console.log('🔵 Création du paiement FedaPay');
-      // Créer le paiement FedaPay
-      const paymentResult = await fedaPayService.createPayment(
-        totalAmount,
-        customerData,
-        orderData
-      );
-
-      console.log('🔵 Résultat du paiement:', paymentResult);
-
-      if (paymentResult.success) {
-        console.log('🔵 Redirection vers FedaPay');
-        // Rediriger vers FedaPay
-        fedaPayService.redirectToPayment(paymentResult.paymentUrl);
-      } else {
-        throw new Error(paymentResult.message);
-      }
+      console.log('🔵 Traitement de la commande');
+      // Traitement simplifié de la commande
+      const orderComplete = true;
+      setOrderComplete(orderComplete);
+      
+      console.log('🔵 Commande traitée avec succès');
     } catch (error) {
-      console.error('❌ Erreur paiement FedaPay:', error);
+      console.error('❌ Erreur traitement commande:', error);
       toast({
-        title: "Paiement échoué",
-        description: error.message || "Le paiement n'a pas pu être initié.",
+        title: "Commande échouée",
+        description: error.message || "La commande n'a pas pu être traitée.",
         variant: "destructive",
       });
     } finally {
@@ -280,16 +271,7 @@ const CheckoutPage = () => {
 
   return (
     <div className="pt-28 pb-16 min-h-screen bg-gray-50 dark:bg-gray-900">
-      {showPaymentInfo && (
-        <FedaPaymentInfo
-          cart={cart}
-          cartTotal={cartTotal}
-          deliveryFee={deliveryFee}
-          totalAmount={totalAmount}
-          formData={formData}
-          onCancel={() => setShowPaymentInfo(false)}
-        />
-      )}
+
       <div className="container mx-auto px-4">
         <motion.div 
           initial={{ opacity:0, y:-10 }}
@@ -406,10 +388,10 @@ const CheckoutPage = () => {
                       <>
                         <div className="space-y-4 text-center">
                           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                            <h3 className="text-lg font-semibold text-blue-800 mb-2">💳 Paiement FedaPay</h3>
+                            <h3 className="text-lg font-semibold text-blue-800 mb-2">💳 Paiement Sécurisé</h3>
                             <p className="text-sm text-blue-700 mb-3">
-                              Votre paiement sera traité via FedaPay de manière sécurisée. 
-                              Vous serez redirigé vers la plateforme de paiement.
+                              Votre commande sera traitée de manière sécurisée. 
+                              Vous recevrez une confirmation par WhatsApp.
                             </p>
                             <div className="flex items-center justify-center gap-2 text-xs text-blue-600">
                               <CreditCard className="h-4 w-4" />
@@ -423,7 +405,7 @@ const CheckoutPage = () => {
                               <li>• Vos informations personnelles sont complètes</li>
                               <li>• Votre adresse de livraison est renseignée</li>
                               <li>• Le montant total est de {totalAmount.toFixed(2)} fcfa</li>
-                              <li>• Paiement sécurisé via FedaPay</li>
+                              <li>• Paiement sécurisé</li>
                               <li>• WhatsApp automatique après paiement</li>
                             </ul>
                           </div>

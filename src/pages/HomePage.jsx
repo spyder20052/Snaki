@@ -6,17 +6,29 @@ import { Button } from '@/components/ui/button';
 import ProductCard from '@/components/ProductCard';
 import { getPopularProducts } from '@/data/products';
 import videoFile from './videoback.mp4';
+import img_back from '@/data/src/backimg.webp';
 
 const AnimatedTitle = ({ text, className }) => {
   return (
-    <h1 className={`title-char-animation ${className}`}>
-      {text.split("").map((char, index) => (
-        <motion.span
-          key={`${char}-${index}`}
-          style={{ animationDelay: `${index * 0.03}s` }}
-        >
-          {char === " " ? "\u00A0" : char}
-        </motion.span>
+    <h1 className={className}>
+      {text.split('\n').map((line, lineIdx) => (
+        <div key={lineIdx} className="w-full">
+          {line.split("").map((char, index) => (
+            <motion.span
+              key={`${lineIdx}-${char}-${index}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ 
+                duration: 0.5, 
+                delay: (lineIdx * 0.2) + index * 0.03,
+                ease: [0.22, 1, 0.36, 1]
+              }}
+              style={{ display: 'inline-block' }}
+            >
+              {char === " " ? "\u00A0" : char}
+            </motion.span>
+          ))}
+        </div>
       ))}
     </h1>
   );
@@ -46,6 +58,7 @@ const HomePage = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [scrollY, setScrollY] = useState(0);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -88,9 +101,22 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="pt-16 overflow-x-hidden">
+    <div className="overflow-x-hidden">
       {/* Hero Section */}
       <section className="relative h-screen min-h-[700px] flex items-center justify-center text-center overflow-hidden">
+        {/* Fallback Image Background */}
+        {!isVideoLoaded && (
+          <div className="absolute inset-0 z-0">
+            <img
+              src={img_back}
+              alt="Bubble Tea"
+              className="w-full h-full object-cover animate-pulse"
+              style={{ filter: 'blur(2px) brightness(0.85)' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/80 z-10"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-500/30 via-transparent to-red-500/30 z-10"></div>
+          </div>
+        )}
         {/* Video Background */}
         <motion.div 
           className="absolute inset-0 z-0"
@@ -110,9 +136,10 @@ const HomePage = () => {
             src={videoFile}
             alt="Délicieux hamburgers et frites en gros plan"
             aria-label="Délicieux hamburgers et frites en gros plan"
+            onLoadedData={() => setIsVideoLoaded(true)}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 via-transparent to-red-500/20"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/80 z-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-orange-500/30 via-transparent to-red-500/30 z-10"></div>
         </motion.div>
 
         {/* Floating Elements */}
@@ -142,21 +169,27 @@ const HomePage = () => {
               className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6 text-sm font-medium"
             >
               <Star className="h-4 w-4 text-yellow-400 fill-current" />
-              <span>Livraison gratuite dès 5000 FCFA</span>
+              <span>Vos Bubbles Tea sont prêts et aux meilleurs prix !</span>
             </motion.div>
 
             {/* Main Title */}
-            <motion.div variants={itemVariants} className="mb-6">
+            <motion.div 
+              variants={itemVariants} 
+              className="mb-10 flex justify-center"
+              initial={{ scale: 0.92, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, type: 'spring', stiffness: 120 }}
+            >
               <AnimatedTitle 
-                text="Savourez l'instant avec Snaki" 
-                className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-4 !leading-tight bg-gradient-to-r from-white via-orange-100 to-white bg-clip-text text-transparent" 
+                text={"Savourez l'instant\navec Snaki"} 
+                className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-4 !leading-tight text-center bg-gradient-to-r from-orange-400 via-red-500 to-yellow-400 bg-clip-text text-transparent animate-gradient-x drop-shadow-[0_4px_32px_rgba(255,107,0,0.25)]"
               />
             </motion.div>
 
             {/* Subtitle */}
             <motion.p 
               variants={itemVariants} 
-              className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed text-gray-100"
+              className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed text-white drop-shadow-lg"
             >
               Des <span className="text-orange-300 font-semibold">Tacos juteux</span>, des <span className="text-orange-300 font-semibold">Bubbles Tea savoureuses</span> et bien plus encore, livrés directement chez vous en un éclair.
             </motion.p>
@@ -192,7 +225,7 @@ const HomePage = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <Link to="/promotions" className="flex items-center">
-                  Nos Promotions
+                  Nos Abonnements
                 </Link>
               </Button>
             </motion.div>
