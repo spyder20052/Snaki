@@ -70,7 +70,7 @@ const CheckoutPage = () => {
     const deliveryFee = cartTotal > 6000 ? 500 : 1000;
     const totalAmount = cartTotal + deliveryFee;
     
-    let message = `🍕 *NOUVELLE COMMANDE SNAKI* 🍕\n\n`;
+    let message = `🍹 *NOUVELLE COMMANDE SNAKI* 🍹\n\n`;
     message += `👤 *INFORMATIONS CLIENT*\n`;
     message += `Nom: ${formData.firstName} ${formData.lastName}\n`;
     message += `Téléphone: ${formData.phone}\n`;
