@@ -88,7 +88,7 @@ export default function PromotionsPage() {
       `💸 *Prix* : ${selectedPlan.price.toLocaleString()} FCFA\n` +
       `\n` +
       `🎁 *Avantages inclus* :\n` +
-      `${selectedPlan.features.map(f => `• ${f}`).join('\\n')}\n` +
+      `${selectedPlan.features.map(f => `• ${f}`).join('\n')}\n` +
       `\n` +
       `👤 *Infos client* :\n` +
       `• Nom : ${clientInfo.name}\n` +
