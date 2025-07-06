@@ -215,10 +215,16 @@ const CheckoutPage = () => {
 
   const sendOrderToWhatsApp = (fromNumber = formData.whatsappNumber) => {
     const message = formatOrderForWhatsApp();
-    const whatsappNumber = "+2290153305896";
+    const whatsappNumber = "+22953305896"; // Assurez-vous que ce numéro est valide et au format international
     const encodedMessage = encodeURIComponent(message);
-    // Utilisation du numéro expéditeur dans l'URL (WhatsApp ne permet pas de changer l'expéditeur côté client, mais on garde la logique pour backend ou API pro)
+  
+    // Vérifier le message et l'URL générée dans la console
+    console.log(`Numéro WhatsApp: ${whatsappNumber}`);
+    console.log(`Message encodé: ${encodedMessage}`);
+  
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+  
+    // Test simple de l'URL dans un nouvel onglet
     window.open(whatsappUrl, '_blank');
   };
 
@@ -380,7 +386,7 @@ const CheckoutPage = () => {
                               />
                             </div>
                           </div>
-                          <p className="text-xs text-muted-foreground mt-2">Livraison disponible de 10h à 22h</p>
+                          <p className="text-xs text-muted-foreground mt-2">Livraison disponible de 10h à 18h</p>
                         </div>
                       </>
                     )}

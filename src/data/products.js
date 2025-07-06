@@ -1,14 +1,14 @@
-import bubbletwist from './src/bubbletea/bubbletwist.webp';
-import chocoperle from './src/bubbletea/chocoperle.webp';
-import fraiseparty from './src/bubbletea/fraiseparty.webp';
-import menthefraise from './src/bubbletea/menthefraise.webp';
-import menthelatte from './src/bubbletea/menthelatte.webp';
-import passionlait from './src/bubbletea/passionlait.webp';
-import passionmint from './src/bubbletea/passionmint.webp';
-import strawmilo from './src/bubbletea/strawmilo.webp';
-import sweettropik from './src/bubbletea/sweettropik.webp';
-import tropicpearl from './src/bubbletea/tropicpearl.webp';
-import tropipop from './src/bubbletea/tropipop.webp';
+import bubbletwist from '/bubbletea/bubbletwist.webp';
+import chocoperle from '/bubbletea/chocoperle.webp';
+import fraiseparty from '/bubbletea/fraiseparty.webp';
+import menthefraise from '/bubbletea/menthefraise.webp';
+import menthelatte from '/bubbletea/menthelatte.webp';
+import passionlait from '/bubbletea/passionlait.webp';
+import passionmint from '/bubbletea/passionmint.webp';
+import strawmilo from '/bubbletea/strawmilo.webp';
+import sweettropik from '/bubbletea/sweettropik.webp';
+import tropicpearl from '/bubbletea/tropicpearl.webp';
+import tropipop from '/bubbletea/tropipop.webp';
 
 export const products = [
   // Bubble Tea
@@ -305,8 +305,8 @@ export const products = [
 ];
 
 export const categories = [
-  { id: "tacos", name: "Tacos", icon: "taco" },
-  { id: "bubble-tea", name: "Bubble Tea", icon: "cup" }
+  { id: "bubble-tea", name: "Bubble Tea", icon: "cup" },
+  { id: "tacos", name: "Tacos", icon: "taco" }
 ];
 
 export const getProductById = (id) => {

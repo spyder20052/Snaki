@@ -1,6 +1,6 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import snakiLogo from "./snaki.webp"; // adapte le chemin à ton projet
+import snakiLogo from "/logo/snaki.webp"; // adapte le chemin à ton projet
 
 const LoadingScreen = ({ isLoading }) => {
   return (

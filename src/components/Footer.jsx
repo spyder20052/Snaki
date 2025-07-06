@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Home, ListOrdered, ShoppingCart, Gift } from 'lucide-react';
+import snakiLogo from '/logo/snaki2.webp';
 
 const Footer = () => {
   return (
@@ -8,8 +9,14 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8">
           <div>
-            <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent">Snaki</span>
-            <p className="mt-2 md:mt-4 text-xs sm:text-sm md:text-base text-gray-400">Délicieux fast food livré rapidement à votre porte. Savourez nos burgers, pizzas et plus encore.</p>
+            <img
+              src={snakiLogo}
+              alt="Snaki Logo"
+              className={`h-8 w-auto md:h-12 group-hover:scale-105 transition-transform duration-300`}
+              whileHover={{ rotate: [0, -5, 5, -5, 0], scale: 1.3 }}
+              transition={{ duration: 0.5 }}
+            />
+            <p className="mt-2 md:mt-4 text-xs sm:text-sm md:text-base text-gray-400">Délicieux fast food livré rapidement à votre porte. Savourez vos bubbles tea préférés oû que vous soyez.</p>
             <div className="flex space-x-3 md:space-x-4 mt-4 md:mt-6">
               <Link to="/" className="text-gray-400 hover:text-orange-500 transition-colors">
                 <Home className="h-5 w-5 md:h-6 md:w-6" />

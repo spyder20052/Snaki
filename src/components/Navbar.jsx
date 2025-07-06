@@ -4,8 +4,8 @@ import { ShoppingCart, Menu, X, Home, ListOrdered, Gift } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import snakiLogo from './snaki.webp';
-import snaki2Logo from './snaki2.webp';
+import snakiLogo from '/logo/snaki.webp';
+import snaki2Logo from '/logo/snaki2.webp';
 
 const NavLink = ({ to, children, icon, textColorClass }) => {
   const location = useLocation();

@@ -5,8 +5,8 @@ import { ArrowRight, Star, Clock, Truck, Zap, ChevronDown, Play, Pause, Volume2,
 import { Button } from '@/components/ui/button';
 import ProductCard from '@/components/ProductCard';
 import { getPopularProducts } from '@/data/products';
-import videoFile from './videoback.mp4';
-import img_back from '@/data/src/backimg.webp';
+import videoFile from '/hero/videoback.mp4';
+import img_back from '/hero/backimg.webp';
 
 const AnimatedTitle = ({ text, className }) => {
   return (
