@@ -286,7 +286,7 @@ const CheckoutPage = () => {
                     )}
                     {currentStep === 2 && (
                       <>
-                        <div className="space-y-2"><Label htmlFor="address">Adresse</Label><Input id="address" name="address" value={formData.address} onChange={handleInputChange} required placeholder="123 Rue Principale" className="h-11"/></div>
+                        <div className="space-y-2"><Label htmlFor="address">Indication du lieu de livraison</Label><Input id="address" name="address" value={formData.address} onChange={handleInputChange} required placeholder="123 Rue Principale" className="h-11"/></div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div className="space-y-2"><Label htmlFor="city">Ville</Label><Input id="city" name="city" value={formData.city} onChange={handleInputChange} required className="h-11"/></div>
                         </div>

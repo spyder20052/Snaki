@@ -247,20 +247,30 @@ const ProductPage = () => {
                         <label className="text-xs sm:text-sm md:text-base font-medium text-foreground">
                           {option.label}
                         </label>
-                        <div className="flex flex-wrap gap-2">
-                          {option.choices.map((choice) => (
-                            <button
-                              key={choice.id}
-                              onClick={() => handleOptionChange(optionKey, choice.id)}
-                              className={`px-2 py-1 md:px-3 md:py-2 rounded-md text-xs md:text-sm transition-all duration-200 ${
-                                selectedOptions[optionKey] === choice.id
-                                  ? 'bg-orange-500 text-white shadow-md'
-                                  : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
-                              }`}
-                            >
-                              {choice.label || (choice.id === 'with_milk' ? 'Avec lait' : choice.id === 'without_milk' ? 'Sans lait' : choice.id)}
-                            </button>
-                          ))}
+                        <div className="flex flex-wrap gap-4">
+                          {option.choices.map((choice) => {
+                            const isSelected = selectedOptions[optionKey] === choice.id;
+                            const isWithMilk = choice.id === 'with_milk';
+                            const isWithoutMilk = choice.id === 'without_milk';
+                            return (
+                              <Button
+                                key={choice.id}
+                                type="button"
+                                variant={isSelected ? 'default' : 'outline'}
+                                className={`relative flex items-center px-3 py-2 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-semibold transition-all duration-200 shadow-sm focus:ring-2 focus:ring-orange-400 ${isSelected ? 'ring-2 ring-orange-500 scale-105' : ''}`}
+                                onClick={() => handleOptionChange(optionKey, choice.id)}
+                              >
+                                {isWithMilk && <span className="mr-1">🥛</span>}
+                                {isWithoutMilk && <span className="mr-1">🌱</span>}
+                                {choice.label}
+                                {isWithMilk && (
+                                  <span className="ml-2 bg-orange-500 text-white text-[11px] px-2 py-0.5 rounded-full font-bold absolute -top-3 -right-3 shadow-lg animate-pulse border-2 border-white z-10">
+                                    Populaire
+                                  </span>
+                                )}
+                              </Button>
+                            );
+                          })}
                         </div>
                       </div>
                     ))}
