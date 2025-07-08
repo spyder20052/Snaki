@@ -132,7 +132,12 @@ const MenuPage = () => {
     setShowRoulette(true);
     setTimeout(() => {
       const bubbleTeas = products.filter(p => p.category === 'bubble-tea');
-      const random = bubbleTeas[Math.floor(Math.random() * bubbleTeas.length)];
+      // Pondération : on ajoute plusieurs fois les produits favoris pour augmenter leur probabilité
+      const weighted = bubbleTeas.flatMap(p => {
+        if ([101, 102, 103, 105].includes(p.id)) return Array(5).fill(p); // Choco Perle, Menthe Latté, Tropic Pearl, Fraise Party
+        return [p];
+      });
+      const random = weighted[Math.floor(Math.random() * weighted.length)];
       setRouletteProduct(random);
       setIsSpinning(false);
       // Incrémente le compteur et stocke dans localStorage
@@ -173,9 +178,12 @@ const MenuPage = () => {
           >
             <Gift className="mr-2 h-6 w-6" /> Surprends-moi !
           </Button>
-          {rouletteLimitReached && (
-            <div className="mt-2 text-sm text-red-600 font-semibold">Limite de 3 surprises atteinte pour aujourd'hui. Revenez demain !</div>
-          )}
+          <div className="mt-2 text-sm font-semibold">
+            {rouletteLimitReached
+              ? <span className="text-red-600">Limite de 3 surprises atteinte pour aujourd'hui. Revenez demain !</span>
+              : <span className="text-gray-700 dark:text-gray-200">Tentatives restantes aujourd'hui : {3 - rouletteCount}</span>
+            }
+          </div>
         </motion.div>
 
         {/* Modal Roulette */}
@@ -201,7 +209,7 @@ const MenuPage = () => {
                   <img src={rouletteProduct.image} alt={rouletteProduct.name} className="w-28 h-28 object-cover rounded-xl shadow mb-3" />
                   <h3 className="text-lg font-bold text-orange-500 mb-1">{rouletteProduct.name}</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{rouletteProduct.description}</p>
-                  <div className="text-2xl font-extrabold text-pink-600 mb-2 line-through">{rouletteProduct.price.toFixed(2)} fcfa</div>
+                  <div className="text-2xl font-extrabold text-pink-600 mb-2 line-through">2000 fcfa</div>
                   <div className="text-3xl font-extrabold text-green-600 mb-4">1200 fcfa</div>
                   <Button
                     onClick={handleAddRouletteToCart}
