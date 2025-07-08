@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { categories, getProductsByCategory } from '@/data/products';
+import { categories, getProductsByCategory, products } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
-import { SlidersHorizontal, Search, ChevronDown } from 'lucide-react';
+import { SlidersHorizontal, Search, ChevronDown, XCircle, Gift } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useCart } from '@/contexts/CartContext';
 
 const MenuPage = () => {
   const [activeCategory, setActiveCategory] = useState(categories[0].id);
@@ -12,6 +13,12 @@ const MenuPage = () => {
   const [filteredProducts, setFilteredProducts] = useState({});
   const [visibleSections, setVisibleSections] = useState(new Set());
   const sectionRefs = useRef({});
+  const { addToCart } = useCart();
+  const [rouletteProduct, setRouletteProduct] = useState(null);
+  const [showRoulette, setShowRoulette] = useState(false);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const [rouletteCount, setRouletteCount] = useState(0);
+  const [rouletteLimitReached, setRouletteLimitReached] = useState(false);
 
   categories.forEach(category => {
     if (!sectionRefs.current[category.id]) {
@@ -68,6 +75,20 @@ const MenuPage = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Gestion du compteur de roulette par jour
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+    const data = JSON.parse(localStorage.getItem('roulette-usage') || '{}');
+    if (data.date === today) {
+      setRouletteCount(data.count || 0);
+      setRouletteLimitReached((data.count || 0) >= 3);
+    } else {
+      setRouletteCount(0);
+      setRouletteLimitReached(false);
+      localStorage.setItem('roulette-usage', JSON.stringify({ date: today, count: 0 }));
+    }
+  }, []);
+
   const scrollToCategory = (categoryId) => {
     setActiveCategory(categoryId);
     if (sectionRefs.current[categoryId] && sectionRefs.current[categoryId].current) {
@@ -101,6 +122,36 @@ const MenuPage = () => {
     }
   };
 
+  // Roulette du bubble tea
+  const handleRoulette = () => {
+    if (rouletteCount >= 3) {
+      setRouletteLimitReached(true);
+      return;
+    }
+    setIsSpinning(true);
+    setShowRoulette(true);
+    setTimeout(() => {
+      const bubbleTeas = products.filter(p => p.category === 'bubble-tea');
+      const random = bubbleTeas[Math.floor(Math.random() * bubbleTeas.length)];
+      setRouletteProduct(random);
+      setIsSpinning(false);
+      // Incrémente le compteur et stocke dans localStorage
+      const today = new Date().toISOString().split('T')[0];
+      const data = JSON.parse(localStorage.getItem('roulette-usage') || '{}');
+      const newCount = (data.date === today ? (data.count || 0) + 1 : 1);
+      setRouletteCount(newCount);
+      setRouletteLimitReached(newCount >= 3);
+      localStorage.setItem('roulette-usage', JSON.stringify({ date: today, count: newCount }));
+    }, 1500);
+  };
+
+  const handleAddRouletteToCart = () => {
+    if (rouletteProduct) {
+      addToCart({ ...rouletteProduct, price: 1200 }); // Prix réduit spécial roulette
+      setShowRoulette(false);
+    }
+  };
+
   return (
     <div className="pt-28 pb-16 min-h-screen">
       <div className="container mx-auto px-4">
@@ -114,7 +165,55 @@ const MenuPage = () => {
           <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Explorez une avalanche de saveurs ! Des burgers épiques aux pizzas irrésistibles, chaque plat est une promesse de pur plaisir.
           </p>
+          <Button
+            onClick={handleRoulette}
+            className="mt-6 bg-gradient-to-r from-yellow-400 to-pink-500 hover:from-yellow-500 hover:to-pink-600 text-white font-bold text-lg py-3 px-8 rounded-full shadow-lg flex items-center mx-auto animate-bounce"
+            size="lg"
+            disabled={rouletteLimitReached}
+          >
+            <Gift className="mr-2 h-6 w-6" /> Surprends-moi !
+          </Button>
+          {rouletteLimitReached && (
+            <div className="mt-2 text-sm text-red-600 font-semibold">Limite de 3 surprises atteinte pour aujourd'hui. Revenez demain !</div>
+          )}
         </motion.div>
+
+        {/* Modal Roulette */}
+        {showRoulette && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+            <motion.div
+              initial={{ scale: 0.7, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.7, opacity: 0 }}
+              className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-6 max-w-xs w-full text-center relative"
+            >
+              <button onClick={() => setShowRoulette(false)} className="absolute top-3 right-3 text-gray-400 hover:text-red-500">
+                <XCircle className="h-7 w-7" />
+              </button>
+              <h2 className="text-xl font-bold mb-2 text-pink-600">🎲 Roulette du Bubble Tea</h2>
+              {isSpinning ? (
+                <div className="flex flex-col items-center justify-center py-8">
+                  <div className="w-20 h-20 border-4 border-yellow-400 border-t-pink-500 rounded-full animate-spin mb-4"></div>
+                  <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">Tirage en cours...</p>
+                </div>
+              ) : rouletteProduct && (
+                <div className="flex flex-col items-center">
+                  <img src={rouletteProduct.image} alt={rouletteProduct.name} className="w-28 h-28 object-cover rounded-xl shadow mb-3" />
+                  <h3 className="text-lg font-bold text-orange-500 mb-1">{rouletteProduct.name}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{rouletteProduct.description}</p>
+                  <div className="text-2xl font-extrabold text-pink-600 mb-2 line-through">{rouletteProduct.price.toFixed(2)} fcfa</div>
+                  <div className="text-3xl font-extrabold text-green-600 mb-4">1200 fcfa</div>
+                  <Button
+                    onClick={handleAddRouletteToCart}
+                    className="bg-gradient-to-r from-green-400 to-emerald-600 hover:from-green-500 hover:to-emerald-700 text-white font-bold text-lg py-2 px-6 rounded-full shadow-lg"
+                  >
+                    Ajouter au panier
+                  </Button>
+                </div>
+              )}
+            </motion.div>
+          </div>
+        )}
 
         <motion.div 
           className="sticky top-[70px] z-30 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md py-2 md:py-4 mb-6 md:mb-10 rounded-xl shadow-lg neumorphic-shadow"

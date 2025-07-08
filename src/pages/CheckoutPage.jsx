@@ -23,7 +23,8 @@ const CheckoutPage = () => {
     address: '', city: '',
     deliveryDate: '', deliveryTime: '',
     paymentMethod: 'card',
-    cardName: '', cardNumber: '', cardExpiry: '', cardCVC: ''
+    cardName: '', cardNumber: '', cardExpiry: '', cardCVC: '',
+    cupMessage: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
@@ -115,7 +116,7 @@ const CheckoutPage = () => {
     message += `*TOTAL: ${totalAmount.toFixed(2)} fcfa*\n\n`;
     
     message += `💳 *MÉTHODE DE PAIEMENT*\n`;
-    message += `${formData.paymentMethod === 'card' ? 'Carte Bancaire' : 'PayPal'}\n\n`;
+    message += `Paiement en attente...\n\n`;
     
     message += `📅 *DATE ET HEURE*\n`;
     message += `${new Date().toLocaleString('fr-FR', { 
@@ -286,9 +287,9 @@ const CheckoutPage = () => {
                     )}
                     {currentStep === 2 && (
                       <>
-                        <div className="space-y-2"><Label htmlFor="address">Indication du lieu de livraison</Label><Input id="address" name="address" value={formData.address} onChange={handleInputChange} required placeholder="123 Rue Principale" className="h-11"/></div>
+                        <div className="space-y-2"><Label htmlFor="address">Indication du lieu de livraison</Label><Input id="address" name="address" value={formData.address} onChange={handleInputChange} required placeholder="Batiment en face de l'église St.Michel" className="h-11"/></div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <div className="space-y-2"><Label htmlFor="city">Ville</Label><Input id="city" name="city" value={formData.city} onChange={handleInputChange} required className="h-11"/></div>
+                          <div className="space-y-2"><Label htmlFor="city" >Ville</Label><Input id="city" name="city" value={formData.city} onChange={handleInputChange} required className="h-11" placeholder="Cotonou" /></div>
                         </div>
                         <div className="border-t pt-6 mt-6">
                           <h3 className="text-lg font-semibold mb-4">📅 Détails de la livraison</h3>
@@ -319,7 +320,9 @@ const CheckoutPage = () => {
                               />
                             </div>
                           </div>
-                          <p className="text-xs text-muted-foreground mt-2">Livraison disponible de 10h à 18h</p>
+                          <p className="text-xs text-muted-foreground mt-8 font-semibold bg-yellow-100 text-yellow-800 rounded px-3 py-2 border border-yellow-300 shadow-sm text-center">
+                            🚚 Livraison disponible de 10h à 18h
+                          </p>
                         </div>
                       </>
                     )}
