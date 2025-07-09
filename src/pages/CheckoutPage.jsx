@@ -79,22 +79,19 @@ const CheckoutPage = () => {
   const formatOrderForWhatsApp = () => {
     const deliveryFee = cartTotal > 6000 ? 500 : 1000;
     const totalAmount = cartTotal + deliveryFee;
-    
+    let hasRoulette = false;
     let message = `🍹 *NOUVELLE COMMANDE SNAKI* 🍹\n\n`;
     message += `👤 *INFORMATIONS CLIENT*\n`;
     message += `Nom: ${formData.firstName} ${formData.lastName}\n`;
     message += `Téléphone: ${formData.phone}\n`;
     message += `WhatsApp: ${formData.whatsappNumber}\n`;
     message += `Email: ${formData.email}\n\n`;
-    
     message += `📍 *ADRESSE DE LIVRAISON*\n`;
     message += `${formData.address}\n`;
     message += `${formData.city}\n\n`;
-    
     message += `📅 *DÉTAILS DE LIVRAISON*\n`;
     message += `Date: ${formData.deliveryDate}\n`;
     message += `Heure: ${formData.deliveryTime}\n\n`;
-    
     message += `🛒 *DÉTAILS DE LA COMMANDE*\n`;
     cart.forEach(item => {
       message += `• ${item.quantity}x ${item.name}`;
@@ -107,17 +104,19 @@ const CheckoutPage = () => {
           }
         });
       }
-      message += ` - ${(item.price * item.quantity).toFixed(2)} fcfa\n`;
+      if (item.rouletteHash) {
+        hasRoulette = true;
+        message += ` - Code promo : ${item.rouletteHash}\n`;
+      } else {
+        message += ` - ${(item.price * item.quantity).toFixed(2)} fcfa\n`;
+      }
     });
-    
     message += `\n💰 *RÉCAPITULATIF*\n`;
     message += `Sous-total: ${cartTotal.toFixed(2)} fcfa\n`;
     message += `Livraison: ${deliveryFee.toFixed(2)} fcfa\n`;
     message += `*TOTAL: ${totalAmount.toFixed(2)} fcfa*\n\n`;
-    
     message += `💳 *MÉTHODE DE PAIEMENT*\n`;
     message += `Paiement en attente...\n\n`;
-    
     message += `📅 *DATE ET HEURE*\n`;
     message += `${new Date().toLocaleString('fr-FR', { 
       year: 'numeric', 
@@ -126,10 +125,11 @@ const CheckoutPage = () => {
       hour: '2-digit',
       minute: '2-digit'
     })}\n\n`;
-    
     message += `🚚 *STATUT*\n`;
     message += `En attente de confirmation`;
-    
+    if (hasRoulette) {
+      message += `\n\n⚠️ Toute modification du reçu ou du code promo entraînera la perte de la promotion roulette.`;
+    }
     return message;
   };
 

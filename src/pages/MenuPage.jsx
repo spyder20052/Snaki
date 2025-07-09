@@ -7,6 +7,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/contexts/CartContext';
 
+function encodeRouletteHash(nom, prix, date) {
+  // Format compact : nom|prix|date, puis base64, puis on retire les '='
+  const raw = `${nom}|${prix}|${date}`;
+  return btoa(unescape(encodeURIComponent(raw))).replace(/=+$/, '');
+}
+
 const MenuPage = () => {
   const [activeCategory, setActiveCategory] = useState(categories[0].id);
   const [searchTerm, setSearchTerm] = useState('');
@@ -19,6 +25,7 @@ const MenuPage = () => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [rouletteCount, setRouletteCount] = useState(0);
   const [rouletteLimitReached, setRouletteLimitReached] = useState(false);
+  const [rouletteDiscount, setRouletteDiscount] = useState(1200); // Ajout de l'état pour la réduction
 
   categories.forEach(category => {
     if (!sectionRefs.current[category.id]) {
@@ -139,20 +146,32 @@ const MenuPage = () => {
       });
       const random = weighted[Math.floor(Math.random() * weighted.length)];
       setRouletteProduct(random);
+      // Générer une réduction aléatoire biaisée : <1200 rare, >=1200 fréquent
+      let discount;
+      if (Math.random() < 0.8) {
+        // 80% de chances : prix entre 1200 et 1500
+        discount = Math.floor(Math.random() * (1500 - 1200 + 1)) + 1200;
+      } else {
+        // 20% de chances : prix entre 700 et 1199
+        discount = Math.floor(Math.random() * (1199 - 700 + 1)) + 700;
+      }
+      setRouletteDiscount(discount);
       setIsSpinning(false);
       // Incrémente le compteur et stocke dans localStorage
       const today = new Date().toISOString().split('T')[0];
       const data = JSON.parse(localStorage.getItem('roulette-usage') || '{}');
       const newCount = (data.date === today ? (data.count || 0) + 1 : 1);
       setRouletteCount(newCount);
-      setRouletteLimitReached(newCount >= 3);
+      setRouletteLimitReached(newCount >= 2);
       localStorage.setItem('roulette-usage', JSON.stringify({ date: today, count: newCount }));
     }, 1500);
   };
 
   const handleAddRouletteToCart = () => {
     if (rouletteProduct) {
-      addToCart({ ...rouletteProduct, price: 1200 }); // Prix réduit spécial roulette
+      const today = new Date().toISOString().split('T')[0];
+      const rouletteHash = encodeRouletteHash(rouletteProduct.name, rouletteDiscount, today);
+      addToCart({ ...rouletteProduct, price: rouletteDiscount, rouletteHash });
       setShowRoulette(false);
     }
   };
@@ -180,8 +199,8 @@ const MenuPage = () => {
           </Button>
           <div className="mt-2 text-sm font-semibold">
             {rouletteLimitReached
-              ? <span className="text-red-600">Limite de 3 surprises atteinte pour aujourd'hui. Revenez demain !</span>
-              : <span className="text-gray-700 dark:text-gray-200">Tentatives restantes aujourd'hui : {3 - rouletteCount}</span>
+              ? <span className="text-red-600">Limite de 2 surprises atteinte pour aujourd'hui. Revenez demain !</span>
+              : <span className="text-gray-700 dark:text-gray-200">Tentatives restantes aujourd'hui : {2 - rouletteCount}</span>
             }
           </div>
         </motion.div>
@@ -210,7 +229,7 @@ const MenuPage = () => {
                   <h3 className="text-lg font-bold text-orange-500 mb-1">{rouletteProduct.name}</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{rouletteProduct.description}</p>
                   <div className="text-2xl font-extrabold text-pink-600 mb-2 line-through">2000 fcfa</div>
-                  <div className="text-3xl font-extrabold text-green-600 mb-4">1200 fcfa</div>
+                  <div className="text-3xl font-extrabold text-green-600 mb-4">{rouletteDiscount} fcfa</div>
                   <Button
                     onClick={handleAddRouletteToCart}
                     className="bg-gradient-to-r from-green-400 to-emerald-600 hover:from-green-500 hover:to-emerald-700 text-white font-bold text-lg py-2 px-6 rounded-full shadow-lg"
