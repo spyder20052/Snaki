@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Trash2, ArrowRight, Receipt } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,7 @@ const CartPage = () => {
   const { cart, cartTotal, clearCart, itemCount } = useCart();
   const deliveryFee = cartTotal > 6000 ? 500 : 1000;
   const totalAmount = cartTotal + deliveryFee;
+  const navigate = useNavigate();
 
   const pageVariants = {
     initial: { opacity: 0, y: 20 },
@@ -31,6 +32,16 @@ const CartPage = () => {
       animate="animate"
     >
       <div className="container mx-auto px-4">
+        <div className="mb-4 flex justify-start">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2"
+          >
+            <ArrowRight className="h-4 w-4 rotate-180" /> Continuer mes achats
+          </Button>
+        </div>
         <div className="text-center mb-6 md:mb-10">
           <motion.h1 
             className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-2 md:mb-3 bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent"

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { PlusCircle, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 
 const ProductCard = ({ product, index, priority = 'normal' }) => {
-  const { addToCart } = useCart();
+  const { addToCart, itemCount } = useCart();
+  const navigate = useNavigate();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
@@ -23,7 +24,11 @@ const ProductCard = ({ product, index, priority = 'normal' }) => {
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    const wasEmpty = itemCount === 0;
     addToCart(product);
+    if (wasEmpty) {
+      navigate('/cart');
+    }
   };
 
   const cardVariants = {

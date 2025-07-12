@@ -77,7 +77,6 @@ const CheckoutPage = () => {
   const handlePrevStep = () => setCurrentStep(s => s - 1);
 
   const formatOrderForWhatsApp = () => {
-    const deliveryFee = cartTotal > 6000 ? 500 : 1000;
     const totalAmount = cartTotal + deliveryFee;
     let hasRoulette = false;
     let message = `🍹 *NOUVELLE COMMANDE SNAKI* 🍹\n\n`;
@@ -309,15 +308,23 @@ const CheckoutPage = () => {
                             </div>
                             <div className="space-y-2">
                               <Label htmlFor="deliveryTime">Heure de livraison *</Label>
-                              <Input 
-                                id="deliveryTime" 
-                                name="deliveryTime" 
-                                type="time" 
-                                value={formData.deliveryTime} 
-                                onChange={handleInputChange} 
-                                required 
-                                className="h-11"
-                              />
+                              <select
+                                id="deliveryTime"
+                                name="deliveryTime"
+                                value={formData.deliveryTime}
+                                onChange={handleInputChange}
+                                required
+                                className="h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                              >
+                                <option value="">Choisir une heure</option>
+                                {[...Array(9)].map((_, i) => {
+                                  const hour = 10 + i;
+                                  const value = `${hour.toString().padStart(2, '0')}:00`;
+                                  return (
+                                    <option key={value} value={value}>{hour}h</option>
+                                  );
+                                })}
+                              </select>
                             </div>
                           </div>
                           <p className="text-xs text-muted-foreground mt-8 font-semibold bg-yellow-100 text-yellow-800 rounded px-3 py-2 border border-yellow-300 shadow-sm text-center">

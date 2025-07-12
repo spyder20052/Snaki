@@ -10,7 +10,7 @@ import ProductCard from '@/components/ProductCard';
 const ProductPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart, cart } = useCart();
+  const { addToCart, cart, itemCount } = useCart();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
@@ -64,6 +64,7 @@ const ProductPage = () => {
 
   const handleAddToCart = () => {
     if (product) {
+      const wasEmpty = itemCount === 0;
       addToCart({
         ...product,
         selectedOptions
@@ -71,6 +72,9 @@ const ProductPage = () => {
       setIsAdded(true);
       // Animation for button
       setTimeout(() => setIsAdded(false), 2000); // Reset after 2s for re-click
+      if (wasEmpty) {
+        navigate('/cart');
+      }
     }
   };
 
