@@ -187,3 +187,12 @@
 .quantity-control-button:active {
   @apply scale-95;
 }
+
+@keyframes float {
+  0% { transform: translateY(0px);}
+  50% { transform: translateY(-18px);}
+  100% { transform: translateY(0px);}
+}
+.animate-float {
+  animation: float 3.5s ease-in-out infinite;
+}

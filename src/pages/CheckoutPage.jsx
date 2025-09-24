@@ -8,15 +8,24 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useCart } from '@/contexts/CartContext';
 import { useToast } from '@/components/ui/use-toast';
+import { Tag } from 'lucide-react';
 
 
 const CheckoutPage = () => {
-  const { cart, cartTotal, clearCart, itemCount } = useCart();
+  const { 
+    cart, 
+    cartTotal, 
+    clearCart, 
+    itemCount, 
+    appliedPromo, 
+    deliveryFee, 
+    subtotal, 
+    discountAmount 
+  } = useCart();
+  
   const navigate = useNavigate();
   const { toast } = useToast();
-  
-  const deliveryFee = cartTotal > 6000 ? 500 : 1000;
-  const totalAmount = cartTotal + deliveryFee;
+  const totalAmount = cartTotal; // Le total final est déjà calculé dans le contexte
 
   const [formData, setFormData] = useState({
     firstName: '', lastName: '', email: '', phone: '', whatsappNumber: '',
@@ -77,8 +86,6 @@ const CheckoutPage = () => {
   const handlePrevStep = () => setCurrentStep(s => s - 1);
 
   const formatOrderForWhatsApp = () => {
-    const totalAmount = cartTotal + deliveryFee;
-    let hasRoulette = false;
     let message = `🍹 *NOUVELLE COMMANDE SNAKI* 🍹\n\n`;
     message += `👤 *INFORMATIONS CLIENT*\n`;
     message += `Nom: ${formData.firstName} ${formData.lastName}\n`;
@@ -113,9 +120,27 @@ const CheckoutPage = () => {
     message += `\n💰 *RÉCAPITULATIF*\n`;
     message += `Sous-total: ${cartTotal.toFixed(2)} fcfa\n`;
     message += `Livraison: ${deliveryFee.toFixed(2)} fcfa\n`;
-    message += `*TOTAL: ${totalAmount.toFixed(2)} fcfa*\n\n`;
-    message += `💳 *MÉTHODE DE PAIEMENT*\n`;
-    message += `Paiement en attente...\n\n`;
+    message += `\n💳 *DÉTAILS DE PAIEMENT*\n`;
+    message += `Sous-total: ${subtotal.toLocaleString()} FCFA\n`;
+    
+    if (appliedPromo) {
+      message += `Code promo (${appliedPromo.name}): -${Math.abs(discountAmount).toLocaleString()} FCFA\n`;
+    }
+    
+    message += `Frais de livraison: ${deliveryFee === 0 ? 'OFFERTS' : deliveryFee.toLocaleString() + ' FCFA'}\n`;
+    
+    if (appliedPromo?.freeDelivery) {
+      message += `Livraison offerte avec le code promo\n`;
+    }
+    
+    message += `*TOTAL: ${totalAmount.toLocaleString()} FCFA*\n\n`;
+    
+    if (appliedPromo) {
+      message += `🎉 *CODE PROMO APPLIQUÉ: ${appliedPromo.name}*\n`;
+      message += `${appliedPromo.description}\n\n`;
+    }
+    
+    message += `📝 *MESSAGE POUR LA CUP*:\n${formData.cupMessage || 'Aucun message'}\n\n`;
     message += `📅 *DATE ET HEURE*\n`;
     message += `${new Date().toLocaleString('fr-FR', { 
       year: 'numeric', 
@@ -209,28 +234,16 @@ const CheckoutPage = () => {
   }
 
   return (
-    <div className="pt-28 pb-16 min-h-screen bg-gray-50 dark:bg-gray-900">
-
-      <div className="container mx-auto px-4">
-        <motion.div 
-          initial={{ opacity:0, y:-10 }}
-          animate={{ opacity:1, y:0 }}
-          transition={{ duration:0.3 }}
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full grid grid-cols-1 lg:grid-cols-3 gap-8 items-start"
         >
-          <Button 
-            variant="ghost" 
-            className="mb-4 flex items-center group text-muted-foreground hover:text-primary text-xs md:text-base px-2 md:px-4 py-1 md:py-2"
-            onClick={() => currentStep === 1 ? navigate('/cart') : handlePrevStep()}
-            size="sm"
-          >
-            <ArrowLeft className="mr-1 md:mr-2 h-4 w-4 md:h-5 md:w-5 transition-transform duration-300 group-hover:-translate-x-1" />
-            {currentStep === 1 ? "Retour au Panier" : "Étape Précédente"}
-          </Button>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 items-start">
           <motion.div 
-            className="md:col-span-2"
+            className="lg:col-span-2 w-full"
             initial={{ opacity:0, x:-20 }}
             animate={{ opacity:1, x:0 }}
             transition={{ duration:0.3, delay:0.05 }}
@@ -380,7 +393,7 @@ const CheckoutPage = () => {
           </motion.div>
 
           <motion.div 
-            className="sticky top-20"
+            className="sticky top-24"
             initial={{ opacity:0, x:10 }}
             animate={{ opacity:1, x:0 }}
             transition={{ duration:0.3, delay:0.1 }}
@@ -405,22 +418,84 @@ const CheckoutPage = () => {
                 ))}
                 </AnimatePresence>
                 <div className="border-t pt-2 md:pt-3 space-y-1 md:space-y-2">
-                  <div className="flex justify-between text-xs md:text-md"><span className="text-muted-foreground">Sous-total</span><span className="font-medium">{cartTotal.toFixed(2)} f</span></div>
-                  <div className="flex justify-between text-xs md:text-md"><span className="text-muted-foreground">Livraison</span><span className="font-medium">{deliveryFee.toFixed(2)} f</span></div>
-                  <div className="flex justify-between font-bold text-base md:text-xl text-primary pt-1 md:pt-2"><span >Total TTC</span><span>{totalAmount.toFixed(2)} fcfa</span></div>
+                  <div className="space-y-3">
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Sous-total ({cart.reduce((sum, item) => sum + item.quantity, 0)} articles)</span>
+                        <span className="font-medium">{subtotal.toLocaleString()} FCFA</span>
+                      </div>
+                      
+                      {appliedPromo && (
+                        <div className="space-y-2">
+                          <div className="flex justify-between items-center bg-green-50 p-2 rounded-md border border-green-100">
+                            <div className="flex items-center gap-2">
+                              <div className="bg-green-100 p-1 rounded-full">
+                                <Tag className="h-3 w-3 text-green-600" />
+                              </div>
+                              <span className="text-green-700 text-sm">
+                                {appliedPromo.name}
+                              </span>
+                            </div>
+                            <span className="font-medium text-green-700">
+                              {(appliedPromo.discountValue * itemCount).toLocaleString()} FCFA
+                            </span>
+                          </div>
+                          {appliedPromo.description && (
+                            <p className="text-xs text-green-600 bg-green-50 p-2 rounded">
+                              {appliedPromo.description}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                      
+                      <div className={`flex justify-between items-center pt-2 ${appliedPromo?.freeDelivery ? 'text-green-600' : ''}`}>
+                        <div className="flex items-center gap-2">
+                          <Truck className="h-4 w-4 text-muted-foreground" />
+                          <span className={appliedPromo?.freeDelivery ? 'font-medium' : 'text-muted-foreground'}>
+                            {appliedPromo?.freeDelivery ? 'Livraison offerte' : 'Frais de livraison'}
+                          </span>
+                        </div>
+                        <span className={`font-medium ${appliedPromo?.freeDelivery ? 'text-green-700' : ''}`}>
+                          {appliedPromo?.freeDelivery ? (
+                            <span className="line-through text-muted-foreground/60 mr-1">1 000 FCFA</span>
+                          ) : null}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="border-t pt-3">
+                      <div className="flex justify-between items-center text-base font-bold">
+                        <span>Total</span>
+                        <div className="flex flex-col items-end">
+                          <span>{totalAmount.toLocaleString()} FCFA</span>
+                          {appliedPromo && (
+                            <span className="text-xs font-normal text-green-600">
+                              Économie de {Math.abs(subtotal - (appliedPromo.discountValue * itemCount)).toLocaleString()} FCFA
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
               <CardFooter className="flex-col items-start space-y-1 md:space-y-2 text-xs md:text-sm text-muted-foreground pt-2 md:pt-4 border-t">
-                  <div className="flex items-center gap-1.5"><span className="h-3 w-3 md:h-4 md:w-4 inline-block"><CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-green-500"/></span> Paiement à la livraison.</div>
-                  <div className="flex items-center gap-1.5"><span className="h-3 w-3 md:h-4 md:w-4 inline-block"><Clock className="h-3 w-3 md:h-4 md:w-4 text-blue-500"/></span> Livraison rapide.</div>
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-green-500" />
+                  <span>Paiement à la livraison.</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Clock className="h-3 w-3 md:h-4 md:w-4 text-blue-500" />
+                  <span>Livraison rapide.</span>
+                </div>
               </CardFooter>
             </Card>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
-};
+}
 
 function genererMessageCommande(formData, cart, totalAmount) {
   let message = `🍕 *NOUVELLE COMMANDE SNAKI* 🍕\n\n`;
@@ -436,10 +511,70 @@ function genererMessageCommande(formData, cart, totalAmount) {
   message += `Date: ${formData.deliveryDate}\n`;
   message += `Heure: ${formData.deliveryTime}\n\n`;
   message += `🛒 *DÉTAILS DE LA COMMANDE*\n`;
+  let hasRoulette = false;
   cart.forEach(item => {
-    message += `• ${item.quantity}x ${item.name}\n`;
+    message += `• ${item.quantity}x ${item.name}`;
+    if (item.selectedOptions) {
+      Object.entries(item.selectedOptions).forEach(([optionKey, selectedValue]) => {
+        const option = item.options[optionKey];
+        const choice = option.choices.find(c => c.id === selectedValue);
+        if (choice) {
+          message += ` (${choice.name})`;
+        }
+      });
+    }
+    if (item.rouletteHash) {
+      hasRoulette = true;
+      message += ` - Code promo : ${item.rouletteHash}\n`;
+    } else {
+      message += ` - ${(item.price * item.quantity).toFixed(2)} fcfa\n`;
+    }
   });
-  message += `\n💰 *TOTAL: ${totalAmount.toFixed(2)} fcfa*`;
+  
+  message += `\n💰 *RÉCAPITULATIF*\n`;
+  message += `Sous-total: ${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)} fcfa\n`;
+  message += `Livraison: ${cart.reduce((sum, item) => sum + (item.shipping || 0), 0).toFixed(2)} fcfa\n`;
+  
+  message += `\n💳 *DÉTAILS DE PAIEMENT*\n`;
+  message += `Sous-total: ${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toLocaleString()} FCFA\n`;
+  
+  const promo = cart[0]?.appliedPromo;
+  const discount = cart[0]?.discountAmount || 0;
+  const delivery = cart[0]?.deliveryFee || 0;
+  
+  if (promo) {
+    message += `Code promo (${promo.name}): -${Math.abs(discount).toLocaleString()} FCFA\n`;
+  }
+  
+  message += `Frais de livraison: ${delivery === 0 ? 'OFFERTS' : delivery.toLocaleString() + ' FCFA'}\n`;
+  
+  if (promo?.freeDelivery) {
+    message += `Livraison offerte avec le code promo\n`;
+  }
+  
+  message += `*TOTAL: ${totalAmount.toLocaleString()} FCFA*\n\n`;
+  
+  if (promo) {
+    message += `🎉 *CODE PROMO APPLIQUÉ: ${promo.name}*\n`;
+    message += `${promo.description}\n\n`;
+  }
+  
+  message += `📝 *MESSAGE POUR LA CUP*:\n${formData.cupMessage || 'Aucun message'}\n\n`;
+  message += `📅 *DATE ET HEURE*\n`;
+  message += `${new Date().toLocaleString('fr-FR', { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  })}\n\n`;
+  message += `🚚 *STATUT*\n`;
+  message += `En attente de confirmation`;
+  
+  if (hasRoulette) {
+    message += `\n\n⚠️ Toute modification du reçu ou du code promo entraînera la perte de la promotion roulette.`;
+  }
+  
   return message;
 }
 

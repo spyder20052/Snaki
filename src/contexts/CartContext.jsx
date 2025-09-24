@@ -1,7 +1,17 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 
 const CartContext = createContext(null);
+
+const PROMO_CODES = {
+  'BOBA1000': {
+    discount: 'bubble_tea',
+    discountValue: 1000,
+    freeDelivery: true,
+    name: 'Réduction Bubble Tea',
+    description: 'Tous les Bubble Tea à 1000 FCFA et livraison offerte'
+  }
+};
 
 export const useCart = () => {
   const context = useContext(CartContext);
@@ -14,6 +24,8 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
+  const [promoCode, setPromoCode] = useState('');
+  const [appliedPromo, setAppliedPromo] = useState(null);
   const { toast } = useToast();
 
   // Load cart from localStorage on initial render
@@ -28,30 +40,84 @@ export const CartProvider = ({ children }) => {
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('fastbite-cart', JSON.stringify(cart));
-    
-    // Calculate total including options
-    const total = cart.reduce((sum, item) => {
+  // Calculate cart total with promo code
+  const { finalTotal, discountAmount, hasBubbleTea } = useMemo(() => {
+    let total = cart.reduce((sum, item) => {
       let itemTotal = item.price * item.quantity;
       
       // Add options prices
       if (item.selectedOptions) {
         Object.entries(item.selectedOptions).forEach(([optionKey, selectedValue]) => {
-          const option = item.options[optionKey];
-          const choice = option.choices.find(c => c.id === selectedValue);
+          const option = item.options?.[optionKey];
+          const choice = option?.choices?.find(c => c.id === selectedValue);
           if (choice && choice.price) {
             itemTotal += choice.price * item.quantity;
           }
         });
       }
       
+      // Apply promo code discount if applicable
+      if (appliedPromo && item.category === 'bubble-tea') {
+        if (appliedPromo.discount === 'bubble_tea') {
+          itemTotal = Math.min(itemTotal, appliedPromo.discountValue * item.quantity);
+        }
+      }
+      
       return sum + itemTotal;
     }, 0);
+
+    const hasBubbleTea = cart.some(item => item.category === 'bubble-tea');
+    const deliveryFee = (appliedPromo?.freeDelivery || total > 6000) ? 0 : (total > 0 ? 1000 : 0);
+    const finalTotal = total + deliveryFee;
     
-    setCartTotal(total);
-  }, [cart]);
+    return {
+      finalTotal,
+      discountAmount: appliedPromo ? (cartTotal - total) : 0,
+      hasBubbleTea,
+      deliveryFee
+    };
+  }, [cart, appliedPromo]);
+
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('fastbite-cart', JSON.stringify(cart));
+    setCartTotal(finalTotal);
+  }, [cart, finalTotal]);
+
+  // Apply promo code
+  const applyPromoCode = (code) => {
+    const promo = PROMO_CODES[code];
+    if (!promo) {
+      toast({
+        title: "Code promo invalide",
+        description: "Le code promo saisi n'est pas valide.",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+    if (promo.discount === 'bubble_tea' && !cart.some(item => item.category === 'bubble-tea')) {
+      toast({
+        title: "Code promo non applicable",
+        description: "Ce code promo n'est valable que pour les Bubble Tea.",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+    setAppliedPromo(promo);
+    toast({
+      title: "Code promo appliqué",
+      description: promo.description,
+    });
+    return true;
+  };
+
+  // Remove promo code
+  const removePromoCode = () => {
+    setAppliedPromo(null);
+    setPromoCode('');
+  };
 
   const addToCart = (product, quantity = 1) => {
     setCart(prevCart => {
@@ -130,12 +196,33 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider value={{
       cart,
-      cartTotal,
+      cartTotal: finalTotal,
+      itemCount: cart.reduce((total, item) => total + item.quantity, 0),
       addToCart,
       removeFromCart,
       updateQuantity,
       clearCart,
-      itemCount: cart.reduce((count, item) => count + item.quantity, 0)
+      promoCode,
+      setPromoCode,
+      applyPromoCode,
+      removePromoCode,
+      appliedPromo,
+      discountAmount,
+      hasBubbleTea,
+      deliveryFee: (appliedPromo?.freeDelivery || finalTotal > 6000) ? 200 : (finalTotal > 0 ? 1000 : 0),
+      subtotal: cart.reduce((sum, item) => {
+        let itemTotal = item.price * item.quantity;
+        if (item.selectedOptions) {
+          Object.entries(item.selectedOptions).forEach(([optionKey, selectedValue]) => {
+            const option = item.options?.[optionKey];
+            const choice = option?.choices?.find(c => c.id === selectedValue);
+            if (choice && choice.price) {
+              itemTotal += choice.price * item.quantity;
+            }
+          });
+        }
+        return sum + itemTotal;
+      }, 0)
     }}>
       {children}
     </CartContext.Provider>

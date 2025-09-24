@@ -25,7 +25,18 @@ const ProductCard = ({ product, index, priority = 'normal' }) => {
     e.preventDefault();
     e.stopPropagation();
     const wasEmpty = itemCount === 0;
-    addToCart(product);
+    let productToAdd = product;
+    // Si bubble tea avec option 'milk', forcer 'avec lait'
+    if (product.category === 'bubble-tea' && product.options && product.options.milk) {
+      productToAdd = {
+        ...product,
+        selectedOptions: {
+          ...product.selectedOptions,
+          milk: 'with_milk',
+        },
+      };
+    }
+    addToCart(productToAdd);
     if (wasEmpty) {
       navigate('/cart');
     }
