@@ -99,7 +99,7 @@ const CartItem = ({ item }) => {
             variant="ghost" 
             size="icon" 
             className="h-7 w-7 md:h-9 md:w-9 quantity-control-button rounded-none"
-            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+            onClick={() => updateQuantity(item.uniqueId || item.id, item.quantity - 1)}
             disabled={item.quantity <= 1}
           >
             <Minus className="h-3 w-3 md:h-4 md:w-4" />
@@ -111,7 +111,7 @@ const CartItem = ({ item }) => {
             variant="ghost" 
             size="icon" 
             className="h-7 w-7 md:h-9 md:w-9 quantity-control-button rounded-none"
-            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+            onClick={() => updateQuantity(item.uniqueId || item.id, item.quantity + 1)}
           >
             <Plus className="h-3 w-3 md:h-4 md:w-4" />
           </Button>
@@ -127,7 +127,7 @@ const CartItem = ({ item }) => {
           variant="ghost" 
           size="icon" 
           className="ml-1 md:ml-2 text-red-500 hover:text-red-700 hover:bg-red-500/10 rounded-full h-6 w-6 md:h-8 md:w-8"
-          onClick={() => removeFromCart(item.id)}
+          onClick={() => removeFromCart(item.uniqueId || item.id)}
         >
           <X className="h-3 w-3 md:h-4 md:w-4" />
         </Button>

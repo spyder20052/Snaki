@@ -191,7 +191,7 @@ const HomePage = () => {
               variants={itemVariants} 
               className="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed text-white drop-shadow-lg"
             >
-              Des <span className="text-orange-300 font-semibold">Tacos juteux</span>, des <span className="text-orange-300 font-semibold">Bubbles Tea savoureuses</span> et bien plus encore, livrés directement chez vous en un éclair.
+              Des <span className="text-orange-300 font-semibold">Tacos juteux</span>, des <span className="text-orange-300 font-semibold">Bubbles Tea savoureux</span> et bien plus encore, livrés directement chez vous en un éclair.
             </motion.p>
 
             {/* CTA Buttons */}

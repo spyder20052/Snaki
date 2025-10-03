@@ -14,18 +14,47 @@ import { Tag } from 'lucide-react';
 const CheckoutPage = () => {
   const { 
     cart, 
-    cartTotal, 
     clearCart, 
     itemCount, 
     appliedPromo, 
     deliveryFee, 
     subtotal, 
-    discountAmount 
+    finalTotal,
+    discountAmount,
+    applyPromoCode,
+    removePromo
   } = useCart();
+  
+  const [promoCode, setPromoCode] = useState('');
+  const [promoMessage, setPromoMessage] = useState({ type: '', text: '' });
+  
+  const handleApplyPromo = async () => { 
+    if (!promoCode.trim()) {
+      setPromoMessage({ type: 'error', text: 'Veuillez entrer un code promo' });
+      return;
+    }
+    try {
+      if (promoCode.trim().toUpperCase() === "BOBA1000") { // Appliquer directement la promo spéciale
+        applyPromoCode({ name: "BOBA1000", description: "Tous les Bubble Tea à 1000 FCFA, livraison offerte", freeDelivery: true, success: true });
+        setPromoMessage({ type: 'success', text: 'Code promo appliqué avec succès : BOBA1000 🎉' });
+        setPromoCode('');
+      } else { // Sinon, passer par le mécanisme classique
+        const result = applyPromoCode(promoCode);
+        if (result.success) {
+          setPromoMessage({ type: 'success', text: result.message });
+          setPromoCode('');
+        } else {
+          setPromoMessage({ type: 'error', text: result.message });
+        }
+      }
+    } catch (error) {
+      console.error('Erreur lors de l\'application du code promo:', error);
+      setPromoMessage({ type: 'error', text: 'Une erreur est survenue lors de l\'application du code promo' });
+    }
+  };
   
   const navigate = useNavigate();
   const { toast } = useToast();
-  const totalAmount = cartTotal; // Le total final est déjà calculé dans le contexte
 
   const [formData, setFormData] = useState({
     firstName: '', lastName: '', email: '', phone: '', whatsappNumber: '',
@@ -133,7 +162,7 @@ const CheckoutPage = () => {
       message += `Livraison offerte avec le code promo\n`;
     }
     
-    message += `*TOTAL: ${totalAmount.toLocaleString()} FCFA*\n\n`;
+    message += `*TOTAL: ${finalTotal.toLocaleString()} FCFA*\n\n`;
     
     if (appliedPromo) {
       message += `🎉 *CODE PROMO APPLIQUÉ: ${appliedPromo.name}*\n`;
@@ -366,7 +395,7 @@ const CheckoutPage = () => {
                             <ul className="text-sm text-green-700 space-y-1 text-left">
                               <li>• Vos informations personnelles sont complètes</li>
                               <li>• Votre adresse de livraison est renseignée</li>
-                              <li>• Le montant total est de {totalAmount.toFixed(2)} fcfa</li>
+                              <li>• Le montant total est de {finalTotal.toFixed(2)} fcfa</li>
                               <li>• Paiement sécurisé</li>
                               <li>• WhatsApp automatique après paiement</li>
                             </ul>
@@ -404,49 +433,160 @@ const CheckoutPage = () => {
               </CardHeader>
               <CardContent className="space-y-2 md:space-y-3 px-2 md:px-6 text-xs md:text-sm">
                 <AnimatePresence>
-                {cart.map(item => (
-                  <motion.div 
-                    key={item.id} 
-                    className="flex justify-between items-center text-xs md:text-sm"
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                  >
-                    <span className="truncate max-w-[100px] md:max-w-[150px]">{item.quantity}x {item.name}</span>
-                    <span className="font-medium">{(item.price * item.quantity).toFixed(2)} fcfa</span>
-                  </motion.div>
-                ))}
+                {cart.map(item => {
+                  // Vérifier si c'est un bubble tea pour appliquer la réduction
+                  const isBubbleTea = item.name.toLowerCase().includes('bubble tea');
+                  
+                  // Calculer le prix unitaire avec les options
+                  let unitPrice = item.price;
+                  
+                  // Ajouter le prix des options sélectionnées
+                  if (item.selectedOptions) {
+                    Object.entries(item.selectedOptions).forEach(([optionKey, selectedValue]) => {
+                      const option = item.options?.[optionKey];
+                      const choice = option?.choices?.find(c => c.id === selectedValue);
+                      if (choice?.price) {
+                        unitPrice += choice.price;
+                      }
+                    });
+                  }
+                  
+                  // Appliquer la réduction BOBA1000 pour les bubble teas
+                  const originalTotalPrice = unitPrice * item.quantity;
+                  let finalPrice = originalTotalPrice;
+                  if (appliedPromo?.name === 'BOBA1000' && isBubbleTea) {
+                    finalPrice = 1000 * item.quantity; // Prix réduit
+                  }
+                  
+                  return (
+                    <motion.div 
+                      key={item.id} 
+                      className="flex flex-col text-xs md:text-sm"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                    >
+                      <div className="flex justify-between">
+                        <div className="flex flex-col">
+                          <span className="font-medium">
+                            {item.quantity}x {item.name}
+                            {appliedPromo?.name === 'BOBA1000' && isBubbleTea && (
+                              <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                                Promo BOBA1000
+                              </span>
+                            )}
+                          </span>
+                        </div>
+                        <div className="text-right">
+                          {appliedPromo?.name === 'BOBA1000' && isBubbleTea && originalTotalPrice > finalPrice && (
+                            <span className="text-xs text-gray-400 line-through mr-1">
+                              {originalTotalPrice.toFixed(2)} fcfa
+                            </span>
+                          )}
+                          <span className="font-medium">
+                            {finalPrice.toFixed(2)} fcfa
+                          </span>
+                        </div>
+                      </div>
+                      {item.selectedOptions && Object.entries(item.selectedOptions).map(([optionKey, selectedValue]) => {
+                        const option = item.options?.[optionKey];
+                        const choice = option?.choices?.find(c => c.id === selectedValue);
+                        if (choice) {
+                          return (
+                            <div key={optionKey} className="text-muted-foreground text-xs pl-4">
+                              • {option?.label || 'Option'}: {choice.label} {choice.price ? `(+${choice.price} fcfa)` : ''}
+                            </div>
+                          );
+                        }
+                        return null;
+                      })}
+                    </motion.div>
+                  );
+                })}
                 </AnimatePresence>
+                {/* Promo Code Input */}
+                <div className="border-t border-gray-200 pt-4">
+                  {!appliedPromo && (
+                    <div className="flex gap-2 mb-4">
+                      <Input
+                        type="text"
+                        placeholder="Code promo"
+                        value={promoCode}
+                        onChange={(e) => {
+                          setPromoCode(e.target.value);
+                          setPromoMessage({ type: '', text: '' });
+                        }}
+                        className="flex-1 h-9 text-sm"
+                      />
+                      <Button 
+                        type="button" 
+                        onClick={handleApplyPromo}
+                        size="sm"
+                        className="h-9"
+                      >
+                        Appliquer
+                      </Button>
+                    </div>
+                  )}
+                  {promoMessage.text && (
+                    <div className={`text-xs mb-3 ${promoMessage.type === 'error' ? 'text-red-500' : 'text-green-600'}`}>
+                      {promoMessage.text}
+                    </div>
+                  )}
+                  {appliedPromo && (
+                    <div className="bg-green-50 text-green-700 p-2 rounded-md text-xs mb-3 border border-green-100">
+                      <div className="font-medium">Code promo appliqué : {appliedPromo.name}</div>
+                      <div>{appliedPromo.description}</div>
+                      <button 
+                        onClick={() => {
+                          removePromo();
+                          setPromoCode('');
+                          setPromoMessage({ type: '', text: '' });
+                        }}
+                        className="text-xs mt-1 text-green-600 hover:underline"
+                      >
+                        Supprimer le code
+                      </button>
+                    </div>
+                  )}
+                </div>
+
                 <div className="border-t pt-2 md:pt-3 space-y-1 md:space-y-2">
                   <div className="space-y-3">
                     <div className="space-y-2">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Sous-total ({cart.reduce((sum, item) => sum + item.quantity, 0)} articles)</span>
-                        <span className="font-medium">{subtotal.toLocaleString()} FCFA</span>
+                        <div className="text-right">
+                          {appliedPromo?.name === 'BOBA1000' && (
+                            <div className="text-xs text-gray-400 line-through">
+                              {cart.reduce((sum, item) => {
+                                const isBubbleTea = item.name.toLowerCase().includes('bubble tea');
+                                if (isBubbleTea) {
+                                  return sum + (item.price * item.quantity);
+                                }
+                                return sum;
+                              }, 0).toFixed(2)} FCFA
+                            </div>
+                          )}
+                          <span className="font-medium">
+                            {subtotal.toFixed(2)} FCFA
+                          </span>
+                        </div>
                       </div>
                       
-                      {appliedPromo && (
-                        <div className="space-y-2">
-                          <div className="flex justify-between items-center bg-green-50 p-2 rounded-md border border-green-100">
-                            <div className="flex items-center gap-2">
-                              <div className="bg-green-100 p-1 rounded-full">
-                                <Tag className="h-3 w-3 text-green-600" />
-                              </div>
-                              <span className="text-green-700 text-sm">
-                                {appliedPromo.name}
-                              </span>
-                            </div>
-                            <span className="font-medium text-green-700">
-                              {(appliedPromo.discountValue * itemCount).toLocaleString()} FCFA
-                            </span>
-                          </div>
-                          {appliedPromo.description && (
-                            <p className="text-xs text-green-600 bg-green-50 p-2 rounded">
-                              {appliedPromo.description}
-                            </p>
-                          )}
+                      {discountAmount > 0 && (
+                        <div className="flex justify-between text-green-600">
+                          <span>Réduction</span>
+                          <span className="font-medium">-{discountAmount.toFixed(2)} FCFA</span>
                         </div>
                       )}
+                      
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Frais de livraison</span>
+                        <span className="font-medium">
+                          {appliedPromo?.name === 'BOBA1000' ? 'OFFERTS' : `${deliveryFee.toFixed(2)} FCFA`}
+                        </span>
+                      </div>
                       
                       <div className={`flex justify-between items-center pt-2 ${appliedPromo?.freeDelivery ? 'text-green-600' : ''}`}>
                         <div className="flex items-center gap-2">
@@ -458,7 +598,9 @@ const CheckoutPage = () => {
                         <span className={`font-medium ${appliedPromo?.freeDelivery ? 'text-green-700' : ''}`}>
                           {appliedPromo?.freeDelivery ? (
                             <span className="line-through text-muted-foreground/60 mr-1">1 000 FCFA</span>
-                          ) : null}
+                          ) : deliveryFee > 0 ? (
+                            `${deliveryFee.toLocaleString()} FCFA`
+                          ) : 'Gratuite'}
                         </span>
                       </div>
                     </div>
@@ -467,10 +609,10 @@ const CheckoutPage = () => {
                       <div className="flex justify-between items-center text-base font-bold">
                         <span>Total</span>
                         <div className="flex flex-col items-end">
-                          <span>{totalAmount.toLocaleString()} FCFA</span>
+                          <span>{(finalTotal || 0).toLocaleString()} FCFA</span>
                           {appliedPromo && (
                             <span className="text-xs font-normal text-green-600">
-                              Économie de {Math.abs(subtotal - (appliedPromo.discountValue * itemCount)).toLocaleString()} FCFA
+Économie de {(discountAmount || 0).toLocaleString()} FCFA
                             </span>
                           )}
                         </div>
@@ -497,7 +639,7 @@ const CheckoutPage = () => {
   );
 }
 
-function genererMessageCommande(formData, cart, totalAmount) {
+function genererMessageCommande(formData, cart, finalTotal) {
   let message = `🍕 *NOUVELLE COMMANDE SNAKI* 🍕\n\n`;
   message += `👤 *INFORMATIONS CLIENT*\n`;
   message += `Nom: ${formData.firstName} ${formData.lastName}\n`;
@@ -546,9 +688,9 @@ function genererMessageCommande(formData, cart, totalAmount) {
     message += `Code promo (${promo.name}): -${Math.abs(discount).toLocaleString()} FCFA\n`;
   }
   
-  message += `Frais de livraison: ${delivery === 0 ? 'OFFERTS' : delivery.toLocaleString() + ' FCFA'}\n`;
+  message += `Frais de livraison: ${deliveryFee === 0 ? 'OFFERTS' : deliveryFee.toLocaleString() + ' FCFA'}\n`;
   
-  if (promo?.freeDelivery) {
+  if (appliedPromo?.freeDelivery) {
     message += `Livraison offerte avec le code promo\n`;
   }
   

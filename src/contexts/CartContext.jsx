@@ -1,17 +1,7 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 
 const CartContext = createContext(null);
-
-const PROMO_CODES = {
-  'BOBA1000': {
-    discount: 'bubble_tea',
-    discountValue: 1000,
-    freeDelivery: true,
-    name: 'Réduction Bubble Tea',
-    description: 'Tous les Bubble Tea à 1000 FCFA et livraison offerte'
-  }
-};
 
 export const useCart = () => {
   const context = useContext(CartContext);
@@ -23,207 +13,200 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-  const [cartTotal, setCartTotal] = useState(0);
-  const [promoCode, setPromoCode] = useState('');
   const [appliedPromo, setAppliedPromo] = useState(null);
   const { toast } = useToast();
 
-  // Load cart from localStorage on initial render
+  // --- Load cart & promo from localStorage
   useEffect(() => {
-    const savedCart = localStorage.getItem('fastbite-cart');
-    if (savedCart) {
-      try {
-        setCart(JSON.parse(savedCart));
-      } catch (error) {
-        console.error('Failed to parse cart from localStorage:', error);
-      }
+    try {
+      const savedCart = JSON.parse(localStorage.getItem('fastbite-cart') || '[]');
+      if (Array.isArray(savedCart)) setCart(savedCart);
+
+      const savedPromo = JSON.parse(localStorage.getItem('fastbite-appliedPromo') || 'null');
+      if (savedPromo && savedPromo.name) setAppliedPromo(savedPromo);
+    } catch (err) {
+      console.error('Failed reading cart/promo from localStorage', err);
     }
   }, []);
 
-  // Calculate cart total with promo code
-  const { finalTotal, discountAmount, hasBubbleTea } = useMemo(() => {
-    let total = cart.reduce((sum, item) => {
-      let itemTotal = item.price * item.quantity;
-      
-      // Add options prices
+  // --- Persist cart
+  useEffect(() => {
+    try {
+      localStorage.setItem('fastbite-cart', JSON.stringify(cart));
+    } catch (err) {
+      console.error('Failed saving cart to localStorage', err);
+    }
+  }, [cart]);
+
+  // --- Persist applied promo
+  useEffect(() => {
+    try {
+      if (appliedPromo) localStorage.setItem('fastbite-appliedPromo', JSON.stringify(appliedPromo));
+      else localStorage.removeItem('fastbite-appliedPromo');
+    } catch (err) {
+      console.error('Failed saving promo to localStorage', err);
+    }
+  }, [appliedPromo]);
+
+  // --- Promo lookup (normalize input)
+  const getPromoByCode = useCallback((rawCode) => {
+    const code = String(rawCode || '').trim().toUpperCase();
+    if (!code) return { valid: false };
+
+    if (code === 'BOBA1000') {
+      return {
+        valid: true,
+        name: 'BOBA1000',
+        description: 'Tous les bubble teas à 1000 FCFA et livraison gratuite',
+        freeDelivery: true,
+        fixedPricePerBubbleTea: 1000
+      };
+    }
+
+    return { valid: false };
+  }, []);
+
+  // --- Apply promo (exposed through context as applyPromoCode)
+  const handleApplyPromo = useCallback((code) => {
+    const promo = getPromoByCode(code);
+    if (promo.valid) {
+      setAppliedPromo(promo);
+      toast({ title: 'Code promo appliqué', description: promo.description, duration: 3000 });
+      return { success: true, message: 'Code promo appliqué avec succès !', promo };
+    }
+    return { success: false, message: 'Code promo invalide' };
+  }, [getPromoByCode, toast]);
+
+  // --- Remove promo (exposed)
+  const removePromo = useCallback(() => {
+    setAppliedPromo(null);
+    toast({ title: 'Code promo supprimé', duration: 2000 });
+  }, [toast]);
+
+  // --- Totaux du panier (gère BOBA1000 correctement)
+  const cartTotals = useMemo(() => {
+    const isBobaPromoActive = appliedPromo?.name === 'BOBA1000';
+
+    const totals = cart.reduce((acc, item) => {
+      const unitPrice = Number(item.price) || 0;
+      const qty = Number(item.quantity) || 1;
+
+      // options unit price (somme des prix des choix *par unité*)
+      let optionsUnitPrice = 0;
       if (item.selectedOptions) {
         Object.entries(item.selectedOptions).forEach(([optionKey, selectedValue]) => {
           const option = item.options?.[optionKey];
-          const choice = option?.choices?.find(c => c.id === selectedValue);
-          if (choice && choice.price) {
-            itemTotal += choice.price * item.quantity;
-          }
+          if (!option?.choices) return;
+          const choice = option.choices.find(c => c.id === selectedValue || c.value === selectedValue || c.name === selectedValue || c.label === selectedValue);
+          if (choice?.price) optionsUnitPrice += Number(choice.price) || 0;
         });
       }
-      
-      // Apply promo code discount if applicable
-      if (appliedPromo && item.category === 'bubble-tea') {
-        if (appliedPromo.discount === 'bubble_tea') {
-          itemTotal = Math.min(itemTotal, appliedPromo.discountValue * item.quantity);
-        }
-      }
-      
-      return sum + itemTotal;
-    }, 0);
 
-    const hasBubbleTea = cart.some(item => item.category === 'bubble-tea');
-    const deliveryFee = (appliedPromo?.freeDelivery || total > 6000) ? 0 : (total > 0 ? 1000 : 0);
-    const finalTotal = total + deliveryFee;
-    
+      const originalItemTotal = (unitPrice + optionsUnitPrice) * qty;
+
+      // Pour BOBA1000 : chaque bubble tea coûte FIXE 1000 FCFA * quantité (on ignore les options
+      // si tu veux conserver les options il faudrait les ajouter explicitement)
+      let finalItemTotal = originalItemTotal;
+      if (isBobaPromoActive && item.name?.toLowerCase().includes('bubble tea')) {
+        finalItemTotal = (appliedPromo?.fixedPricePerBubbleTea ?? 1000) * qty;
+      }
+
+      acc.originalSubtotal += originalItemTotal;
+      acc.subtotal += finalItemTotal;
+      acc.discountAmount += Math.max(0, originalItemTotal - finalItemTotal);
+      acc.totalItems += qty;
+      return acc;
+    }, { subtotal: 0, originalSubtotal: 0, discountAmount: 0, totalItems: 0 });
+
+    // frais de livraison : gratuit si promo BOBA1000 ou si originalSubtotal >= 6000 (règle existante)
+    const deliveryFee = (isBobaPromoActive || totals.originalSubtotal >= 6000) ? 0 : 1000;
+    const finalTotal = totals.subtotal + deliveryFee;
+
     return {
+      subtotal: totals.subtotal,
+      originalSubtotal: totals.originalSubtotal,
+      discountAmount: totals.discountAmount,
+      deliveryFee,
       finalTotal,
-      discountAmount: appliedPromo ? (cartTotal - total) : 0,
-      hasBubbleTea,
-      deliveryFee
+      itemCount: totals.totalItems
     };
   }, [cart, appliedPromo]);
 
-  // Save cart to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('fastbite-cart', JSON.stringify(cart));
-    setCartTotal(finalTotal);
-  }, [cart, finalTotal]);
-
-  // Apply promo code
-  const applyPromoCode = (code) => {
-    const promo = PROMO_CODES[code];
-    if (!promo) {
-      toast({
-        title: "Code promo invalide",
-        description: "Le code promo saisi n'est pas valide.",
-        variant: "destructive"
-      });
-      return false;
-    }
-
-    if (promo.discount === 'bubble_tea' && !cart.some(item => item.category === 'bubble-tea')) {
-      toast({
-        title: "Code promo non applicable",
-        description: "Ce code promo n'est valable que pour les Bubble Tea.",
-        variant: "destructive"
-      });
-      return false;
-    }
-
-    setAppliedPromo(promo);
-    toast({
-      title: "Code promo appliqué",
-      description: promo.description,
-    });
-    return true;
-  };
-
-  // Remove promo code
-  const removePromoCode = () => {
-    setAppliedPromo(null);
-    setPromoCode('');
-  };
-
-  const addToCart = (product, quantity = 1) => {
+  // --- addToCart (génère uniqueId)
+  const addToCart = useCallback((product, quantity = 1) => {
     setCart(prevCart => {
-      // Nouvelle logique : comparer id + options
-      const isSameOptions = (a, b) => {
-        if (!a.selectedOptions && !b.selectedOptions) return true;
-        if (!a.selectedOptions || !b.selectedOptions) return false;
-        const aKeys = Object.keys(a.selectedOptions);
-        const bKeys = Object.keys(b.selectedOptions);
-        if (aKeys.length !== bKeys.length) return false;
-        return aKeys.every(key => b.selectedOptions[key] === a.selectedOptions[key]);
+      const generateItemId = (item) => {
+        if (!item.selectedOptions) return String(item.id);
+        const optionsString = Object.entries(item.selectedOptions)
+          .sort(([a],[b]) => a.localeCompare(b))
+          .map(([k, v]) => `${k}:${v}`)
+          .join('|');
+        return `${item.id}_${optionsString}`;
       };
-      const existingItemIndex = prevCart.findIndex(item => item.id === product.id && isSameOptions(item, product));
-      
-      if (existingItemIndex >= 0) {
-        // Item already exists, update quantity
-        const updatedCart = [...prevCart];
-        updatedCart[existingItemIndex] = {
-          ...updatedCart[existingItemIndex],
-          quantity: updatedCart[existingItemIndex].quantity + quantity
+
+      const itemId = generateItemId(product);
+      const existingIndex = prevCart.findIndex(i => (i.uniqueId || i.id) === itemId);
+
+      if (existingIndex >= 0) {
+        const updated = [...prevCart];
+        updated[existingIndex] = {
+          ...updated[existingIndex],
+          quantity: (Number(updated[existingIndex].quantity) || 0) + quantity
         };
-        
-        toast({
-          title: "Produit ajouté",
-          description: `${product.name} a été ajouté au panier`,
-          duration: 2000,
-        });
-        
-        return updatedCart;
+        toast({ title: 'Quantité mise à jour', description: `${product.name} mis à jour`, duration: 2000 });
+        return updated;
       } else {
-        // Add new item
-        toast({
-          title: "Produit ajouté",
-          description: `${product.name} a été ajouté au panier`,
-          duration: 2000,
-        });
-        
-        return [...prevCart, { ...product, quantity }];
+        const newItem = { ...product, quantity, uniqueId: itemId };
+        toast({ title: 'Produit ajouté', description: `${product.name} ajouté au panier`, duration: 2000 });
+        return [...prevCart, newItem];
       }
     });
-  };
+  }, [toast]);
 
-  const removeFromCart = (productId) => {
-    setCart(prevCart => {
-      const updatedCart = prevCart.filter(item => item.id !== productId);
-      
-      toast({
-        title: "Produit retiré",
-        description: "Le produit a été retiré du panier",
-        duration: 2000,
-      });
-      
-      return updatedCart;
+  // --- removeFromCart
+  const removeFromCart = useCallback((productId) => {
+    setCart(prev => {
+      const item = prev.find(i => (i.uniqueId === productId || i.id === productId));
+      const next = prev.filter(i => (i.uniqueId !== productId && i.id !== productId));
+      if (item) toast({ title: 'Produit retiré', description: `${item.name} retiré du panier`, duration: 2000 });
+      return next;
     });
-  };
+  }, [toast]);
 
-  const updateQuantity = (productId, quantity) => {
+  // --- updateQuantity
+  const updateQuantity = useCallback((productId, quantity) => {
     if (quantity < 1) return;
-    
-    setCart(prevCart => 
-      prevCart.map(item => 
-        item.id === productId ? { ...item, quantity } : item
-      )
-    );
-  };
+    setCart(prev => prev.map(i => (i.uniqueId === productId || i.id === productId) ? { ...i, quantity } : i));
+  }, []);
 
-  const clearCart = () => {
+  // --- clearCart (aussi supprime le promo pour éviter effets étranges)
+  const clearCart = useCallback(() => {
     setCart([]);
-    toast({
-      title: "Panier vidé",
-      description: "Tous les produits ont été retirés du panier",
-      duration: 2000,
-    });
-  };
+    setAppliedPromo(null);
+    toast({ title: 'Panier vidé', description: 'Tous les produits ont été retirés du panier', duration: 2000 });
+  }, [toast]);
+
+  // --- valeur du context exposée
+  const contextValue = useMemo(() => ({
+    cart,
+    itemCount: cartTotals.itemCount,
+    cartTotal: cartTotals.finalTotal,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    deliveryFee: cartTotals.deliveryFee,
+    subtotal: cartTotals.subtotal,
+    finalTotal: cartTotals.finalTotal,
+    originalSubtotal: cartTotals.originalSubtotal,
+    appliedPromo,
+    applyPromoCode: handleApplyPromo, // fonction que aspettent les composants (retourne {success, message})
+    removePromo,
+    discountAmount: cartTotals.discountAmount
+  }), [cart, cartTotals, addToCart, removeFromCart, updateQuantity, clearCart, handleApplyPromo, removePromo, appliedPromo]);
 
   return (
-    <CartContext.Provider value={{
-      cart,
-      cartTotal: finalTotal,
-      itemCount: cart.reduce((total, item) => total + item.quantity, 0),
-      addToCart,
-      removeFromCart,
-      updateQuantity,
-      clearCart,
-      promoCode,
-      setPromoCode,
-      applyPromoCode,
-      removePromoCode,
-      appliedPromo,
-      discountAmount,
-      hasBubbleTea,
-      deliveryFee: (appliedPromo?.freeDelivery || finalTotal > 6000) ? 200 : (finalTotal > 0 ? 1000 : 0),
-      subtotal: cart.reduce((sum, item) => {
-        let itemTotal = item.price * item.quantity;
-        if (item.selectedOptions) {
-          Object.entries(item.selectedOptions).forEach(([optionKey, selectedValue]) => {
-            const option = item.options?.[optionKey];
-            const choice = option?.choices?.find(c => c.id === selectedValue);
-            if (choice && choice.price) {
-              itemTotal += choice.price * item.quantity;
-            }
-          });
-        }
-        return sum + itemTotal;
-      }, 0)
-    }}>
+    <CartContext.Provider value={contextValue}>
       {children}
     </CartContext.Provider>
   );
