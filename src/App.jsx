@@ -11,6 +11,7 @@ import CheckoutPage from '@/pages/CheckoutPage';
 import Layout from '@/components/Layout';
 import LoadingScreen from '@/components/LoadingScreen';
 import { AnimatePresence } from 'framer-motion';
+import PromotionsPage from '@/pages/PromotionsPage';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,6 +37,7 @@ function App() {
               <Route path="/product/:id" element={<ProductPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/promotions" element={<PromotionsPage />} />
             </Routes>
           </Layout>
         )}
