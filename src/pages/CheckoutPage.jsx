@@ -116,47 +116,112 @@ const CheckoutPage = () => {
 
   const formatOrderForWhatsApp = () => {
     let message = `🍹 *NOUVELLE COMMANDE SNAKI* 🍹\n\n`;
+    
+    // En-tête de la commande
+    message += `📦 *RÉCAPITULATIF DE COMMANDE*\n`;
+    message += `--------------------------------\n\n`;
+    
+    // Section client
     message += `👤 *INFORMATIONS CLIENT*\n`;
     message += `Nom: ${formData.firstName} ${formData.lastName}\n`;
     message += `Téléphone: ${formData.phone}\n`;
-    message += `WhatsApp: ${formData.whatsappNumber}\n`;
-    message += `Email: ${formData.email}\n\n`;
-    message += `📍 *ADRESSE DE LIVRAISON*\n`;
+    if (formData.whatsappNumber) {
+      message += `WhatsApp: ${formData.whatsappNumber}\n`;
+    }
+    if (formData.email) {
+      message += `Email: ${formData.email}\n`;
+    }
+    
+    // Section adresse
+    message += `\n📍 *ADRESSE DE LIVRAISON*\n`;
     message += `${formData.address}\n`;
-    message += `${formData.city}\n\n`;
-    message += `📅 *DÉTAILS DE LIVRAISON*\n`;
+    message += `${formData.city}\n`;
+    
+    // Section livraison
+    message += `\n📅 *DÉTAILS DE LIVRAISON*\n`;
     message += `Date: ${formData.deliveryDate}\n`;
-    message += `Heure: ${formData.deliveryTime}\n\n`;
-    message += `🛒 *DÉTAILS DE LA COMMANDE*\n`;
+    message += `Heure: ${formData.deliveryTime}\n`;
+    
+    // Détails de la commande
+    message += `\n🛒 *DÉTAILS DE LA COMMANDE*\n`;
+    message += `--------------------------------\n`;
+    
+    let hasRoulette = false;
     cart.forEach(item => {
       message += `• ${item.quantity}x ${item.name}`;
+      
+      // Ajout des options sélectionnées
       if (item.selectedOptions) {
         Object.entries(item.selectedOptions).forEach(([optionKey, selectedValue]) => {
-          const option = item.options[optionKey];
-          const choice = option.choices.find(c => c.id === selectedValue);
-          if (choice) {
-            message += ` (${choice.name})`;
+          const option = item.options?.[optionKey];
+          if (option) {
+            const choice = option.choices?.find(c => c.id === selectedValue);
+            if (choice) {
+              message += ` (${choice.name})`;
+            }
           }
         });
       }
+      
+      // Gestion des codes promo et prix
       if (item.rouletteHash) {
         hasRoulette = true;
-        message += ` - Code promo : ${item.rouletteHash}\n`;
-      } else {
-        message += ` - ${(item.price * item.quantity).toFixed(2)} fcfa\n`;
+        message += `\n  Code promo : ${item.rouletteHash}`;
       }
+      
+      // Prix de l'article
+      const itemTotal = (item.price * item.quantity).toFixed(2);
+      message += `\n  ${itemTotal} FCFA\n`;
     });
-    message += `\n💰 *RÉCAPITULATIF*\n`;
-    message += `Sous-total: ${cartTotal.toFixed(2)} fcfa\n`;
-    message += `Livraison: ${deliveryFee.toFixed(2)} fcfa\n`;
-    message += `\n💳 *DÉTAILS DE PAIEMENT*\n`;
-    message += `Sous-total: ${subtotal.toLocaleString()} FCFA\n`;
     
+    // Calcul des totaux
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const totalBeforeDiscount = subtotal + (deliveryFee || 0);
+    
+    // Récapitulatif des prix
+    message += `\n💰 *RÉCAPITULATIF DES MONTANTS*\n`;
+    message += `--------------------------------\n`;
+    message += `Sous-total (${cart.length} article${cart.length > 1 ? 's' : ''}): ${subtotal.toFixed(2)} FCFA\n`;
+    
+    // Détails des réductions
     if (appliedPromo) {
-      message += `Code promo (${appliedPromo.name}): -${Math.abs(discountAmount).toLocaleString()} FCFA\n`;
+      message += `\n🎁 *CODE PROMO APPLIQUÉ*\n`;
+      message += `Code: ${appliedPromo.name}\n`;
+      if (appliedPromo.description) {
+        message += `Description: ${appliedPromo.description}\n`;
+      }
+      if (discountAmount > 0) {
+        message += `Réduction: -${discountAmount.toFixed(2)} FCFA\n`;
+      }
+      if (appliedPromo.freeDelivery) {
+        message += `Livraison: OFFERTE\n`;
+      }
     }
     
-    message += `Frais de livraison: ${deliveryFee === 0 ? 'OFFERTS' : deliveryFee.toLocaleString() + ' FCFA'}\n`;
+    // Frais de livraison
+    message += `\n🚚 *FRAIS DE LIVRAISON*\n`;
+    if (deliveryFee === 0) {
+      message += `GRATUITS`;
+      if (appliedPromo?.freeDelivery) {
+        message += ` (offerts avec le code promo)`;
+      } else if (subtotal >= 6000) {
+        message += ` (commande supérieure à 6000 FCFA)`;
+      }
+      message += `\n`;
+    } else {
+      message += `${deliveryFee.toFixed(2)} FCFA\n`;
+    }
+    
+    // Total
+    message += `\n💵 *TOTAL À PAYER*\n`;
+    message += `--------------------------------\n`;
+    message += `Montant total: *${finalTotal.toFixed(2)} FCFA*`;
+    
+    // Économie réalisée
+    if (appliedPromo && finalTotal < totalBeforeDiscount) {
+      const savings = (totalBeforeDiscount - finalTotal).toFixed(2);
+      message += `\n\n✨ *ÉCONOMIE RÉALISÉE: ${savings} FCFA*`;
+    }
     
     if (appliedPromo?.freeDelivery) {
       message += `Livraison offerte avec le code promo\n`;
@@ -168,8 +233,6 @@ const CheckoutPage = () => {
       message += `🎉 *CODE PROMO APPLIQUÉ: ${appliedPromo.name}*\n`;
       message += `${appliedPromo.description}\n\n`;
     }
-    
-    message += `📝 *MESSAGE POUR LA CUP*:\n${formData.cupMessage || 'Aucun message'}\n\n`;
     message += `📅 *DATE ET HEURE*\n`;
     message += `${new Date().toLocaleString('fr-FR', { 
       year: 'numeric', 
@@ -639,7 +702,7 @@ const CheckoutPage = () => {
   );
 }
 
-function genererMessageCommande(formData, cart, finalTotal) {
+function genererMessageCommande(formData, cart, finalTotal, appliedPromo, deliveryFee) {
   let message = `🍕 *NOUVELLE COMMANDE SNAKI* 🍕\n\n`;
   message += `👤 *INFORMATIONS CLIENT*\n`;
   message += `Nom: ${formData.firstName} ${formData.lastName}\n`;
@@ -694,7 +757,7 @@ function genererMessageCommande(formData, cart, finalTotal) {
     message += `Livraison offerte avec le code promo\n`;
   }
   
-  message += `*TOTAL: ${totalAmount.toLocaleString()} FCFA*\n\n`;
+  message += `*TOTAL: ${finalTotal.toLocaleString()} FCFA*\n\n`;
   
   if (promo) {
     message += `🎉 *CODE PROMO APPLIQUÉ: ${promo.name}*\n`;

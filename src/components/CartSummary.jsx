@@ -13,7 +13,9 @@ export const CartSummary = ({ onCheckout }) => {
     cart,
     appliedPromo,
     originalSubtotal,
-    bubbleTeaItems = []
+    bubbleTeaItems = [],
+    applyPromoCode,
+    removePromo
   } = useCart();
 
   if (cart.length === 0) {
@@ -120,7 +122,15 @@ export const CartSummary = ({ onCheckout }) => {
           </div>
         </div>
         
-        <PromoCode className="mb-6" />
+        <div className="mt-6 border-t border-gray-200 pt-6">
+          <h4 className="text-sm font-medium mb-3">Code promo</h4>
+          <PromoCode 
+            className="mb-4"
+            appliedPromo={appliedPromo}
+            onApplyPromo={applyPromoCode}
+            onRemovePromo={removePromo}
+          />
+        </div>
         
         <Button 
           className="w-full bg-pink-500 hover:bg-pink-600 text-white py-6 text-lg"
