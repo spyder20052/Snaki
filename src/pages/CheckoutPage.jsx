@@ -326,7 +326,7 @@ const CheckoutPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 mt-20 pt-24 md:pt-16 lg:pt-12 pb-8 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
