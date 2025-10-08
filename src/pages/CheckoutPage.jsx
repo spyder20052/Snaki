@@ -263,7 +263,7 @@ const CheckoutPage = () => {
       }
       // Générer le message WhatsApp
       const message = formatOrderForWhatsApp();
-      const whatsappUrl = `https://wa.me/22953305896?text=${encodeURIComponent(message)}`;
+      const whatsappUrl = `https://wa.me/22967742738?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, '_blank');
       setOrderComplete(true);
       clearCart();

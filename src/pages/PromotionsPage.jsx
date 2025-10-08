@@ -98,7 +98,7 @@ export default function PromotionsPage() {
       `---\n` +
       `Merci de me recontacter pour finaliser ma souscription !\n` +
       `_Snaki, le plaisir livré chez vous !_`;
-    const whatsappUrl = `https://wa.me/22953305896?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/22967742738?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
     setShowForm(false);
     setSelectedPlan(null);
@@ -173,7 +173,7 @@ export default function PromotionsPage() {
           Les prix sont fait pour vous. Pour 1 mois de pure plaisir. Paiement sécurisé.
         </div>
         <div>
-          Pour toutes préoccupations, n'hésitez pas à nous contacter au : <a href="https://wa.me/22953305896" className="underline text-orange-600" target="_blank">+22953305896</a>
+          Pour toutes préoccupations, n'hésitez pas à nous contacter au : <a href="https://wa.me/22967742738" className="underline text-orange-600" target="_blank">+22953305896</a>
         </div>
       </div>
 
