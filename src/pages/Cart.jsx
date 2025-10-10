@@ -10,8 +10,6 @@ export default function Cart() {
   const { cart, updateQuantity, removeFromCart } = useCart();
 
   const handleCheckout = () => {
-    // Handle checkout logic here
-    console.log('Proceeding to checkout');
   };
 
   return (

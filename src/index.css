@@ -52,11 +52,59 @@
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
   }
+  
+  html, body {
+    @apply w-full h-full m-0 p-0;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
-    @apply antialiased;
+    @apply antialiased flex flex-col min-h-screen;
+    overflow-x: hidden;
+  }
+  
+  /* Amélioration du défilement sur mobile */
+  @media (max-height: 600px) {
+    html {
+      height: -webkit-fill-available;
+    }
+    
+    body {
+      min-height: -webkit-fill-available;
+    }
+    
+    /* Optimisation des éléments pour les petits écrans */
+    .food-card, .category-badge, .product-card {
+      transform: scale(0.95);
+      margin: 0.5rem 0;
+    }
+    
+    /* Ajustement des espacements */
+    .px-4, .px-6, .px-8 {
+      @apply px-3;
+    }
+    
+    .py-8, .py-12, .py-16 {
+      @apply py-4;
+    }
+    
+    /* Ajustement de la typographie */
+    h1 {
+      @apply text-2xl;
+    }
+    
+    h2 {
+      @apply text-xl;
+    }
+    
+    p, span, div {
+      @apply text-sm;
+    }
   }
 }
 

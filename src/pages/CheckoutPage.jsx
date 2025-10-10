@@ -48,7 +48,6 @@ const CheckoutPage = () => {
         }
       }
     } catch (error) {
-      console.error('Erreur lors de l\'application du code promo:', error);
       setPromoMessage({ type: 'error', text: 'Une erreur est survenue lors de l\'application du code promo' });
     }
   };

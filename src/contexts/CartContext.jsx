@@ -25,7 +25,6 @@ export const CartProvider = ({ children }) => {
       const savedPromo = JSON.parse(localStorage.getItem('fastbite-appliedPromo') || 'null');
       if (savedPromo && savedPromo.name) setAppliedPromo(savedPromo);
     } catch (err) {
-      console.error('Failed reading cart/promo from localStorage', err);
     }
   }, []);
 
@@ -34,7 +33,6 @@ export const CartProvider = ({ children }) => {
     try {
       localStorage.setItem('fastbite-cart', JSON.stringify(cart));
     } catch (err) {
-      console.error('Failed saving cart to localStorage', err);
     }
   }, [cart]);
 
@@ -44,7 +42,6 @@ export const CartProvider = ({ children }) => {
       if (appliedPromo) localStorage.setItem('fastbite-appliedPromo', JSON.stringify(appliedPromo));
       else localStorage.removeItem('fastbite-appliedPromo');
     } catch (err) {
-      console.error('Failed saving promo to localStorage', err);
     }
   }, [appliedPromo]);
 

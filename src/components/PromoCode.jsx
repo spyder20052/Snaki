@@ -33,7 +33,6 @@ export const PromoCode = ({
       }
     } catch (err) {
       setError('Une erreur est survenue');
-      console.error('Promo code error:', err);
     } finally {
       setIsLoading(false);
     }

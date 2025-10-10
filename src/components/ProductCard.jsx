@@ -69,8 +69,6 @@ const ProductCard = ({ product, index, priority = 'normal' }) => {
     }
   };
 
-  console.log("ProductCard", product);
-
   if (!product) return <div>Produit non trouvé</div>;
   if (!product.name) return <div>Produit sans nom</div>;
 
