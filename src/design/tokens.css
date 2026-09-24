@@ -1,0 +1,269 @@
+/* ==========================================================================
+   SNAKI — DESIGN SYSTEM : TOKENS
+   ==========================================================================
+   Source unique de verite pour l'identite visuelle. Le site public ET le
+   dashboard consomment ces memes variables : une couleur changee ici se
+   propage partout.
+
+   Les valeurs ne sont pas inventees : elles sont extraites de l'interface
+   publique existante (App.css) puis regroupees et nommees. Les quatre
+   variables historiques (--ink, --cream, --pink, --acid) sont conservees en
+   alias pour ne rien casser dans le site actuel.
+
+   Convention de nommage : --sk-<groupe>-<role>-<variante>
+   ========================================================================== */
+
+:root {
+  /* --- COULEURS DE MARQUE ------------------------------------------------
+     `brand` = l'orange Snaki, couleur d'action et d'accent.
+     `ink`   = le brun-noir des textes et des contours.
+     `sand`  = le creme des fonds.
+     Les paliers 100..700 sont derives de ces trois teintes. */
+  --sk-brand-100: #fdeee7;
+  --sk-brand-200: #f9c9b4;
+  --sk-brand-300: #f39d78;
+  --sk-brand-400: #ef7a4c;
+  --sk-brand-500: #eb5821; /* orange principal */
+  --sk-brand-600: #cf6f42; /* orange rompu, seconde couche */
+  --sk-brand-700: #a63f14;
+
+  --sk-cocoa-500: #62321e; /* brun profond : bordures chaudes, textes sur creme */
+  --sk-gold-500: #e8b33a;  /* jaune dore : badges, pastilles */
+  --sk-gold-600: #c98a1e;
+  --sk-lemon-500: #f5c518; /* jaune vif : accents ponctuels */
+
+  --sk-ink-900: #151514;   /* texte principal */
+  --sk-ink-700: #3a3a38;
+  --sk-ink-500: #6b6b67;   /* texte secondaire */
+  --sk-ink-300: #a8a8a2;   /* texte desactive */
+  --sk-ink-100: #d9d9d2;   /* bordures discretes */
+
+  --sk-sand-100: #fffdf9;  /* blanc casse : surfaces surelevees */
+  --sk-sand-200: #fffaf1;
+  --sk-sand-300: #f5e4cd;  /* creme de marque : fond de page */
+  --sk-white: #ffffff;
+
+  /* --- COULEURS DE FOND -------------------------------------------------- */
+  --sk-bg-page: var(--sk-sand-300);
+  --sk-bg-surface: var(--sk-white);
+  --sk-bg-surface-raised: var(--sk-sand-100);
+  --sk-bg-surface-sunken: var(--sk-sand-200);
+  --sk-bg-inverse: var(--sk-ink-900);
+  /* Voile des modales. */
+  --sk-bg-overlay: rgba(21, 21, 20, .58);
+  /* Survol / selection sur une surface claire. */
+  --sk-bg-hover: rgba(21, 21, 20, .045);
+  --sk-bg-active: rgba(21, 21, 20, .08);
+  --sk-bg-brand-subtle: var(--sk-brand-100);
+
+  /* --- COULEURS DE TEXTE ------------------------------------------------- */
+  --sk-text-primary: var(--sk-ink-900);
+  --sk-text-secondary: var(--sk-ink-500);
+  --sk-text-muted: var(--sk-ink-300);
+  --sk-text-inverse: var(--sk-sand-300);
+  --sk-text-brand: var(--sk-brand-500);
+  --sk-text-on-brand: var(--sk-white);
+  --sk-text-link: var(--sk-brand-500);
+
+  /* --- COULEURS D'ETAT --------------------------------------------------- */
+  /* Chaque etat a trois roles : `fg` (texte/icone), `bg` (fond doux),
+     `border` (contour). Le vert et le rouge sont choisis pour rester
+     lisibles sur le creme de marque. */
+  --sk-success-fg: #1c7a4a;
+  --sk-success-bg: #e6f5ec;
+  --sk-success-border: #a8dcc0;
+
+  --sk-danger-fg: #c02626;
+  --sk-danger-bg: #fdeaea;
+  --sk-danger-border: #f3b6b6;
+
+  --sk-warning-fg: #9a6400;
+  --sk-warning-bg: #fdf3dd;
+  --sk-warning-border: #edcd8a;
+
+  --sk-info-fg: #1c5f9e;
+  --sk-info-bg: #e8f1fa;
+  --sk-info-border: #a9cbea;
+
+  /* Etat neutre : brouillon, archive, inactif. */
+  --sk-neutral-fg: var(--sk-ink-500);
+  --sk-neutral-bg: rgba(21, 21, 20, .05);
+  --sk-neutral-border: var(--sk-ink-100);
+
+  /* --- TYPOGRAPHIE ------------------------------------------------------- */
+  /* Trois familles, chacune avec un role strict :
+     - display : titres editoriaux du site public (grandes tailles)
+     - heading : titres compacts, logo, chiffres du dashboard
+     - body    : texte courant et interface */
+  --sk-font-display: 'Mouse Memoirs', 'Archivo Black', sans-serif;
+  --sk-font-heading: 'Archivo Black', system-ui, sans-serif;
+  --sk-font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --sk-font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Echelle de titres. `clamp` : la borne basse sert au mobile, la haute au
+     desktop, la valeur en vw assure la fluidite entre les deux. */
+  --sk-text-h1: clamp(2.6rem, 6vw, 4.6rem);
+  --sk-text-h2: clamp(2rem, 4.4vw, 3.4rem);
+  --sk-text-h3: clamp(1.6rem, 3vw, 2.4rem);
+  --sk-text-h4: clamp(1.3rem, 2.2vw, 1.75rem);
+  --sk-text-h5: clamp(1.1rem, 1.6vw, 1.35rem);
+  --sk-text-h6: clamp(1rem, 1.3vw, 1.15rem);
+
+  --sk-text-lg: 1.125rem;
+  --sk-text-base: 1rem;
+  --sk-text-sm: .875rem;
+  --sk-text-xs: .75rem;
+  --sk-text-2xs: .6875rem;
+
+  --sk-leading-tight: 1.1;
+  --sk-leading-snug: 1.3;
+  --sk-leading-normal: 1.5;
+  --sk-leading-relaxed: 1.7;
+
+  --sk-weight-regular: 400;
+  --sk-weight-medium: 500;
+  --sk-weight-semibold: 600;
+  --sk-weight-bold: 700;
+  --sk-weight-black: 900;
+
+  /* Interlettrage : negatif sur les grands titres (ils respirent trop
+     sinon), positif sur les petites capitales. */
+  --sk-tracking-tighter: -.05em;
+  --sk-tracking-tight: -.02em;
+  --sk-tracking-normal: 0;
+  --sk-tracking-wide: .06em;
+  --sk-tracking-wider: .12em;
+
+  /* --- ESPACEMENTS -------------------------------------------------------
+     Echelle en pas de 4px, exprimee en rem. Utiliser EXCLUSIVEMENT ces
+     valeurs pour marges et paddings : c'est ce qui donne le rythme. */
+  --sk-space-0: 0;
+  --sk-space-1: .25rem;   /*  4px */
+  --sk-space-2: .5rem;    /*  8px */
+  --sk-space-3: .75rem;   /* 12px */
+  --sk-space-4: 1rem;     /* 16px */
+  --sk-space-5: 1.25rem;  /* 20px */
+  --sk-space-6: 1.5rem;   /* 24px */
+  --sk-space-8: 2rem;     /* 32px */
+  --sk-space-10: 2.5rem;  /* 40px */
+  --sk-space-12: 3rem;    /* 48px */
+  --sk-space-16: 4rem;    /* 64px */
+  --sk-space-20: 5rem;    /* 80px */
+  --sk-space-24: 6rem;    /* 96px */
+
+  /* --- RAYONS ------------------------------------------------------------
+     Le site public utilise beaucoup de `999px` (pilules) et de `50%`
+     (pastilles) : c'est une signature de la marque, on la conserve. */
+  --sk-radius-none: 0;
+  --sk-radius-sm: 6px;
+  --sk-radius-md: 10px;
+  --sk-radius-lg: 16px;
+  --sk-radius-xl: 24px;
+  --sk-radius-2xl: 32px;
+  --sk-radius-pill: 999px;
+  --sk-radius-circle: 50%;
+
+  /* --- BORDURES ---------------------------------------------------------- */
+  --sk-border-width: 1px;
+  --sk-border-width-thick: 2px;   /* contour marque, boutons outline */
+  --sk-border-width-heavy: 5px;   /* contours illustratifs du site public */
+  --sk-border-subtle: var(--sk-border-width) solid var(--sk-ink-100);
+  --sk-border-default: var(--sk-border-width) solid rgba(21, 21, 20, .14);
+  --sk-border-strong: var(--sk-border-width-thick) solid var(--sk-ink-900);
+
+  /* --- OMBRES ------------------------------------------------------------
+     `hard` reprend l'ombre pleine sans flou du site public (2px 2px 0), qui
+     fait partie de son style illustratif. Les autres sont des ombres
+     douces, pour le dashboard. */
+  --sk-shadow-none: none;
+  --sk-shadow-xs: 0 1px 2px rgba(21, 21, 20, .06);
+  --sk-shadow-sm: 0 2px 6px rgba(21, 21, 20, .08);
+  --sk-shadow-md: 0 6px 16px rgba(21, 21, 20, .10);
+  --sk-shadow-lg: 0 10px 30px rgba(21, 21, 20, .13);
+  --sk-shadow-xl: 0 22px 54px rgba(98, 50, 30, .22);
+  --sk-shadow-hard: 2px 2px 0 var(--sk-ink-900);
+  --sk-shadow-focus: 0 0 0 3px rgba(235, 88, 33, .35);
+
+  /* --- Z-INDEX -----------------------------------------------------------
+     Echelle nommee : ne jamais ecrire un z-index en dur, sinon l'ordre
+     d'empilement devient impossible a raisonner. */
+  --sk-z-base: 0;
+  --sk-z-raised: 10;
+  --sk-z-sticky: 100;
+  --sk-z-header: 200;
+  --sk-z-drawer: 300;
+  --sk-z-overlay: 400;
+  --sk-z-modal: 500;
+  --sk-z-popover: 600;
+  --sk-z-tooltip: 700;
+  --sk-z-toast: 800;
+  --sk-z-max: 9999;
+
+  /* --- TRANSITIONS ------------------------------------------------------- */
+  --sk-duration-instant: 80ms;
+  --sk-duration-fast: 150ms;
+  --sk-duration-normal: 240ms;
+  --sk-duration-slow: 400ms;
+
+  --sk-ease-out: cubic-bezier(.22, 1, .36, 1);
+  --sk-ease-in-out: cubic-bezier(.45, .05, .55, .95);
+  /* Depassement leger : boutons, pastilles qui « claquent ». */
+  --sk-ease-spring: cubic-bezier(.45, .85, .34, 1.12);
+
+  --sk-transition-colors:
+    color var(--sk-duration-fast) var(--sk-ease-out),
+    background-color var(--sk-duration-fast) var(--sk-ease-out),
+    border-color var(--sk-duration-fast) var(--sk-ease-out);
+  --sk-transition-transform: transform var(--sk-duration-normal) var(--sk-ease-spring);
+
+  /* --- DISPOSITION ------------------------------------------------------- */
+  --sk-container-sm: 640px;
+  --sk-container-md: 768px;
+  --sk-container-lg: 1024px;
+  --sk-container-xl: 1280px;
+  --sk-container-2xl: 1536px;
+
+  --sk-sidebar-width: 264px;
+  --sk-sidebar-width-collapsed: 72px;
+  --sk-header-height: 64px;
+
+  /* Grille responsive de reference. */
+  --sk-grid-columns: 12;
+  --sk-grid-gutter: var(--sk-space-6);
+}
+
+/* --- BREAKPOINTS ---------------------------------------------------------
+   CSS ne permet pas d'utiliser une variable dans une media query. Ces
+   valeurs sont donc la reference DOCUMENTAIRE, a recopier telles quelles :
+
+     mobile        : jusqu'a 639px   (base, aucune media query)
+     tablette      : @media (min-width: 640px)
+     tablette large: @media (min-width: 768px)
+     desktop       : @media (min-width: 1024px)
+     desktop large : @media (min-width: 1280px)
+
+   Le site public existant utilise `@media (max-width: 760px)` pour son
+   bascule mobile : cette valeur est conservee telle quelle dans App.css
+   pour ne pas reflower des mises en page qui fonctionnent.
+   ------------------------------------------------------------------------ */
+
+/* --- ALIAS DE COMPATIBILITE ---------------------------------------------
+   Le site public utilise ces quatre noms partout. On les redefinit a partir
+   des tokens pour qu'il n'y ait qu'UNE source de verite, sans avoir a
+   reecrire les 800 lignes d'App.css. */
+:root {
+  --ink: var(--sk-ink-900);
+  --cream: var(--sk-white);
+  --pink: var(--sk-brand-500);
+  --acid: var(--sk-brand-600);
+}
+
+/* --- PREFERENCES UTILISATEUR -------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --sk-duration-instant: 0ms;
+    --sk-duration-fast: 0ms;
+    --sk-duration-normal: 0ms;
+    --sk-duration-slow: 0ms;
+  }
+}

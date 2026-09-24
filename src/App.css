@@ -1,0 +1,905 @@
+:root{--ink:#151514;--cream:#ffffff;--pink:#eb5821;--acid:#cf6f42}main{min-height:100vh;overflow-x:clip}nav{position:absolute;z-index:20;top:0;left:0;width:100%;height:90px;padding:0 4vw;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #15151433}.logo,.loader-brand{font:900 clamp(1.5rem,3vw,2.5rem)/1 'Archivo Black';letter-spacing:-.08em;text-decoration:none}.logo span,.loader-brand span{font:800 .35em/1 'DM Sans';vertical-align:top;margin-left:4px}.nav-links{display:flex;gap:35px}.nav-links a,.order-small{font-size:.75rem;font-weight:800;text-decoration:none;text-transform:uppercase;letter-spacing:.12em}.order-small{border:2px solid var(--ink);border-radius:999px;padding:12px 20px;transition:.2s}.order-small:hover{color:var(--pink);background:var(--ink);transform:rotate(-2deg)}
+.logo-image{display:block;width:clamp(110px,11vw,170px);height:68px}.logo-image img{display:block;width:100%;height:100%;object-fit:contain}
+.poster-nav{height:112px;padding:0 2.5vw;border:0;z-index:1000}.poster-nav-actions{display:flex;align-items:center;gap:10px}.nav-flavours,.nav-menu{height:42px;border-radius:999px;text-decoration:none;font:400 1rem 'Mouse Memoirs';letter-spacing:.04em}.nav-flavours{display:flex;align-items:center;padding:0 21px;color:#fff;background:#eb5821;border:2px solid #eb5821}.nav-menu{display:flex;align-items:center;gap:11px;padding:0 17px 0 20px;color:var(--ink);background:transparent;border:2px solid #62321e}.nav-menu b{font:400 1rem 'Mouse Memoirs'}.nav-menu span{position:relative;display:block;flex-shrink:0;width:18px;height:14px}.nav-menu i{position:absolute;left:0;display:block;width:100%;height:2px;border-radius:10px;background:var(--ink);transform-origin:50% 50%}
+.nav-menu i:nth-child(1){top:0}
+.nav-menu i:nth-child(2){top:50%;transform:translateY(-50%)}
+.nav-menu i:nth-child(3){bottom:0}.nav-menu i:nth-child(2){width:70%;top:50%}
+.bubble-cursor{position:fixed;z-index:10000;inset:0;pointer-events:none;opacity:0;transition:opacity .18s ease}.bubble-cursor svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}.bubble-cursor path{fill:none;stroke:var(--cream);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(1px 1px 0 var(--ink))}.cursor-ingredient{position:absolute;top:0;left:0;width:32px;height:32px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:50%;background:rgba(255,255,255,.9);box-shadow:2px 2px 0 var(--ink);font-size:16px;will-change:transform;transition:width .1s,height .1s}.cursor-ingredient span{display:block;line-height:1;transform:rotate(0)}.cursor-pearl{background:var(--cream);color:var(--ink);font-size:21px}.cursor-ice{color:#62321e;background:#ffffff;font:900 22px/1 'DM Sans'}.bubble-cursor.is-clicking .cursor-ingredient{width:27px;height:27px}.bubble-cursor.is-clicking path{stroke-width:4}
+.hero-section{position:relative;min-height:100svh;padding:140px 6vw 60px;display:flex;align-items:center;background:var(--pink)}.hero-section:after{content:'';position:absolute;inset:0;opacity:.18;pointer-events:none;background-image:radial-gradient(#151514 1px,transparent 1px);background-size:7px 7px;mix-blend-mode:multiply}.marquee{position:absolute;z-index:1;top:90px;left:-1%;width:102%;padding:9px 0;overflow:hidden;white-space:nowrap;background:var(--acid);border-bottom:2px solid var(--ink);font:900 .85rem 'Archivo Black';letter-spacing:.08em;word-spacing:20px}.hero-content{position:relative;z-index:3;width:57%}.eyebrow{text-transform:uppercase;font-weight:800;letter-spacing:.15em;font-size:.75rem}h1{margin:18px 0 25px;font:900 clamp(4.5rem,10vw,10rem)/.76 'Archivo Black';letter-spacing:-.085em}h1 em{color:var(--cream);font-style:normal;-webkit-text-stroke:3px var(--ink);text-shadow:7px 7px 0 var(--ink)}.intro{max-width:430px;font-size:clamp(1rem,1.4vw,1.25rem);font-weight:600}.cta{display:inline-flex;align-items:center;gap:35px;margin-top:28px;padding:17px 18px 17px 25px;color:var(--cream);background:var(--ink);border-radius:999px;text-decoration:none;text-transform:uppercase;font-weight:800;font-size:.75rem;letter-spacing:.08em}.cta span{display:grid;place-items:center;width:32px;height:32px;color:var(--ink);background:var(--acid);border-radius:50%;font-size:1rem}
+.hero-drink{position:absolute;z-index:2;right:5vw;bottom:-3%;width:min(35vw,470px);height:min(72vh,700px);transform:rotate(7deg);filter:drop-shadow(22px 30px 0 #1515142e)}.big-cup{position:absolute;inset:25% 5% 0;display:flex;align-items:center;justify-content:center;overflow:hidden;border:8px solid var(--ink);border-radius:10px 10px 30% 30%;background:linear-gradient(#ffffff 0 20%,#cf6f42 55%,#62321e);clip-path:polygon(4% 0,96% 0,86% 100%,14% 100%)}.big-cup:after{content:'';position:absolute;top:0;left:16%;width:18%;height:100%;background:#ffffff3d;transform:skew(-3deg)}.big-cup span{position:relative;z-index:2;padding:14px 20px;background:var(--cream);border:5px solid var(--ink);font:900 clamp(1.5rem,4vw,3.6rem) 'Archivo Black';transform:rotate(-7deg)}.big-pearls{position:absolute;bottom:3%;left:0;width:100%;text-align:center;color:var(--ink);font-size:clamp(2rem,4vw,3.8rem);line-height:.75;letter-spacing:.05em}.big-lid{position:absolute;z-index:3;top:21%;left:0;width:100%;height:9%;border:8px solid var(--ink);border-radius:999px;background:var(--cream)}.big-straw{position:absolute;z-index:1;top:0;left:57%;width:11%;height:34%;border:7px solid var(--ink);border-radius:30px 30px 0 0;background:var(--acid);transform:rotate(-8deg);transform-origin:bottom}.sticker{position:absolute;z-index:5;right:-5%;top:35%;display:grid;place-items:center;width:112px;height:112px;text-align:center;border:4px solid var(--ink);border-radius:50%;background:var(--acid);font:900 1rem/1.05 'Archivo Black';transform:rotate(12deg)}.scroll-note{position:absolute;z-index:4;right:3vw;bottom:25px;font-size:.65rem;font-weight:800;letter-spacing:.15em;writing-mode:vertical-rl}
+.loader{position:fixed;z-index:9999;inset:0;display:grid;place-items:center;background:var(--pink);overflow:hidden}.curtain{position:absolute;inset:-2%;transform-origin:top}.curtain--one{z-index:1;background:var(--pink);clip-path:ellipse(95% 78% at 50% 20%)}.curtain--two{background:#cf6f42;clip-path:ellipse(95% 79% at 50% 20%)}.curtain--three{background:var(--cream);clip-path:ellipse(95% 81% at 50% 20%)}.loader-copy{position:relative;z-index:2;width:min(92vw,560px);text-align:center}.bubble-cup{position:relative;width:min(65vw,310px);aspect-ratio:2/3;margin:0 auto;transform-origin:50% 90%}.bubble-cup>img{position:absolute;display:block;object-fit:contain}.loader-cup-part{z-index:3;inset:14% 6% 0;width:88%;height:86%}.loader-lid-part{z-index:5;top:8%;left:0;width:100%;height:31%}.loader-straw-part{z-index:1;top:-5%;left:54%;width:29%;height:63%;transform-origin:50% 100%}.loader-pearls{position:absolute;z-index:2;inset:0}.loader-pearls .pearl{position:absolute;left:var(--x);top:var(--y);width:16%;height:auto;transform:translate(-50%,-50%)}.loader-status{min-height:34px;margin-top:6px;text-transform:uppercase;font-size:clamp(1.05rem,3.1vw,1.6rem);font-weight:800;letter-spacing:.1em}.spark{--x:0px;--y:0px;position:absolute;z-index:-1;top:50%;left:50%;width:17px;height:17px;border:3px solid var(--ink);background:var(--acid);transform:scale(0) rotate(45deg);opacity:0}.s1{--x:-150px;--y:-100px}.s2{--x:145px;--y:-70px}.s3{--x:-135px;--y:80px}.s4{--x:150px;--y:100px}.s5{--x:120px;--y:-155px}.s6{--x:-120px;--y:-170px}
+@media(max-width:760px){nav{height:72px;padding:0 20px}.nav-links{display:none}.order-small{padding:9px 13px}.marquee{top:72px}.hero-section{min-height:900px;padding:130px 22px 380px;align-items:flex-start}.hero-content{width:100%}h1{font-size:clamp(4.1rem,21vw,7rem)}h1 em{-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink)}.hero-drink{right:7%;bottom:-2%;width:86vw;height:460px}.sticker{right:-2%;width:88px;height:88px;font-size:.75rem}.scroll-note{display:none}}
+@media(pointer:coarse){.bubble-cursor{display:none}}
+/* Curseur personnalise : reserve au SITE PUBLIC. La regle exclut les zones
+   d'administration (`data-area="admin"` pose sur <body>), ou le curseur
+   bulle n'est pas rendu — sans cette exclusion, `cursor:none` s'appliquait
+   quand meme et on se retrouvait sans aucun pointeur visible. */
+@media(pointer:fine) and (prefers-reduced-motion:no-preference){
+  body:not([data-area]),body:not([data-area]) *{cursor:none!important}
+  /* Match the body selector's specificity so native pointers remain visible
+     wherever BubbleCursor deliberately hides its decoration. */
+  body:not([data-area]) [data-cursor-hide],
+  body:not([data-area]) [data-cursor-hide] *{cursor:pointer!important}
+}
+
+/* Hero poster — composition inspirée d'une affiche food rétro */
+.hero-poster{min-height:100svh;padding:120px 3vw 30px;display:block;background:#f5e4cd;isolation:isolate}.hero-poster:after{display:none}.hero-poster:before{content:'';position:absolute;inset:0;z-index:-4;background:#f5e4cd}
+.poster-title{position:absolute;z-index:1;top:20%;left:50%;width:100%;margin:0;transform:translateX(-50%) scaleX(1.25);transform-origin:center;color:#eb5821;text-align:center;white-space:nowrap;font:400 clamp(8.5rem,24vw,27rem)/.7 'Mouse Memoirs';letter-spacing:-.03em;-webkit-text-stroke:clamp(5px,.62vw,10px) #ffffff;paint-order:stroke fill;text-shadow:0 2px 0 #ffffff}.poster-title span{display:inline-block;margin-right:.025em}
+.poster-product{position:absolute;z-index:2;top:22%;bottom:12%;left:50%;width:min(36vw,540px);margin-left:calc(min(36vw,540px) / -2);display:flex;align-items:center;justify-content:center;overflow:visible;opacity:0}
+.poster-product img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(18px 24px 0 rgba(33,19,13,.14))}
+@media(max-width:760px){.poster-product{top:36%;bottom:22%;width:60vw;margin-left:-30vw}}
+@media(prefers-reduced-motion:reduce){.poster-product{opacity:1}}.poster-drawn-drink{position:relative;right:auto;bottom:auto;width:100%;height:100%;transform:rotate(5deg);filter:drop-shadow(18px 24px 0 rgba(33,19,13,.16))}.poster-drawn-drink .big-cup{inset:26% 8% 3%}.poster-drawn-drink .big-lid{top:22%;left:3%;width:94%}.poster-drawn-drink .big-straw{top:0;left:58%;height:34%}.drink-eyes{position:absolute;z-index:7;top:32%;left:50%;display:flex;gap:3vw;transform:translateX(-50%) rotate(-5deg)}.drink-eyes i{display:block;width:clamp(48px,5vw,78px);height:clamp(48px,5vw,78px);border:5px solid var(--ink);border-radius:50%;background:#fff}.drink-eyes i:after{content:'';display:block;width:38%;height:38%;margin:31%;border-radius:50%;background:var(--ink)}
+.poster-brand{position:absolute;z-index:3;left:50%;bottom:-1%;transform:translateX(-50%) rotate(-1deg);color:#cf6f42;font:400 clamp(5rem,12.5vw,14rem)/.72 'Modak';letter-spacing:-.06em;-webkit-text-stroke:clamp(5px,.65vw,12px) #fff;paint-order:stroke fill;text-shadow:0 3px 0 #fff}
+.poster-sticker{position:absolute;z-index:5;color:#62321e;font:400 clamp(1.2rem,2.7vw,3.2rem)/.8 'Modak';letter-spacing:-.03em;text-align:center;-webkit-text-stroke:clamp(3px,.32vw,6px) #fff;paint-order:stroke fill;filter:drop-shadow(2px 3px 0 #fff)}.sticker-left{top:18%;left:13%;transform:rotate(8deg)}.sticker-right{right:12%;top:45%;transform:rotate(-8deg)}
+.poster-copy-wrap{display:contents}
+.poster-copy{position:absolute;z-index:5;bottom:4%;width:min(24vw,370px);margin:0;font:400 clamp(1rem,1.55vw,1.55rem)/1.05 'Mouse Memoirs';letter-spacing:0}.copy-left{left:2.5vw}.copy-right{right:2.5vw;text-align:right}
+.poster-scribbles i{position:absolute;z-index:-1;display:block;width:7vw;height:3vw;border:clamp(4px,.55vw,9px) solid #fff;border-right:0;border-bottom:0;border-radius:100% 0 0 0}.poster-scribbles i:nth-child(1){left:32%;top:28%;transform:rotate(20deg)}.poster-scribbles i:nth-child(2){left:35%;top:32%;transform:rotate(15deg)}.poster-scribbles i:nth-child(3){right:30%;top:25%;transform:rotate(145deg)}
+
+@media(max-width:760px){.poster-nav{height:82px;padding:0 16px}.logo-image{width:104px;height:55px}.poster-nav-actions{gap:9px}.nav-flavours{height:44px;padding:0 18px;font-size:.95rem}.nav-menu{height:44px;padding:0 15px 0 18px;gap:10px;border-width:2px}.nav-menu b{font-size:.95rem}.nav-menu span{width:19px;gap:4px}.nav-menu i{height:2px}.hero-poster{min-height:830px;padding-top:100px}.poster-title{top:23%;font-size:30vw;white-space:nowrap;line-height:.67;transform:translateX(-50%) scaleX(1.05)}.poster-brand{bottom:18%;font-size:20vw}.poster-sticker{font-size:6vw}.sticker-left{left:5%;top:19%}.sticker-right{right:5%;top:52%}.poster-copy{position:static;width:100%;font-size:1.2rem;text-align:center}.copy-left,.copy-right{left:auto;right:auto;text-align:center}.poster-copy-wrap{position:absolute;bottom:3%;left:0;width:100%;padding:0 18px;display:flex;flex-direction:column;gap:.5em}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+/* Animation du hero : etat initial cache (GSAP prend le relais), plus
+   les utilitaires du reveal texte mot-par-mot. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.pop-piece{display:inline-block;will-change:transform}
+.pop-space{display:inline-block;white-space:pre}
+.hero-fade{opacity:0}
+.poster-nav{will-change:transform}
+@media(prefers-reduced-motion:reduce){.hero-fade{opacity:1}}
+
+/* --- Section "A propos" : eyebrow, gros titre, visuels inclines --- */
+.about{position:relative;z-index:3;padding:7vw 5vw 20vw;text-align:center;background:#f5e4cd}
+.about-eyebrow{margin:0 auto;color:#eb5821;font:400 clamp(1.9rem,3.5vw,3.8rem)/.9 'Modak';letter-spacing:.02em;-webkit-text-stroke:clamp(3px,.34vw,7px) #fff;paint-order:stroke fill;transform:rotate(-5deg);opacity:0}
+.about-title{display:block;width:96%;margin:1.4vw auto 0;color:#eb5821;text-transform:uppercase;font:400 clamp(4.4rem,15.2vw,17rem)/.7 'Mouse Memoirs';letter-spacing:-.015em;white-space:nowrap;-webkit-text-stroke:clamp(4px,.5vw,9px) #fff;paint-order:stroke fill}
+.about-intro{width:min(48%,760px);margin:2.4vw auto 0;text-align:center;color:var(--ink);font:400 clamp(1.05rem,1.6vw,1.7rem)/1.15 'Mouse Memoirs';opacity:0}
+.about-media{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6vw;justify-items:center;width:min(62vw,1000px);margin:5vw auto 0}
+.media-item{width:100%;aspect-ratio:4/5;overflow:hidden;border-radius:4%;background:#fff;box-shadow:0 10px 0 #15151412;will-change:transform;cursor:pointer;opacity:0}
+.media-item img{display:block;width:100%;height:100%;object-fit:cover}
+.about-title-2{margin-top:0}
+.about-cta{display:inline-grid;place-items:center;margin-top:3vw;width:min(17vw,240px);height:min(5.4vw,74px);color:#fff;background:#eb5821;border-radius:50%/50%;text-decoration:none;font:400 clamp(1rem,1.6vw,1.75rem)/1 'Mouse Memoirs';letter-spacing:.06em;opacity:0;will-change:transform}
+.about-cta:hover{background:#62321e}
+@media(max-width:760px){
+  .about{padding:14vw 2vw 34vw}
+  .about-title{width:100%;font-size:21vw;white-space:nowrap}
+  .about-cta{margin-top:9vw;width:38vw;height:11vw;font-size:1rem}
+  .about-eyebrow{font-size:7.5vw;transform:rotate(0deg)}
+  .about-intro{width:92%;font-size:1.2rem;margin-top:7vw}
+  .about-media{gap:1.4vw;width:100%;margin-top:12vw}
+  .media-item{aspect-ratio:3/4}
+}
+
+/* ==========================================================================
+   Footer : revelation en profondeur pilotee par le scroll.
+
+   Trois couches se revelent l'une apres l'autre, chacune avec sa propre
+   course : le panneau du footer monte, « ON COMMANDE » reste ancre dans le
+   viewport, puis « ON SIROTE SNAKI » et les mains entrent par-dessus.
+
+   Architecture : `.editorial-reveal` est un rail de scroll haut de
+   REVEAL_VH. A l'interieur, `.editorial-stage` est `sticky` et fait
+   exactement une hauteur d'ecran : elle se fige pendant que le rail
+   defile, ce qui donne aux couches une vraie distance de course sans
+   avoir a epingler quoi que ce soit en JS (donc sans saut de position).
+   ========================================================================== */
+/* Fond de page a la couleur du footer : si un navigateur laisse malgre tout
+   depasser une bande sous la scene (barre d'URL iOS qui se replie), elle se
+   lit comme le creme du footer et non comme le gris du navigateur. */
+html,body{background:#f5e4cd}
+
+/* Rail de scroll : il fournit la distance de la revelation. Il commence
+   DANS la section precedente (marge negative) pour que le rail soit deja
+   entame — donc le panneau deja un peu monte, sa bande visible — au moment
+   ou l'on atteint la fin de cette section. */
+.editorial-reveal{position:relative;
+  /* Au-dessus des sections precedentes (`.dance` z-2, `.picks` z-100) :
+     la bande de footer qu'on apercoit doit passer PAR-DESSUS elles, pas
+     derriere, sinon la revelation est masquee pendant le chevauchement. */
+  z-index:200;
+  /* Declares sur la regle de base (et pas seulement dans le @media) pour
+     que le JS puisse les lire via getComputedStyle. */
+  --reveal-run:320svh;--reveal-peek:14svh;
+  /* La scene collante occupe 100svh EN HAUT du rail : le dernier ecran du
+     rail n'est donc jamais atteignable (la page s'arrete quand le bas du
+     rail touche le bas de l'ecran). On ajoute cette hauteur pour que la
+     course annoncee par --reveal-run soit reellement parcourue, sinon la
+     fin de la revelation — et le declenchement en bas — sont hors d'atteinte. */
+  height:calc(var(--reveal-run) + 100svh);
+  /* Pas de marge negative : c'est le ScrollTrigger (`start:'top bottom'`)
+     qui fait commencer la revelation quand le haut du rail atteint le bas
+     de l'ecran, donc pendant que la section precedente remplit encore le
+     cadre. Le raccord reste continu sans chevaucher le DOM.
+
+     Fond transparent : la section precedente est `sticky`, elle reste donc
+     affichee AVEC son contenu derriere le panneau qui monte. Un aplat de
+     couleur ici la masquerait et on ne verrait qu'un fond vide. */
+  background:transparent;
+  pointer-events:none}
+/* Scene figee : elle se colle en haut de l'ecran pendant qu'on traverse le
+   rail, ce qui donne aux couches une vraie distance de course sans epingler
+   quoi que ce soit en JS (donc sans saut de position).
+
+   Fond transparent : la section precedente reste visible (avec son propre
+   contenu) partout ou le panneau ne la couvre pas encore. */
+/* `dvh` et non `svh` : sur iOS la barre d'URL se replie au scroll et le
+   viewport visible devient PLUS GRAND que `svh`. Une scene dimensionnee en
+   `svh` laissait alors une bande non peinte en bas de l'ecran — le gris de
+   Safari. `dvh` suit cette variation. `svh` reste en repli pour les
+   navigateurs qui ne connaissent pas `dvh`. */
+.editorial-stage{position:sticky;top:0;height:100svh;height:100dvh;
+  overflow:hidden;background:transparent;pointer-events:none}
+
+/* Le footer remplit la scene. Il ne porte plus de min-height : c'est la
+   scene qui donne la hauteur, et `yPercent` (en JS) qui le fait monter. */
+/* Le panneau est plus HAUT que la scene (`bottom:-100%`) : quand il est
+   encore decale vers le bas, son fond creme descend malgre tout jusqu'en
+   bas de l'ecran. Aucun vide ne peut donc apparaitre sous lui pendant la
+   montee, et la section precedente reste visible au-dessus de son bord. */
+.editorial-footer{position:absolute;z-index:1;top:0;left:0;right:0;bottom:-100%;
+  padding:3vw 3vw 2vw;
+  background:#f5e4cd;color:#151514;isolation:isolate;
+  /* Clippe les couches : « ON COMMANDE » est contre-translate vers le haut
+     pour rester ancre, il ne doit pas deborder sur la section precedente. */
+  overflow:hidden;
+  will-change:transform;pointer-events:auto}
+
+/* Bord haut ondule du panneau.
+   Le decoupage est pose en JS (`clip-path: path()`, voir `paintWave` dans
+   App.tsx) : il est recalcule a chaque frame pour onduler. On evite ici un
+   masque en data-URI SVG, qui obligeait le navigateur a redecoder une image
+   entiere par frame — d'ou des saccades tres visibles.
+   Rien a declarer en CSS donc : le `clip-path` initial est pose au montage,
+   avant la premiere peinture. */
+
+/* --- Couche 2 : « ON SIROTE SNAKI » -------------------------------------
+   Lettres creuses, au-dessus du panneau et de « ON COMMANDE ». Part
+   masquee : revelee progressivement par le scroll. */
+.editorial-headline{position:absolute;z-index:7;top:20vh;left:0;right:0;margin:0;
+  text-align:center;text-transform:uppercase;
+  font:400 clamp(5rem,24vw,30rem)/.8 'Mouse Memoirs';
+  letter-spacing:-.045em;white-space:nowrap;pointer-events:none}
+.editorial-word{display:inline-block;color:transparent;
+  -webkit-text-stroke:clamp(2px,.22vw,4px) var(--ink);paint-order:stroke fill;
+  opacity:1}
+
+/* Lettres du titre : chacune bouge independamment au passage du curseur.
+   Deux couches : l'exterieur tient l'ondulation figee du titre, l'interieur
+   recoit les transformations de GSAP au passage du curseur. */
+.editorial-char{display:inline-block;overflow:visible;transform:translateY(var(--wave,0))}
+.editorial-char-rise{display:inline-block}
+.editorial-char-in{position:relative;display:inline-block;overflow:visible}
+
+/* Semis de gouttelettes gazeuses. */
+.editorial-fizz{position:absolute;z-index:2;inset:0;overflow:hidden;pointer-events:none}
+.fizz-bubble{position:absolute;bottom:0;display:block;border-radius:50%;background:radial-gradient(circle at 34% 30%,rgba(255,255,255,.98),rgba(255,255,255,.5) 46%,rgba(235,88,33,.12) 74%,transparent 80%);will-change:transform}
+
+@media(prefers-reduced-motion:reduce){
+  .editorial-fizz{display:none}
+}
+
+/* --- Couche 1 : « ON COMMANDE » -----------------------------------------
+   Deja visible dans la bande de footer qu'on apercoit avant le rail, et
+   ancre a la meme position du viewport pendant toute la revelation : le JS
+   lui applique l'inverse exact de la montee du panneau. */
+/* Ancre bas de composition : « ON COMMANDE » se lit SOUS le titre et sous
+   les mains. Position choisie pour tomber dans la bande de footer apercue
+   avant le rail (voir --reveal-peek) : le bouton y est deja visible, puis
+   il reste fige a cette place pendant toute la revelation. */
+/* Au-dessus des mains (z-8) ET des pastilles physiques (z-10) : rien ne
+   doit recouvrir le bouton, qui reste l'element cliquable. */
+.editorial-bottom{position:absolute;z-index:11;left:0;right:0;
+  /* Cale en haut de la scene : c'est le JS qui pose sa position (ancrage
+     ANCHOR), et `offsetTop: 0` rend ce calcul exact. */
+  top:0;
+  display:flex;flex-direction:column;align-items:center;gap:1.6vw;
+  will-change:transform;pointer-events:auto}
+.editorial-cta{display:inline-flex;align-items:center;justify-content:center;padding:.78em 2em;color:#f5e4cd;background:var(--ink);border-radius:999px;text-decoration:none;text-transform:uppercase;white-space:nowrap;font:400 clamp(1.05rem,1.55vw,1.55rem)/1 'Mouse Memoirs';letter-spacing:.03em;transition:transform .2s ease,background-color .2s ease}
+.editorial-cta:hover{background:var(--pink);transform:rotate(-1.5deg) scale(1.02)}
+
+/* --- Couche 3 : les mains ------------------------------------------------
+   Couche la plus haute. Elles n'apparaissent pas en fondu : elles entrent
+   dans la composition depuis le bas-exterieur du cadre, en pivotant, comme
+   deux bras qui se levent pour trinquer. */
+.editorial-hands{position:absolute;z-index:8;inset:0;overflow:hidden;pointer-events:none}
+/* Aucun filtre : le `drop-shadow` ajoutait un flou autour du decoupage.
+   `will-change` est volontairement absent — il forcait une couche
+   rasterisee que les transformations rendaient floue pendant l'entree. */
+.editorial-hand{position:absolute;height:auto;object-fit:contain;
+  transform-origin:50% 100%;backface-visibility:hidden}
+/* Mains remontees (30vh -> 24vh) en desktop : elles etaient un peu basses
+   dans la composition, trop pres du bouton. Le mobile garde sa valeur, plus
+   bas dans le bloc. */
+.editorial-hand-left{left:-14vw;top:24vh;bottom:auto;width:66vw}
+.editorial-hand-right{right:-8vw;top:24vh;bottom:auto;width:58.5vw}
+
+/* Gerbe projetee au moment du contact des deux gobelets. */
+/* --- Gobelets physiques -------------------------------------------------
+   Une averse de gobelets Snaki projetee au dernier scroll du footer. Chacun
+   est simule par un rectangle aux dimensions de son image : les collisions
+   se lisent donc comme des gobelets qui s'entrechoquent.
+
+   Ils sautent, rebondissent et retombent en vrac au fond. Aucun rangement :
+   les positions finales sont celles que produit la simulation.
+
+   Couche sous le bouton (z-11) pour qu'il reste lisible et cliquable. */
+.editorial-physics{position:absolute;z-index:10;top:0;left:0;right:0;
+  height:100svh;height:100dvh;overflow:hidden;pointer-events:none}
+.phys-cup{position:absolute;top:0;left:0;
+  width:var(--cw,3.1vw);height:auto;
+  will-change:transform;opacity:0}
+@media(max-width:760px){
+  /* Nettement plus grands en proportion : l'ecran est etroit, a la taille
+     desktop ils seraient minuscules. Le facteur est donc plus eleve que la
+     simple mise a l'echelle du viewport. */
+  .phys-cup{width:calc(var(--cw,3.1vw) * 2.75)}
+}
+
+@media(max-width:760px){
+  /* Un ecran de scroll en moins qu'en desktop : la revelation est plus
+     directe et on atteint le fond du footer (donc l'eclatement) sans un
+     dernier ecran de scroll a vide. */
+  .editorial-reveal{--reveal-run:200svh;--reveal-peek:12svh}
+  .editorial-footer{padding:12vw 5vw 5vw}
+  /* Titre sur deux lignes : a 52vw « SIROTE » tient dans la largeur tout
+     en restant tres imposant. */
+  /* Les deux mots sont l'un SOUS l'autre (`display:block`), donc seule la
+     largeur d'un mot compte. A 30vw, « SIROTE » ne mesurait que 196px sur un
+     ecran de 390 : le titre flottait au milieu avec ~100px de vide de chaque
+     cote. A 55vw il occupe la largeur utile en gardant une petite marge.
+     Le contour suit la taille des lettres, sinon il disparait. */
+  .editorial-headline{top:14vh;font-size:55vw;line-height:.88;
+    letter-spacing:-.04em;white-space:normal}
+  .editorial-word{display:block;-webkit-text-stroke-width:4px}
+
+  .editorial-hand-left{left:-55vw;top:34vh;bottom:auto;width:112vw}
+  .editorial-hand-right{right:-46vw;top:34vh;bottom:auto;width:99.3vw}
+
+  .doodle-1{top:12%;left:34%}
+  .doodle-2{top:20%;left:62%}
+  .doodle-3{top:72%;left:9%}
+  .doodle-4{top:15%;right:12%}
+  .doodle-squiggle{bottom:16%;left:8%;width:60px}
+
+  /* Pastilles physiques nettement plus petites : a taille desktop elles
+     couvraient la moitie de l'ecran et le tas devenait illisible. */
+
+  .editorial-bottom{gap:4vw}
+  .editorial-cta{padding:.72em 1.6em;font-size:1.15rem}
+}
+
+/* Mouvement reduit : pas de rail ni de scene figee, le footer est un bloc
+   normal en fin de page avec toutes les couches visibles. */
+@media(prefers-reduced-motion:reduce){
+  /* Ni rail ni scene figee : le footer redevient un bloc normal en fin de
+     page, toutes les couches visibles, empilees dans l'ordre de lecture. */
+  .editorial-reveal{height:auto;background:none}
+  .editorial-stage{position:static;height:auto;overflow:visible}
+  /* Le panneau reprend le flux et porte le fond : plus de debordement
+     (`bottom:-100%`) qui laisserait voir le rail sous le bouton. */
+  /* Panneau remis dans le flux. Le masque est retire : la hauteur devient
+     libre, donc l'aplat calibre sur la scene rognerait le bas du contenu. */
+  .editorial-footer{position:relative;inset:auto;min-height:auto;
+    display:flex;flex-direction:column;align-items:center;
+    padding:10vh 3vw 8vh;
+    /* `!important` : le `clip-path` est pose en style inline par le JS. En
+       mouvement reduit la vague n'est pas animee et la hauteur du panneau
+       est libre, donc un chemin calibre sur la scene rognerait le bas. */
+    clip-path:none!important}
+  .editorial-headline{position:relative;top:auto;padding-bottom:4vh}
+  /* Les mains reprennent une place dans le flux plutot que d'etre
+     positionnees en absolu dans un cadre qui les rognerait. */
+  .editorial-hands{position:relative;inset:auto;width:100%;
+    height:min(52svh,420px);overflow:visible}
+  .editorial-hand-left{left:0;top:auto;bottom:0;width:52%}
+  .editorial-hand-right{right:0;top:auto;bottom:0;width:46%}
+  .editorial-bottom{position:relative;top:auto;margin-top:2vh}
+  .editorial-word,.editorial-char-rise,
+  .editorial-bottom,.editorial-hand{opacity:1}
+}
+@media(prefers-reduced-motion:reduce){.about-eyebrow,.about-intro,.media-item,.about-cta{opacity:1}}
+
+/* --- Section "Experience" : fond plein, yeux qui suivent le curseur --- */
+.experience{position:relative;z-index:2;margin-top:-1px;padding:16vw 2vw 6vw;text-align:center;background:#eb5821;overflow:hidden}
+.exp-eyebrow{margin:0 auto;color:#62321e;font:400 clamp(1.4rem,2.8vw,3rem)/.9 'Modak';-webkit-text-stroke:clamp(3px,.32vw,6px) #fff;paint-order:stroke fill;transform:rotate(-8deg);opacity:0;mix-blend-mode:overlay}
+.exp-title{display:block;width:96%;margin:5vw auto 0;color:#f5e4cd;text-transform:uppercase;font:400 clamp(4.2rem,14vw,15rem)/.75 'Mouse Memoirs';letter-spacing:-.01em}
+.exp-title-2{margin-top:0;font-size:clamp(5rem,16.5vw,18rem)}
+.exp-row{display:flex;align-items:flex-end;justify-content:space-between;gap:2vw;width:100%;margin-top:3vw}
+.exp-stat{width:10%;margin:0;color:#f5e4cd;text-align:left;text-transform:uppercase;font:400 clamp(1rem,1.7vw,1.9rem)/1.15 'Mouse Memoirs';opacity:0}
+.exp-stat-right{text-align:right}
+.exp-face{position:relative;width:min(94vw,1450px);opacity:0}
+.exp-product{display:block;width:100%;height:auto;object-fit:contain}
+.exp-eye{position:absolute;top:26%;z-index:20;width:9%}
+.exp-eye:first-of-type{left:41%;transform:translateX(-50%)}
+.exp-eye.is-right{right:41%;transform:translateX(50%)}
+.exp-brow{display:block;width:100%;margin:0 auto .8vw}
+.exp-eye.is-right .exp-brow{transform:scaleX(-1)}
+.exp-eyeball{display:grid;place-items:center;width:100%;aspect-ratio:2/3;margin:0 auto;overflow:hidden;background:#fff;border-radius:50%/60%}
+.exp-eye-inner{position:relative;display:grid;place-items:center;width:72%;height:76%;background:#fff;border-radius:50%/60%}
+/* Un bras pivote autour du centre ; la pupille est fixee a son extremite. */
+.exp-pupil-arm{position:absolute;top:50%;left:50%;width:100%;height:38%;transform:translate(-50%,-50%);transform-origin:50% 50%}
+.exp-pupil-arm i{display:block;width:52%;height:100%;background:#151514;border-radius:50%/55%}
+.exp-badge{position:absolute;z-index:30;right:26%;bottom:12%;width:20%;margin:0;color:#62321e;text-align:center;font:400 clamp(1rem,2.4vw,2.6rem)/.9 'Modak';-webkit-text-stroke:clamp(3px,.3vw,6px) #fff;paint-order:stroke fill;opacity:0}
+@media(max-width:760px){
+  .experience{padding:26vw 4vw 22vw}
+  .exp-eyebrow{font-size:7vw;transform:rotate(0deg)}
+  .exp-title{font-size:22vw}
+  .exp-title-2{font-size:26vw}
+  /* Les deux blocs d'arguments encadrent le bas de l'image. */
+  .exp-row{display:block;position:relative;margin-top:8vw;padding-bottom:26vw;overflow-x:clip}
+  .exp-face{width:118vw;margin-left:-15vw;margin-right:-3vw}
+  .exp-stat{position:absolute;bottom:0;z-index:20;width:auto;font-size:1.15rem;line-height:1.15;white-space:nowrap}
+  .exp-stat:not(.exp-stat-right){left:3vw;text-align:left}
+  .exp-stat-right{right:3vw;text-align:right}
+  .exp-badge{font-size:6vw;width:30%;right:26%}
+}
+@media(prefers-reduced-motion:reduce){.exp-eyebrow,.exp-face,.exp-stat,.exp-badge{opacity:1}}
+
+/* Conteneur du composant Droplets autour de la section Experience.
+   Il superpose un canvas au contenu : sans dimension explicite le canvas
+   s'effondre, d'ou la largeur pleine et le bloc. */
+.experience-droplets{display:block;width:100%;position:relative;z-index:2}
+
+/* --- Section "Dance" : affiche jaune, titre imbrique, pluie d'ingredients --- */
+/* `sticky` : la section reste collee en haut de l'ecran pendant que le
+   footer remonte PAR-DESSUS elle. Sans cela elle defile hors du cadre et on
+   ne voyait plus qu'un aplat jaune vide derriere la vague. */
+.dance{position:sticky;top:0;z-index:2;min-height:100svh;margin-top:-1px;padding:9vw 3vw 0;overflow:hidden;background:#f5c518;isolation:isolate}
+/* Variante photo : l'image occupe tout le cadre, plus de padding (le titre
+   et les ingredients ont disparu). La coquille reste `sticky` : c'est sur
+   elle que repose la revelation du footer et sa vague. */
+/* Fond orange, comme la section qui precede (`.travel`) : c'est lui qu'on
+   voit dans le creux de la vague du haut, donc le raccord prolonge cette
+   section au lieu de faire reapparaitre un jaune qui n'existe plus ici. */
+/* Section allongee (100svh -> 190svh) : elle est `sticky`, donc la photo
+   reste figee en plein ecran pendant qu'on parcourt cette hauteur. C'est
+   cette distance qui donne le temps de voir les stickers se poser un a un
+   — a 100svh la course etait trop courte et ils s'enchainaient trop vite.
+   La photo elle-meme ne change pas de taille (voir `.dance-shot`). */
+.dance-photo{padding:0;min-height:300svh;background:var(--dance-behind,#eb5821)}
+/* `<picture>` est un simple conteneur en ligne : il ne doit pas s'inserer
+   dans la mise en page, c'est l'`<img>` a l'interieur qui est positionnee. */
+.dance-frame picture{display:contents}
+
+/* La photo couvre TOUT le cadre. Elle depasse volontairement (inset
+   negatif) car elle est animee en `yPercent` (parallaxe) : sans cette marge
+   un bord apparaitrait aux extremes de la course. */
+/* Cale sur la HAUTEUR D'ECRAN et non sur celle de la section (desormais
+   plus haute) : la section est `sticky`, son cadre est donc fige a l'ecran
+   et l'image doit remplir cet ecran, pas les 190svh. `absolute` + `top:0`
+   la colle au haut de la section : deux `sticky` imbriques ne fonctionnent
+   pas, l'enfant se decale dans le conteneur allonge.
+
+   Le debordement (116svh) sert a la parallaxe, mais il depassait EN BAS de
+   l'ecran : la section faisant 190svh, son `overflow:hidden` clippe a
+   1604px et non au bord du cadre, si bien qu'une bande de photo restait
+   visible sous le footer. `clip-path` la borne donc a la hauteur d'ecran. */
+/* Cadre fixe qui clippe : une hauteur d'ecran exactement, cale en haut de
+   la section (elle est `sticky`, donc ce cadre est fige a l'ecran).
+   `overflow:hidden` ici plutot qu'un `clip-path` sur l'image : celle-ci est
+   transformee par GSAP, une decoupe posee dessus se deplacerait avec elle.
+   On utilise `100%` (et non `100svh`) car la hauteur reelle du cadre est
+   celle de la section coincee a l'ecran — sur iOS, `svh` et la hauteur
+   effective divergent quand la barre d'URL se replie, ce qui laissait
+   passer une bande de photo. */
+.dance-frame{position:absolute;z-index:1;top:0;left:0;right:0;
+  height:100svh;height:100dvh;
+  overflow:hidden;pointer-events:none}
+/* L'image deborde volontairement du cadre (haut et bas) : c'est cette marge
+   que consomme la parallaxe. Le cadre la masque. */
+.dance-shot{position:absolute;top:-8%;left:0;width:100%;height:116%;
+  object-fit:cover;object-position:50% 42%;
+  /* Anime en `scale`/`yPercent` au scroll : la couche est preparee une fois. */
+  will-change:transform}
+/* Vague orange sur le bord haut de l'image. Meme principe que
+   `.wave-photo-cut` : un trace SVG peint par-dessus la photo, et non un
+   decoupage de celle-ci — c'est ce qui donne le raccord franc de la
+   reference. */
+.dance-cut{position:absolute;z-index:3;top:0;left:0;right:0;width:100%;
+  pointer-events:none}
+.dance-cut .wave{position:relative;z-index:auto;top:0}
+.dance-cut svg{display:block;width:100%;height:min(14vw,210px)}
+@media(max-width:760px){
+  .dance-cut svg{height:22vw}
+  /* Hauteur maintenue a 190svh : la course desktop a ete rallongee a 300svh
+     pour ralentir le scroll, mais en mobile le rythme convenait deja. */
+  .dance-photo{min-height:190svh}
+}
+
+/* Accroche sur la photo : centree, au-dessus de l'image et des stickers.
+   L'ombre portee la detache du fond quel que soit ce qu'il y a dessous. */
+/* Cale sur la hauteur d'ECRAN : la section fait desormais 190svh, un `top`
+   en pourcentage de celle-ci ferait deriver le texte vers le bas pendant
+   qu'on la traverse. */
+.dance-claim{position:absolute;z-index:5;left:0;right:0;top:50svh;top:50dvh;margin:0;
+  transform:translateY(-50%);
+  text-align:center;text-transform:uppercase;color:#fff;
+  font:400 clamp(2.4rem,7vw,7rem)/.92 'Mouse Memoirs';letter-spacing:-.02em;
+  /* Contour orange + ombre : le texte tient sur n'importe quelle zone de la
+     photo. `paint-order` peint le contour SOUS le remplissage, sinon il
+     rognerait l'interieur des lettres. */
+  -webkit-text-stroke:clamp(2px,.32vw,5px) var(--pink);
+  paint-order:stroke fill;
+  text-shadow:0 4px 24px rgba(21,21,20,.45);pointer-events:none}
+@media(max-width:760px){
+  .dance-claim{font-size:14vw;line-height:.95}
+}
+
+/* --- Stickers sur la photo ----------------------------------------------
+   Ils se posent un a un au scroll (voir DanceSection). L'inclinaison vit
+   dans une variable CSS appliquee au conteneur : GSAP anime `scale` et
+   `opacity` sur l'image a l'interieur, les deux ne se marchent donc pas
+   dessus. */
+/* Meme raison que `.dance-claim` : la couche est bornee a l'ecran, sinon
+   les stickers (positionnes en %) se repartiraient sur les 190svh et
+   sortiraient du cadre visible. */
+.dance-stickers{position:absolute;z-index:4;top:0;left:0;right:0;
+  height:100svh;height:100dvh;
+  overflow:hidden;pointer-events:none}
+.dance-sticker{position:absolute;height:auto;
+  transform:rotate(var(--rot,0deg));transform-origin:50% 50%;
+  will-change:transform,opacity;opacity:0;
+  /* Ombre courte : l'autocollant est pose SUR la photo, il ne flotte pas. */
+  filter:drop-shadow(0 6px 10px rgba(21,21,20,.28))}
+@media(max-width:760px){
+  /* Plus grands en proportion : l'ecran est etroit, a 12vw ils seraient
+     illisibles. Positions resserrees : les deux stickers de droite etaient
+     calibres sur une largeur desktop et sortaient du cadre. */
+  .dance-sticker{width:28vw!important}
+  /* Quatre stickers : positions resserrees, celles calibrees en `vw` pour
+     le desktop sortaient du cadre etroit. */
+  .dance-sticker:nth-child(1){left:6%!important;top:14%!important}
+  .dance-sticker:nth-child(2){left:62%!important;top:28%!important}
+  .dance-sticker:nth-child(3){left:10%!important;top:58%!important}
+  .dance-sticker:nth-child(4){left:60%!important;top:70%!important}
+}
+
+/* Voile sombre en bas de l'image : la vague creme du footer et le bouton
+   « ON COMMANDE » se detachent quel que soit le contenu de la photo. */
+.dance-photo:after{content:'';position:absolute;z-index:2;inset:auto 0 0;
+  height:38%;pointer-events:none;
+  background:linear-gradient(rgba(21,21,20,0),rgba(21,21,20,.42))}
+
+/* Mentions verticales aux bords. */
+
+/* Message surdimensionne : il occupe presque tout l'ecran et deborde
+   volontairement du cadre, pour donner la sensation d'etre a l'interieur
+   d'une affiche plutot que devant un titre centre. `overflow:hidden` sur
+   la section coupe proprement ce qui depasse. */
+/* Vague de separation entre deux sections (le trace est anime en JS). */
+.wave{position:absolute;left:0;right:0;z-index:9;width:100%;overflow-x:clip;pointer-events:none}
+.wave--top{top:0}
+.wave--bottom{bottom:-.5vw}
+.wave svg{display:block;width:100%;max-width:100vw;height:240px}
+@media(max-width:760px){.wave svg{height:110px}.wave--bottom{bottom:0}}
+
+
+/* --- Bande "drink" : la photo elle-meme prend la forme de la vague --- */
+.drink-band{position:relative;z-index:4;padding:0;overflow:hidden;background:#eb5821}
+.wave-photo{position:relative;width:100%;height:min(74vw,1030px);overflow:hidden}
+.wave-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 42%;opacity:0}
+.wave-photo-cut{position:absolute;left:0;right:0;width:100%;pointer-events:none}
+.wave-photo-cut svg{display:block;width:100%;height:min(20vw,300px)}
+.wave-photo-cut--top{top:0}
+.wave-photo-cut--bottom{bottom:-1px}
+@media(prefers-reduced-motion:reduce){.wave-photo img{opacity:1}}
+@media(max-width:760px){
+  .wave-photo{height:138vw}
+  .wave-photo-cut svg{height:26vw}
+}
+
+/* --- Section "voyage" : trace en pointilles + cartes de villes --- */
+.travel{position:relative;z-index:2;width:100%;margin-top:-8vw;overflow:hidden;background:#eb5821}
+.travel-track{position:relative;width:100%;height:142vw}
+.travel-path{position:absolute;top:0;left:0;width:100%;height:100%}
+.travel-flyer{position:absolute;top:0;left:0;z-index:3;width:16vw;pointer-events:none;will-change:transform}
+.travel-flyer img{display:block;width:100%;height:auto}
+.travel-copy{position:relative;z-index:10;margin-top:20vw;padding:0 4vw}
+.travel-eyebrow{margin:0 0 2vw 1vw;color:#62321e;text-transform:uppercase;transform:rotate(-7deg) translateY(-2vw);font:400 clamp(1.4rem,2.8vw,3rem)/.9 'Modak';-webkit-text-stroke:clamp(3px,.3vw,6px) #fff;paint-order:stroke fill}
+.travel-title{width:80vw;margin:0;color:#fff;text-transform:uppercase;font:400 clamp(3rem,11vw,12rem)/.85 'Mouse Memoirs';-webkit-text-stroke:clamp(4px,.45vw,8px) #eb5821;paint-order:stroke fill}
+.travel-text{width:30vw;margin:2vw 0 0 1vw;color:#f5e4cd;font:400 clamp(1rem,1.6vw,1.7rem)/1.1 'Mouse Memoirs'}
+.travel-spot{position:absolute;z-index:20;display:flex;flex-direction:column;gap:1.5vw;opacity:0;cursor:pointer;will-change:transform}
+.travel-city{margin:0;color:#62321e;text-transform:uppercase;font:400 clamp(1.1rem,2.2vw,2.4rem)/.9 'Modak';-webkit-text-stroke:2px #fff;paint-order:stroke fill}
+.travel-shot{width:14vw;height:17vw;overflow:hidden;border-radius:1vw;background:#fff}
+.travel-shot img{display:block;width:100%;height:100%;object-fit:cover}
+/* Credits photo : obligation des licences CC BY-SA, donc conserves, mais
+   replies en bas du pied de page pour ne pas peser dans la lecture. */
+.footer-credits{margin:.25rem auto 1.5rem;max-width:min(90vw,640px);color:currentColor;opacity:.5;font:10px/1.6 sans-serif;text-align:center}
+.footer-credits summary{width:fit-content;margin:0 auto;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.footer-credits ul{list-style:none;padding:0;margin:.6rem 0 0}
+.footer-credits li{margin:.15rem 0}
+.footer-credits a{color:inherit;text-underline-offset:2px}
+.spot-1 .travel-shot img{object-position:55% center}
+.spot-2 .travel-shot img{object-position:left center}
+.spot-5 .travel-shot img{object-position:75% center}
+.spot-1{top:32vw;right:5vw;align-items:flex-end}.spot-1 .travel-city{transform:rotate(7deg)}
+.spot-2{top:44vw;left:35vw;align-items:flex-start}.spot-2 .travel-city{transform:rotate(-7deg)}
+.spot-3{top:66vw;right:20vw;align-items:flex-end}.spot-3 .travel-city{transform:rotate(12deg)}
+.spot-4{top:90vw;left:15vw;align-items:flex-start}.spot-4 .travel-city{transform:rotate(-12deg)}
+.spot-5{top:114vw;right:14vw;align-items:flex-end}.spot-5 .travel-city{transform:rotate(6deg)}
+@media(max-width:760px){
+  .travel-track{display:block;height:390vw;padding:0}
+  .travel{margin-top:-12vw}
+  .travel-path{display:block;width:100%;height:100%}
+  .travel-flyer{display:block;z-index:6;width:29vw}
+  .travel-copy{position:absolute;top:28vw;left:0;width:100%;margin:0;padding:0 5vw}
+  .travel-eyebrow{margin:0 0 4vw;font-size:8vw;transform:rotate(-5deg)}
+  .travel-title{width:100%;font-size:15vw;line-height:.82}
+  .travel-text{width:88%;margin:5vw 0 0;font-size:1.15rem;line-height:1.12}
+  .travel-spot{position:absolute;gap:2vw;opacity:0;align-items:flex-start}
+  .travel-city{font-size:5.5vw;transform:none!important}
+  .travel-shot{width:36vw;height:44vw;border-radius:3vw}
+  .spot-1{top:116vw;right:6vw;left:auto}
+  .spot-2{top:165vw;left:7vw;right:auto}
+  .spot-3{top:218vw;right:8vw;left:auto}
+  .spot-4{top:274vw;left:7vw;right:auto}
+  .spot-5{top:330vw;right:8vw;left:auto}
+}
+@media(prefers-reduced-motion:reduce){.travel-spot{opacity:1}}
+
+/* --- Footer : newsletter en tete, nav a gauche, scene centrale --- */
+/* Sur /bobas, la navigation reprend exactement les couleurs de l'accueil. */
+body[data-route="bobas"] .logo-image img{filter:none;opacity:1}
+body[data-route="bobas"] .nav-menu{color:#151514;border-color:#62321e}
+body[data-route="bobas"] .nav-menu b{color:#151514}
+body[data-route="bobas"] .nav-menu i{background:#151514}
+body[data-route="bobas"] .nav-menu:hover{border-color:#62321e}
+body[data-route="bobas"] .nav-menu.is-open{color:#f5e4cd;border-color:#eb5821}
+body[data-route="bobas"] .nav-menu.is-open b{color:#f5e4cd}
+body[data-route="bobas"] .nav-menu.is-open i{background:#f5e4cd}
+
+
+/* --- Rideau de transition entre pages --- */
+.page-transition{position:fixed;inset:0;z-index:9999;width:100%;height:100dvh;overflow:hidden;pointer-events:none}
+.page-transition svg{position:absolute;inset:0;width:100%;height:100%}
+.page-transition-label{position:absolute;inset:0;z-index:10;display:grid;place-items:center;opacity:0;pointer-events:none}
+.page-transition-label span{color:#62321e;text-transform:uppercase;font:400 clamp(3rem,9vw,9rem)/1 'Modak';letter-spacing:-.02em}
+
+/* --- Page /bobas : hero affiche plein cadre --- */
+.bobas-hero{position:relative;width:100%;height:100svh;min-height:560px;overflow:hidden;background:#151514;isolation:isolate}
+.bobas-hero-photo{position:absolute;inset:0;z-index:1;display:block;width:100%;height:100%;object-fit:cover;object-position:center 58%;will-change:transform}
+.bobas-hero-scrim{position:absolute;inset:0;z-index:2;background:rgba(21,21,20,.12);pointer-events:none}
+.bobas-hero-title{position:absolute;z-index:4;left:50%;bottom:24%;width:82vw;margin:0;transform:translateX(-50%);color:#eb5821;text-align:center;text-transform:uppercase;font:400 clamp(4.2rem,14.5vw,17rem)/.78 'Mouse Memoirs';letter-spacing:-.015em;-webkit-text-stroke:clamp(6px,1vw,18px) #fff;paint-order:stroke fill}
+.bobas-hero-wave{position:absolute;z-index:5;left:0;bottom:-1px;width:100%;pointer-events:none}
+.bobas-hero-wave svg{display:block;width:100%;height:min(20vw,300px)}
+@media(max-width:760px){
+  .bobas-hero{height:80vh;min-height:480px}
+  .bobas-hero-photo{object-position:center center}
+  .bobas-hero-title{width:100vw;bottom:22%;font-size:26vw;line-height:.69;-webkit-text-stroke-width:6px}
+  .bobas-hero-wave svg{height:70px}
+}
+
+/* --- Grille des boissons (/bobas) --- */
+.picks{position:relative;z-index:100;width:100%;padding:0 3vw 6vw;background:#f5e4cd;overflow:hidden}
+.picks-head{display:flex;justify-content:space-between;align-items:flex-end;padding-top:5vw;margin-top:0}
+.picks-titles{width:fit-content}
+.picks-eyebrow{position:relative;z-index:2;margin:0 0 2.4vw 1vw;color:#c98a1e;text-transform:uppercase;font:400 clamp(1.1rem,2.2vw,2.4rem)/.9 'Modak';-webkit-text-stroke:clamp(2px,.22vw,4px) #fff;paint-order:stroke fill;transform:rotate(-7deg);opacity:0}
+.picks-title{margin:0;color:#eb5821;text-transform:uppercase;font:400 clamp(4.6rem,16.5vw,18.5rem)/.72 'Mouse Memoirs';letter-spacing:-.02em;-webkit-text-stroke:clamp(6px,.88vw,16px) #fff;paint-order:stroke fill}
+.picks-count{margin:0 0 1vw;color:var(--ink);text-transform:uppercase;white-space:nowrap;font:400 clamp(1rem,1.5vw,1.7rem)/1 'Mouse Memoirs';letter-spacing:.06em;opacity:0}
+.picks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2vw;margin-top:6vw}
+.pick-card{position:relative;height:35vw;overflow:hidden;border-radius:2vw;background:#fff;opacity:0}
+
+/* Damier centre : cache derriere le produit, il glisse au survol. */
+.pick-checker{position:absolute;z-index:1;left:0;top:50%;width:100%;height:6vw;transform:translateY(-50%);pointer-events:none}
+.pick-checker-row{display:flex;width:100%;height:3vw}
+.pick-checker i{display:block;width:8.3333%;height:100%;transition:background-color .5s}
+.pick-checker i.is-dark{background:#eb5821}
+.pick-checker i.is-light{background:#fff}
+
+.pick-body{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:space-between;width:100%;height:100%;padding:2vw}
+.pick-add{width:3vw;height:3vw;margin-left:auto;padding:.5vw;display:grid;place-items:center;border:0;border-radius:50%;background:#e8b33a;cursor:pointer;transition:transform .4s;will-change:transform}
+.pick-add:hover{transform:rotate(115deg) scale(1.1)}
+.pick-add svg{width:100%;height:100%;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round}
+.pick-shot{width:15vw;margin:0 auto;pointer-events:none;transition:transform .7s cubic-bezier(.5,1.45,.2,1);will-change:transform}
+.pick-shot img{display:block;width:100%;height:100%;object-fit:contain}
+.pick-card:hover .pick-shot{transform:scale(1.054)}
+
+.pick-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:1vw;font:400 clamp(1.5rem,2.5vw,2.9rem)/1 'Mouse Memoirs'}
+.pick-name{margin:0;color:#eb5821}
+.pick-price{margin:0;color:var(--ink)}
+
+/* Panneau de details : glisse depuis le bas au survol. */
+/* Cadre de details au survol. Il se posait sur le pied de carte (nom et
+   prix) qu'on lisait en transparence derriere lui : fond opaque et cadre
+   remonte au-dessus du pied pour que les deux restent lisibles. */
+.pick-details{position:absolute;z-index:3;left:2vw;right:2vw;bottom:2vw;
+  padding:1.6vw;border:1px solid rgba(21,21,20,.12);border-radius:1.2vw;
+  /* Fond opaque (et non translucide) : le nom et le prix de la carte se
+     lisaient en transparence a travers le cadre. */
+  background:#fffdf9;box-shadow:0 10px 30px rgba(21,21,20,.13);
+  opacity:0;transform:translateY(1vw);
+  transition:opacity .4s cubic-bezier(.45,.85,.34,1.12),transform .4s cubic-bezier(.45,.85,.34,1.12);
+  pointer-events:none;font:400 clamp(1rem,1.5vw,1.75rem)/1.2 'Mouse Memoirs'}
+/* Survol reserve aux pointeurs precis. Sur un ecran tactile, un tap laisse
+   un etat `:hover` collant : la carte restait donc ouverte meme apres que
+   le second tap ait retire la classe `is-open`, et rien ne se refermait. */
+@media(hover:hover) and (pointer:fine){
+  .pick-card:hover .pick-details{opacity:1;transform:translateY(0)}
+}
+/* Ouverture au tap, sur tout appareil tactile (le second tap referme, voir
+   `onCardTap`). Independant de la largeur : une tablette large est tactile
+   elle aussi. */
+.pick-card.is-open .pick-details{opacity:1;transform:translateY(0)}
+.pick-details-top{display:flex;justify-content:space-between;color:rgba(21,21,20,.6);text-transform:uppercase;letter-spacing:.1em}
+.pick-details-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8vw;margin-top:1vw}
+.pick-details-grid div{padding:.9vw 1vw;border:1px solid rgba(0,0,0,.1);border-radius:.9vw;background:rgba(0,0,0,.05)}
+.pick-details-grid span{display:block;color:rgba(21,21,20,.55);text-transform:uppercase}
+.pick-details-grid b{display:block;color:rgba(21,21,20,.85);font-weight:400;text-transform:uppercase}
+.pick-details-tags{display:flex;flex-wrap:wrap;align-items:center;gap:.5vw;margin-top:.7vw}
+/* Choix avec / sans lait, pose a cote des kcal. Le conteneur est un <span>,
+   donc il heritait de la pastille `.pick-details-tags span` (fond creme,
+   bordure, rayon 999px) : un cercle inutile venait englober les deux
+   boutons. On annule cet heritage -- seuls les boutons portent la pastille. */
+.pick-details-tags .pick-milk{display:inline-flex;gap:.4vw;padding:0;border:0;background:none;border-radius:0}
+.pick-milk-btn{padding:.5vw .9vw;border:1px solid rgba(0,0,0,.18);border-radius:999px;
+  background:transparent;color:rgba(21,21,20,.7);cursor:pointer;
+  font:inherit;text-transform:uppercase;
+  transition:background-color .25s,color .25s,border-color .25s}
+.pick-milk-btn:hover{border-color:#eb5821;color:#eb5821}
+.pick-milk-btn.is-on{border-color:#eb5821;background:#eb5821;color:#fff}
+.pick-details-tags span{display:inline-block;padding:.5vw .9vw;border:1px solid rgba(0,0,0,.1);border-radius:999px;background:#f5e4cd;color:rgba(21,21,20,.7);text-transform:uppercase}
+
+@media(max-width:760px){
+  .picks{padding:0 5vw 14vw}
+  .picks-head{flex-direction:column;align-items:flex-start;gap:2vw;margin-top:0}
+  .picks-eyebrow{font-size:4.5vw;transform:rotate(0deg);margin-left:0}
+  .picks-title{width:98vw;font-size:24vw;line-height:.7}
+  .picks-count{font-size:1.1rem;margin-bottom:0}
+  .picks-grid{grid-template-columns:1fr;gap:6vw;margin-top:8vw}
+  .pick-card{height:70vw;border-radius:5vw}
+  .pick-body{padding:4vw}
+  .pick-add{width:8vw;height:8vw;padding:1vw}
+  .pick-shot{width:29vw}
+  .pick-checker{height:14vw}
+  .pick-checker-row{height:7vw}
+  .pick-foot{font-size:6.4vw}
+  /* En mobile il n'y a pas de survol : le cadre s'affiche au TAP (classe
+     posee en JS sur la carte). On le garde donc dans le flux de rendu au
+     lieu de le supprimer, et il se replie tant que la carte n'est pas
+     touchee. */
+  .pick-details{left:3vw;right:3vw;bottom:3vw;
+    padding:3.4vw 3.6vw;border-radius:3.4vw;font-size:3.9vw}
+  .pick-details-grid{gap:1.8vw;margin-top:2.2vw}
+  .pick-details-grid div{padding:2.2vw 2.4vw;border-radius:2.4vw}
+  .pick-details-tags{margin-top:1.8vw}
+  .pick-details-tags span{padding:1.4vw 2.6vw}
+  .pick-details-tags .pick-milk{padding:0;border:0;background:none}
+  .pick-milk{gap:1.2vw}
+  .pick-milk-btn{padding:1.4vw 2.4vw}
+  /* Ouverture au tap : voir la regle globale plus bas, valable sur tout
+     ecran tactile et pas seulement sous 760px. */
+}
+@media(prefers-reduced-motion:reduce){.picks-eyebrow,.picks-count,.pick-card{opacity:1}}
+
+/* Menu deroulant de la nav */
+.nav-menu-wrap{position:relative}
+.nav-menu.is-open{color:#f5e4cd;background:#eb5821;border-color:#eb5821}
+.nav-menu.is-open i{background:#f5e4cd}
+.nav-menu-backdrop{position:fixed;z-index:998;inset:0;background:rgba(235,88,33,.1);backdrop-filter:blur(4px);opacity:0;pointer-events:none}
+.nav-menu-panel{position:absolute;z-index:999;top:calc(100% + 1vw);right:0;width:18vw;min-width:210px;padding:2vw;border-radius:1.2vw;background:#eb5821;box-shadow:0 1vw 3vw rgba(21,21,20,.25);opacity:0}
+.nav-menu-links{display:flex;flex-direction:column;gap:.6vw}
+.nav-menu-links a{color:#f5e4cd;text-decoration:none;text-transform:uppercase;font:400 clamp(1.4rem,2.4vw,2.8rem)/1.1 'Modak';letter-spacing:-.01em;transition:color .3s,transform .3s;transform-origin:left center}
+.nav-menu-links a:hover{color:#e8b33a;transform:scale(1.05)}
+.nav-menu-note{margin:1.5vw 0 0;padding-top:1vw;border-top:1px solid rgba(245,228,205,.2);color:rgba(245,228,205,.85);text-transform:uppercase;letter-spacing:.2em;font:400 clamp(.75rem,.9vw,1rem)/1 'Mouse Memoirs'}
+
+@media(max-width:760px){
+  .nav-menu-panel{width:91vw;padding:6vw;border-radius:4vw;top:calc(100% + 5vw)}
+  .nav-menu-links{gap:2vw}
+  .nav-menu-links a{font-size:8vw}
+  .nav-menu-note{margin-top:4vw;padding-top:3vw;font-size:3.5vw}
+}
+
+/* --- Panier flottant --- */
+.cart{position:fixed;z-index:900;right:2.5vw;bottom:2.5vw;display:flex;flex-direction:column;align-items:flex-end;gap:1vw}
+.cart-button{position:relative;width:4.1vw;height:4.1vw;display:grid;place-items:center;border:1px solid rgba(245,228,205,.2);border-radius:50%;background:#eb5821;color:#f5e4cd;cursor:pointer;transition:background .25s,transform .25s}
+.cart-button:hover{background:#151514;transform:scale(1.06)}
+.cart-button svg{width:52%;height:52%;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.cart-badge{position:absolute;top:-.35vw;right:-.35vw;display:grid;place-items:center;width:1.6vw;height:1.6vw;border:1px solid rgba(0,0,0,.1);border-radius:50%;background:#e8b33a;color:#151514;font:400 clamp(.8rem,1vw,1.2rem)/1 'Mouse Memoirs'}
+
+.cart-panel{position:absolute;right:0;bottom:calc(100% + 1vw);width:24vw;padding:1.6vw;border:1px solid rgba(245,228,205,.15);border-radius:1.4vw;background:#eb5821;color:#f5e4cd;box-shadow:0 1vw 3vw rgba(21,21,20,.25);transform-origin:bottom right;visibility:hidden;opacity:0;font:400 clamp(1rem,1.35vw,1.55rem)/1.25 'Mouse Memoirs'}
+.cart-panel-head{display:flex;justify-content:space-between;gap:1vw;text-transform:uppercase;letter-spacing:.06em}
+.cart-panel-head p{margin:0}
+.cart-panel-head b{font-weight:400}
+.cart-empty{margin:1vw 0 0;color:rgba(245,228,205,.9);text-transform:uppercase}
+.cart-lines{list-style:none;max-height:17vw;margin:1vw 0 0;padding:0;overflow-y:auto;display:flex;flex-direction:column;gap:.7vw}
+.cart-lines li{display:flex;align-items:center;justify-content:space-between;gap:.6vw;padding:.8vw 1vw;border:1px solid rgba(245,228,205,.15);border-radius:1vw;background:rgba(245,228,205,.1)}
+.cart-line-name{flex:1;text-transform:uppercase}
+.cart-line-qty{display:flex;align-items:center;gap:.5vw}
+.cart-line-qty button{width:1.7vw;height:1.7vw;display:grid;place-items:center;border:1px solid rgba(245,228,205,.3);border-radius:50%;background:transparent;color:#f5e4cd;cursor:pointer;font:400 1em/1 'Mouse Memoirs';transition:background .2s}
+.cart-line-qty button:hover{background:rgba(245,228,205,.2)}
+.cart-line-qty b{min-width:1.2em;text-align:center;font-weight:400}
+.cart-line-price{white-space:nowrap}
+.cart-checkout{width:100%;margin-top:1.2vw;padding:.8vw 1.2vw;border:0;border-radius:999px;background:#e8b33a;color:#151514;cursor:pointer;text-transform:uppercase;letter-spacing:.04em;font:400 1em/1 'Mouse Memoirs';transition:background .25s,color .25s}
+.cart-checkout:hover:not(:disabled){background:#151514;color:#f5e4cd}
+.cart-checkout:disabled{opacity:.55;cursor:not-allowed}
+
+/* Fenetre de paiement — carte franche au-dessus d'un site fortement floute. */
+.checkout-overlay{position:fixed;z-index:5000;inset:0;display:grid;place-items:center;padding:24px;background:rgba(207,111,66,.38);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);animation:checkout-fade .3s ease both}
+.checkout-modal{position:relative;width:min(90vw,520px);max-height:90dvh;overflow:auto;padding:22px 22px 18px;border-radius:16px;background:#eb5821;color:#fff;box-shadow:0 22px 54px rgba(98,50,30,.32);animation:checkout-pop .42s cubic-bezier(.2,.9,.25,1.15) both}
+.checkout-modal--summary,.checkout-modal--success{width:min(84vw,370px)}
+.checkout-close{position:absolute;top:18px;right:20px;width:43px;height:43px;border:2px solid rgba(255,255,255,.34);border-radius:50%;background:transparent;color:#fff;cursor:pointer;font:400 2rem/1 'Mouse Memoirs';transition:transform .2s,background .2s}
+.checkout-close:hover{background:rgba(255,255,255,.12);transform:rotate(8deg)}
+.checkout-kicker{margin:0 0 7px;text-transform:uppercase;letter-spacing:.22em;font:400 .82rem/1 'Mouse Memoirs';opacity:.75}
+.checkout-modal h2{margin:0 50px 13px 0;text-transform:uppercase;font:400 clamp(1.75rem,3.2vw,2.55rem)/.8 'Modak';letter-spacing:-.015em}
+.checkout-copy{max-width:440px;margin:0;text-transform:uppercase;font:400 clamp(.9rem,1.4vw,1.1rem)/1.28 'Mouse Memoirs';letter-spacing:.025em}
+.checkout-divider{display:block;width:max-content;margin:22px auto 13px;padding:6px 18px;border:1px solid rgba(255,255,255,.18);border-radius:999px;text-transform:uppercase;letter-spacing:.2em;font:400 .6rem/1 'Mouse Memoirs';opacity:.7}
+.checkout-brand{display:grid;place-items:center;min-height:64px;border:1px solid rgba(255,255,255,.17);border-radius:13px;background:rgba(255,255,255,.08);color:#fff;font:400 clamp(1.7rem,3.3vw,2.7rem)/1 'Modak';letter-spacing:.03em}
+.checkout-acknowledge{width:100%;margin-top:17px;padding:14px 20px;border:0;border-radius:999px;background:#fff;color:#151514;cursor:pointer;text-transform:uppercase;letter-spacing:.05em;font:400 clamp(.92rem,1.35vw,1.12rem)/1 'Mouse Memoirs';transition:background .2s,color .2s,transform .2s}
+.checkout-acknowledge:hover{background:#62321e;color:#fff;transform:translateY(-2px)}
+.checkout-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.checkout-form label{display:grid;gap:6px;text-transform:uppercase;letter-spacing:.06em;font:400 .78rem/1 'Mouse Memoirs'}
+.checkout-form>label:nth-child(3),.checkout-form>label:nth-child(4),.checkout-form fieldset,.checkout-form .checkout-acknowledge,.checkout-form [role="alert"]{grid-column:1/-1}
+.checkout-form input{width:100%;padding:11px 12px;border:1.5px solid rgba(255,255,255,.55);border-radius:10px;background:#fff;color:#151514;font:600 .9rem/1.2 'DM Sans'}
+.checkout-form fieldset{margin:2px 0 0;padding:0;border:0}.checkout-form legend{margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;font:400 .78rem 'Mouse Memoirs'}
+.checkout-methods{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.checkout-methods label{display:flex;align-items:center;justify-content:center;padding:10px 5px;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;cursor:pointer}.checkout-methods input{width:auto;margin:0 4px 0 0;accent-color:#151514}
+.checkout-error{grid-column:1/-1;margin:0;padding:9px 11px;border-radius:9px;background:#fff;color:#9d2710;font:700 .78rem 'DM Sans'}
+.checkout-price-summary{grid-column:1/-1;display:grid;gap:7px;padding:12px;border-radius:10px;background:rgba(255,255,255,.12);font:600 .82rem 'DM Sans'}.checkout-price-summary span{display:flex;justify-content:space-between;gap:16px}
+.checkout-total-line{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;padding:13px 2px 0;border-top:1px solid rgba(255,255,255,.35);font:600 1rem 'DM Sans'}.checkout-total-line strong{font-size:1.35rem}
+.checkout-modal--success{width:min(88vw,410px);padding:12px;background:#f5e4cd;color:#151514;border:2px solid #151514;border-radius:24px;box-shadow:7px 8px 0 #151514}
+.checkout-modal--success .checkout-close{z-index:3;color:#151514;border-color:#151514;background:#fff}
+.checkout-modal--success>.checkout-kicker,.checkout-modal--success>h2{display:none}
+.checkout-success{display:grid;gap:13px;text-align:center}
+.checkout-success-visual{position:relative;display:grid;place-items:center;min-height:220px;overflow:hidden;border:2px solid #151514;border-radius:18px;background:#ffd448}
+.checkout-success-visual:before,.checkout-success-visual:after{content:'';position:absolute;width:85px;height:85px;border:2px solid #151514;background:#eb5821;transform:rotate(32deg)}
+.checkout-success-visual:before{left:-55px;top:-52px}.checkout-success-visual:after{right:-52px;bottom:-58px;background:#ff7a3d}
+.checkout-success-visual img{position:relative;z-index:1;width:190px;height:190px;object-fit:contain;filter:drop-shadow(0 7px 0 rgba(21,21,20,.14));transform:rotate(-3deg)}
+.checkout-success-burst{position:absolute;z-index:2;top:14px;left:14px;padding:8px 12px;border:2px solid #151514;border-radius:999px;background:#fff;font:400 .8rem/1 'Mouse Memoirs';letter-spacing:.09em;transform:rotate(-5deg)}
+.checkout-success-copy{display:grid;justify-items:center;gap:8px;padding:12px 14px 4px}.checkout-success-copy>span{text-transform:uppercase;letter-spacing:.14em;font:700 .7rem 'DM Sans'}.checkout-success-copy>strong{padding:8px 16px;border:2px solid #151514;border-radius:999px;background:#fff;font:900 1.15rem 'DM Sans';letter-spacing:.08em}.checkout-success-copy p{max-width:320px;margin:0;font:600 .88rem/1.5 'DM Sans';color:#49392e}
+.checkout-modal--success .checkout-acknowledge{display:flex;align-items:center;justify-content:space-between;margin:0;background:#151514;color:#fff;border:2px solid #151514;padding-inline:18px}.checkout-modal--success .checkout-acknowledge:hover{background:#eb5821;color:#fff}
+@keyframes checkout-fade{from{opacity:0}to{opacity:1}}
+@keyframes checkout-pop{from{opacity:0;transform:translateY(28px) scale(.94)}to{opacity:1;transform:none}}
+
+@media(max-width:760px){
+  .cart{right:5vw;bottom:5vw}
+  .cart-button{width:14vw;height:14vw}
+  .cart-badge{width:5.5vw;height:5.5vw;top:-1.2vw;right:-1.2vw;font-size:3.4vw}
+  .cart-panel{width:82vw;padding:5vw;border-radius:5vw;font-size:4vw}
+  .cart-lines{max-height:52vw;gap:2.4vw}
+  .cart-lines li{padding:3vw 4vw;border-radius:4vw}
+  .cart-line-qty button{width:7vw;height:7vw}
+  .cart-checkout{margin-top:4vw;padding:3.2vw 4vw}
+  .checkout-overlay{padding:8px;align-items:center}
+  .checkout-modal{width:min(calc(100vw - 20px),390px);max-height:calc(100dvh - 20px);padding:17px 16px 15px;border-radius:18px}
+  .checkout-close{top:16px;right:16px;width:41px;height:41px;font-size:1.9rem}
+  .checkout-modal h2{margin-right:46px;font-size:2.15rem}
+  .checkout-copy{font-size:.96rem}
+  .checkout-divider{margin:21px auto 13px;padding:6px 14px;font-size:.57rem;letter-spacing:.14em}
+  .checkout-brand{min-height:62px;border-radius:12px}
+  .checkout-acknowledge{margin-top:16px;padding:14px}
+  .checkout-form{grid-template-columns:1fr;gap:9px;margin-top:14px}
+  .checkout-form>label,.checkout-form>label:nth-child(3),.checkout-form>label:nth-child(4){grid-column:1}
+  .checkout-form input{min-height:43px;padding:10px 12px}
+  .checkout-methods{grid-template-columns:1fr 1fr;gap:7px}
+  .checkout-methods label{grid-column:auto!important;min-height:30px;padding:3px 5px;font-size:.69rem}
+  .checkout-price-summary{gap:5px;padding:9px 11px}
+  .checkout-total-line{padding-top:9px}
+  .checkout-form .checkout-acknowledge{margin-top:1px;padding:13px}
+  .checkout-methods-later{display:none}
+}
+
+/* --- Section "Next stop" : affiche pleine couleur avant le footer --- */
+.next-stop{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;padding:5vw 3vw 0;overflow:hidden;background:#f5e4cd;isolation:isolate}
+.next-stop-clouds{position:absolute;inset:0;z-index:1;pointer-events:none}
+.next-stop-cloud{position:absolute;display:block;background:#fffaf1;will-change:transform}
+.next-stop-cloud:before,.next-stop-cloud:after{content:'';position:absolute;bottom:0;background:#fffaf1;border-radius:999px 999px 0 0}
+.cloud-a{top:2%;left:24%;width:min(13vw,210px);height:min(2.6vw,42px);border-radius:0 0 999px 999px}
+.cloud-a:before{left:4%;width:46%;height:200%}
+.cloud-a:after{right:6%;width:40%;height:155%}
+.cloud-b{top:26%;left:-5%;width:min(24vw,400px);height:min(4.4vw,74px);border-radius:0 999px 0 0}
+.cloud-b:before{left:3%;width:40%;height:180%}
+.cloud-b:after{left:41%;width:33%;height:132%}
+.cloud-c{top:20%;right:-3%;width:min(14vw,230px);height:min(2.5vw,40px);border-radius:999px 0 0 999px}
+.cloud-c:before{left:12%;width:44%;height:195%}
+.cloud-c:after{right:5%;width:33%;height:148%}
+.next-stop-kicker{position:relative;z-index:3;margin:0;color:#62321e;font:400 clamp(1.1rem,1.6vw,1.8rem)/1 'Mouse Memoirs';letter-spacing:.04em;opacity:0}
+.next-stop-title{position:relative;z-index:2;margin:2vw 0 0;color:#eb5821;text-align:center;text-transform:uppercase;font:400 clamp(3.6rem,13vw,14rem)/.82 'Mouse Memoirs';letter-spacing:-.02em;-webkit-text-stroke:clamp(4px,.5vw,9px) #fff;paint-order:stroke fill;opacity:0}
+.next-stop-cta{position:relative;z-index:3;margin-top:2.4vw;padding:1.1vw 2.8vw;color:#f5e4cd;background:#eb5821;border-radius:999px;text-decoration:none;font:400 clamp(1rem,1.35vw,1.5rem)/1 'Mouse Memoirs';letter-spacing:.06em;transition:background .2s,transform .2s;opacity:0}
+.next-stop-cta:hover{background:#62321e;transform:translateY(-3px)}
+.next-stop-mascot{position:relative;z-index:3;display:block;width:min(20vw,300px);height:auto;margin-top:-1vw;object-fit:contain;opacity:0}
+@media(max-width:760px){
+  .next-stop{padding:14vw 5vw 0}
+  .next-stop-kicker{font-size:1.2rem}
+  .next-stop-title{margin-top:6vw;font-size:17vw}
+  .next-stop-cta{margin-top:8vw;padding:3.6vw 8vw;font-size:1.1rem}
+  .next-stop-mascot{width:52vw;margin-top:4vw}
+  .cloud-a{left:8%;width:34vw;height:6vw}
+  .cloud-b{width:52vw;height:9vw}
+  .cloud-c{width:32vw;height:5.5vw}
+}
+@media(prefers-reduced-motion:reduce){.next-stop-kicker,.next-stop-title,.next-stop-cta,.next-stop-mascot{opacity:1}}
+
+.site-footer{position:relative;z-index:2;padding:5vw 3vw 2vw;background:#f5e4cd;overflow:hidden}
+.footer-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:start;gap:4vw}
+.footer-title{margin:0;color:#eb5821;text-transform:uppercase;font:400 clamp(2.4rem,5vw,5.4rem)/.86 'Mouse Memoirs';letter-spacing:-.01em}
+.footer-form{display:flex;align-items:center;gap:1.6vw;padding-top:.6vw}
+.footer-input{flex:1;min-width:0;padding:0 0 .7vw;color:#eb5821;background:transparent;border:0;border-bottom:2px solid #eb582166;font:400 clamp(1rem,1.5vw,1.65rem)/1.2 'Mouse Memoirs';letter-spacing:.02em;outline:none;transition:border-color .2s}
+.footer-input::placeholder{color:#eb582199}
+.footer-input:focus{border-bottom-color:#eb5821}
+.footer-send{padding:.85vw 2.4vw;color:#f5e4cd;background:#eb5821;border:0;border-radius:999px;cursor:pointer;font:400 clamp(1rem,1.35vw,1.5rem)/1 'Mouse Memoirs';letter-spacing:.06em;transition:background .2s,transform .2s}
+.footer-send:hover{background:#62321e;transform:rotate(-2deg)}
+/* La nav se cale en bas a gauche, la scene occupe le reste. */
+.footer-body{position:relative;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,2fr);align-items:end;gap:2vw;margin-top:2vw;min-height:min(34vw,520px)}
+.footer-side{display:flex;flex-direction:column;gap:1.8vw;padding-bottom:2vw}
+.footer-nav{position:static;height:auto;padding:0;border:0}
+.footer-col{display:flex;flex-direction:column;gap:.5vw;margin:0;padding:0;list-style:none}
+.footer-col a{display:inline-block;color:#eb5821;text-decoration:none;text-transform:uppercase;font:400 clamp(1.05rem,1.5vw,1.7rem)/1.2 'Mouse Memoirs';letter-spacing:.04em;transition:color .2s,transform .2s}
+.footer-col a:hover{color:#62321e;transform:translateX(4px)}
+.footer-socials{display:flex;align-items:center;gap:1vw}
+.footer-socials a{display:grid;place-items:center;width:min(2.6vw,38px);height:min(2.6vw,38px);color:#eb5821;transition:color .2s,transform .2s}
+.footer-socials svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.footer-socials a:hover{color:#62321e;transform:translateY(-3px)}
+/* Scene centrale : la mascotte, entouree d'ingredients qui flottent. */
+.footer-stage{position:relative;justify-self:center;width:100%;height:100%;min-height:min(30vw,460px)}
+.footer-paper{position:absolute;bottom:-26%;left:50%;z-index:1;width:min(30vw,440px);height:auto;transform:translateX(-50%) rotate(-3deg);object-fit:contain;filter:drop-shadow(10px 18px 22px rgba(33,19,13,.16))}
+.footer-paper-logo{position:absolute;bottom:6%;left:50%;z-index:2;width:min(15vw,220px);height:auto;transform:translateX(-50%) rotate(-3deg);object-fit:contain}
+.footer-hero{position:absolute;bottom:22%;left:50%;z-index:3;width:min(12vw,175px);height:auto;transform:translateX(-50%);object-fit:contain}
+.footer-float{position:absolute;height:auto;opacity:0;pointer-events:none;will-change:transform;filter:drop-shadow(4px 8px 8px rgba(33,19,13,.14))}
+/* Brume : des ellipses claires floutees qui noient le bas de la scene,
+   comme les nuages de la maquette. */
+.footer-clouds{position:absolute;bottom:-8%;left:-12%;z-index:4;width:124%;height:46%;pointer-events:none;filter:blur(22px);background:
+  radial-gradient(closest-side,rgba(255,255,255,.95),transparent 72%) -4% 62%/38% 66% no-repeat,
+  radial-gradient(closest-side,rgba(255,255,255,.92),transparent 72%) 22% 48%/34% 74% no-repeat,
+  radial-gradient(closest-side,rgba(255,255,255,.95),transparent 72%) 50% 56%/40% 70% no-repeat,
+  radial-gradient(closest-side,rgba(255,255,255,.9),transparent 72%) 78% 46%/34% 76% no-repeat,
+  radial-gradient(closest-side,rgba(255,255,255,.95),transparent 72%) 104% 62%/36% 64% no-repeat,
+  linear-gradient(to top,#f5e4cd 22%,rgba(245,228,205,.75) 48%,transparent 88%)}
+.footer-legal{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.9vw;margin:2vw 0 0;color:#eb5821;font:400 clamp(.9rem,1.15vw,1.25rem)/1.3 'Mouse Memoirs';letter-spacing:.02em}
+.footer-legal a{color:inherit;text-decoration:none;transition:color .2s}
+.footer-legal a:hover{color:#62321e;text-decoration:underline}
+.footer-rise{opacity:0;will-change:transform}
+@media(max-width:760px){
+  .site-footer{padding:14vw 6vw 8vw}
+  .footer-top{grid-template-columns:1fr;gap:7vw}
+  .footer-title{font-size:10vw;text-align:center}
+  .footer-form{flex-direction:column;align-items:stretch;gap:4vw;padding-top:0}
+  .footer-input{padding-bottom:3vw;font-size:1.15rem;text-align:center}
+  .footer-send{padding:3.6vw 6vw;font-size:1.1rem}
+  .footer-body{grid-template-columns:1fr;gap:9vw;margin-top:9vw;min-height:0}
+  .footer-side{align-items:center;padding-bottom:0;gap:6vw;order:2}
+  .footer-col{align-items:center;gap:2.4vw}
+  .footer-col a{font-size:1.25rem}
+  .footer-socials{gap:5vw}
+  .footer-socials a{width:9vw;height:9vw}
+  .footer-stage{order:1;min-height:74vw;height:74vw}
+  .footer-paper{width:74vw;bottom:-20%}
+  .footer-paper-logo{width:38vw}
+  .footer-hero{width:30vw}
+  .footer-clouds{filter:blur(16px)}
+  .footer-legal{gap:2.5vw;margin-top:9vw;font-size:1rem;text-align:center}
+}
+@media(prefers-reduced-motion:reduce){.footer-rise{opacity:1}.footer-float{opacity:1}}
+
+
+/* --- Invitation aux notifications (ecran de confirmation) ---------------
+   Posee sous le message de confirmation. Discrete : le client vient de
+   commander, l'essentiel est deja dit. */
+.push-optin{margin-top:18px}
+.push-optin-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;color:#f5e4cd;background:var(--ink);border:0;border-radius:999px;cursor:pointer;font:400 1.05rem/1 'Mouse Memoirs';letter-spacing:.03em;transition:background-color .2s ease,transform .2s ease}
+.push-optin-btn:hover:not(:disabled){background:var(--pink);transform:rotate(-1.5deg) scale(1.02)}
+.push-optin-btn:disabled{opacity:.55;cursor:progress}
+/* Message d'etat (succes, refus, instruction iPhone) : lisible mais
+   secondaire, il ne doit pas concurrencer la confirmation de commande. */
+.push-optin-hint{margin:12px 0 0;max-width:42ch;font-size:.86rem;line-height:1.45;color:#62321e;opacity:.85}
+@media(max-width:760px){
+  .push-optin-btn{width:100%;justify-content:center}
+  .push-optin-hint{max-width:none}
+}
+
+/* Loader d'origine : gobelet SVG rétabli. */
+.bubble-cup{width:min(74vw,360px);aspect-ratio:auto}
+.bubble-cup svg{display:block;width:100%;overflow:visible}
+
+
+/* Avertissement : commande enregistree localement mais pas transmise
+   (reseau coupe). Ton d'alerte plutot que d'erreur — la commande n'est pas
+   perdue, elle demande seulement une confirmation. */
+.checkout-offline{margin:14px 0 0;padding:12px 14px;border:1.5px solid #edcd8a;border-radius:12px;background:#fdf3dd;color:#8a5a00;font-size:.84rem;line-height:1.5}
+
+/* Note de retrait : remplace les champs d'adresse quand le client vient
+   chercher sa commande. Le ton reste informatif, pas alarmant. */
+.checkout-pickup-note {
+  margin: 0;
+  padding: .75rem .9rem;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, .05);
+  font-size: .85rem;
+  line-height: 1.45;
+}

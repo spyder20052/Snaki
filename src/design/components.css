@@ -1,0 +1,1028 @@
+/* ==========================================================================
+   SNAKI — DESIGN SYSTEM : COMPOSANTS
+   ==========================================================================
+   Tous les composants d'interface, construits UNIQUEMENT sur les tokens de
+   tokens.css. Aucune valeur codee en dur ici : si une couleur ou un
+   espacement manque, il faut l'ajouter aux tokens, pas l'ecrire en local.
+
+   Prefixe `sk-` pour eviter toute collision avec les classes du site
+   public existant (`.editorial-*`, `.dance-*`, `.pick-*`...).
+   ========================================================================== */
+
+/* --- PRIMITIVES ---------------------------------------------------------- */
+
+.sk-root {
+  font-family: var(--sk-font-body);
+  font-size: var(--sk-text-base);
+  line-height: var(--sk-leading-normal);
+  color: var(--sk-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Masque un element a l'ecran mais le laisse lisible aux lecteurs d'ecran.
+   Indispensable pour les libelles de champs sans label visible. */
+.sk-sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Anneau de focus unique pour tout le systeme : la navigation clavier doit
+   toujours etre visible, sur n'importe quel composant. */
+.sk-focusable:focus-visible,
+.sk-btn:focus-visible,
+.sk-input:focus-visible,
+.sk-select:focus-visible,
+.sk-textarea:focus-visible,
+.sk-nav-item:focus-visible {
+  outline: none;
+  box-shadow: var(--sk-shadow-focus);
+  border-color: var(--sk-brand-500);
+}
+
+/* --- TYPOGRAPHIE --------------------------------------------------------- */
+
+.sk-h1, .sk-h2, .sk-h3 {
+  font-family: var(--sk-font-display);
+  font-weight: var(--sk-weight-regular);
+  line-height: var(--sk-leading-tight);
+  letter-spacing: var(--sk-tracking-tighter);
+  margin: 0;
+  text-transform: uppercase;
+}
+.sk-h4, .sk-h5, .sk-h6 {
+  font-family: var(--sk-font-heading);
+  font-weight: var(--sk-weight-black);
+  line-height: var(--sk-leading-snug);
+  letter-spacing: var(--sk-tracking-tight);
+  margin: 0;
+}
+.sk-h1 { font-size: var(--sk-text-h1); }
+.sk-h2 { font-size: var(--sk-text-h2); }
+.sk-h3 { font-size: var(--sk-text-h3); }
+.sk-h4 { font-size: var(--sk-text-h4); }
+.sk-h5 { font-size: var(--sk-text-h5); }
+.sk-h6 { font-size: var(--sk-text-h6); }
+
+.sk-text { margin: 0; font-size: var(--sk-text-base); }
+.sk-text-lg { font-size: var(--sk-text-lg); line-height: var(--sk-leading-relaxed); }
+.sk-text-sm { font-size: var(--sk-text-sm); }
+.sk-text-xs { font-size: var(--sk-text-xs); }
+.sk-muted { color: var(--sk-text-secondary); }
+.sk-dim { color: var(--sk-text-muted); }
+
+/* Sur-titre en petites capitales espacees : motif recurrent du site. */
+.sk-eyebrow {
+  font-family: var(--sk-font-body);
+  font-size: var(--sk-text-xs);
+  font-weight: var(--sk-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--sk-tracking-wider);
+  color: var(--sk-text-secondary);
+}
+
+/* Chiffres alignes en colonne (tableaux, KPI) : les chiffres tabulaires
+   evitent que les colonnes tremblent quand la valeur change. */
+.sk-numeric {
+  font-family: var(--sk-font-heading);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--sk-tracking-tight);
+}
+
+/* --- BOUTONS -------------------------------------------------------------
+   Cinq variantes : primary, secondary, outline, ghost, destructive.
+   Trois tailles : sm, md (defaut), lg. */
+
+.sk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sk-space-2);
+  padding: var(--sk-space-3) var(--sk-space-5);
+  border: var(--sk-border-width-thick) solid transparent;
+  border-radius: var(--sk-radius-pill);
+  font-family: var(--sk-font-body);
+  font-size: var(--sk-text-sm);
+  font-weight: var(--sk-weight-bold);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: var(--sk-tracking-wide);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--sk-transition-colors), var(--sk-transition-transform);
+  /* Empeche la selection du texte au double-clic sur un bouton. */
+  user-select: none;
+}
+
+.sk-btn-primary {
+  color: var(--sk-text-on-brand);
+  background: var(--sk-brand-500);
+  border-color: var(--sk-brand-500);
+}
+.sk-btn-primary:hover:not(:disabled) {
+  background: var(--sk-brand-700);
+  border-color: var(--sk-brand-700);
+}
+
+.sk-btn-secondary {
+  color: var(--sk-text-inverse);
+  background: var(--sk-ink-900);
+  border-color: var(--sk-ink-900);
+}
+.sk-btn-secondary:hover:not(:disabled) {
+  background: var(--sk-brand-500);
+  border-color: var(--sk-brand-500);
+  color: var(--sk-text-on-brand);
+}
+
+.sk-btn-outline {
+  color: var(--sk-text-primary);
+  background: transparent;
+  border-color: var(--sk-ink-900);
+}
+.sk-btn-outline:hover:not(:disabled) {
+  color: var(--sk-text-inverse);
+  background: var(--sk-ink-900);
+}
+
+.sk-btn-ghost {
+  color: var(--sk-text-primary);
+  background: transparent;
+  border-color: transparent;
+}
+.sk-btn-ghost:hover:not(:disabled) { background: var(--sk-bg-hover); }
+
+.sk-btn-destructive {
+  color: var(--sk-white);
+  background: var(--sk-danger-fg);
+  border-color: var(--sk-danger-fg);
+}
+.sk-btn-destructive:hover:not(:disabled) { filter: brightness(.9); }
+
+.sk-btn-sm { padding: var(--sk-space-2) var(--sk-space-3); font-size: var(--sk-text-2xs); }
+.sk-btn-lg { padding: var(--sk-space-4) var(--sk-space-8); font-size: var(--sk-text-base); }
+
+/* Bouton carre pour une icone seule. */
+.sk-btn-icon {
+  padding: var(--sk-space-2);
+  width: 36px; height: 36px;
+  border-radius: var(--sk-radius-md);
+}
+
+/* Etat desactive commun a TOUS les controles : meme signal visuel partout. */
+.sk-btn:disabled,
+.sk-input:disabled,
+.sk-select:disabled,
+.sk-textarea:disabled,
+.sk-is-disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --- CHAMPS DE SAISIE ---------------------------------------------------- */
+
+.sk-field { display: flex; flex-direction: column; gap: var(--sk-space-2); }
+
+.sk-label {
+  font-size: var(--sk-text-sm);
+  font-weight: var(--sk-weight-semibold);
+  color: var(--sk-text-primary);
+}
+/* Asterisque de champ requis, ajoutee en CSS pour ne pas polluer le JSX. */
+.sk-label[data-required]::after {
+  content: ' *';
+  color: var(--sk-danger-fg);
+}
+
+.sk-hint { font-size: var(--sk-text-xs); color: var(--sk-text-secondary); }
+.sk-error-text {
+  font-size: var(--sk-text-xs);
+  font-weight: var(--sk-weight-medium);
+  color: var(--sk-danger-fg);
+}
+
+.sk-input,
+.sk-select,
+.sk-textarea {
+  width: 100%;
+  padding: var(--sk-space-3) var(--sk-space-4);
+  font-family: var(--sk-font-body);
+  font-size: var(--sk-text-sm);
+  color: var(--sk-text-primary);
+  background: var(--sk-bg-surface);
+  border: var(--sk-border-default);
+  border-radius: var(--sk-radius-md);
+  transition: var(--sk-transition-colors);
+}
+.sk-input::placeholder,
+.sk-textarea::placeholder { color: var(--sk-text-muted); }
+
+.sk-textarea { min-height: 110px; resize: vertical; line-height: var(--sk-leading-normal); }
+
+.sk-select {
+  /* Chevron dessine en SVG inline : pas de dependance a une police d'icones,
+     et il suit la couleur du texte. */
+  appearance: none;
+  padding-right: var(--sk-space-10);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6b67' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--sk-space-4) center;
+}
+
+/* Champ en erreur : bordure ET fond, pour ne pas dependre de la seule
+   couleur (accessibilite daltonisme). */
+.sk-input[data-invalid],
+.sk-select[data-invalid],
+.sk-textarea[data-invalid] {
+  border-color: var(--sk-danger-border);
+  background: var(--sk-danger-bg);
+}
+
+/* Champ avec icone ou prefixe (recherche, montant). */
+.sk-input-group { position: relative; display: flex; align-items: center; }
+.sk-input-group .sk-input { padding-left: var(--sk-space-10); }
+.sk-input-group-icon {
+  position: absolute;
+  left: var(--sk-space-4);
+  display: grid; place-items: center;
+  color: var(--sk-text-muted);
+  pointer-events: none;
+}
+
+/* --- CASES, RADIOS, INTERRUPTEURS ---------------------------------------- */
+
+.sk-check,
+.sk-radio-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sk-space-3);
+  font-size: var(--sk-text-sm);
+  cursor: pointer;
+}
+.sk-check input,
+.sk-radio-item input {
+  width: 18px; height: 18px;
+  accent-color: var(--sk-brand-500);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.sk-radio-item input { border-radius: var(--sk-radius-circle); }
+
+/* Interrupteur : une case a cocher masquee + une piste stylee. C'est le
+   `:checked` de l'input reel qui pilote l'apparence, donc le clavier et les
+   lecteurs d'ecran fonctionnent sans code supplementaire. */
+.sk-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sk-space-3);
+  cursor: pointer;
+  font-size: var(--sk-text-sm);
+}
+.sk-switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.sk-switch-track {
+  position: relative;
+  width: 42px; height: 24px;
+  flex-shrink: 0;
+  background: var(--sk-ink-100);
+  border-radius: var(--sk-radius-pill);
+  transition: background-color var(--sk-duration-fast) var(--sk-ease-out);
+}
+.sk-switch-track::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 18px; height: 18px;
+  background: var(--sk-white);
+  border-radius: var(--sk-radius-circle);
+  box-shadow: var(--sk-shadow-xs);
+  transition: transform var(--sk-duration-fast) var(--sk-ease-spring);
+}
+.sk-switch input:checked + .sk-switch-track { background: var(--sk-brand-500); }
+.sk-switch input:checked + .sk-switch-track::after { transform: translateX(18px); }
+.sk-switch input:focus-visible + .sk-switch-track { box-shadow: var(--sk-shadow-focus); }
+
+/* --- BADGES, TAGS, PILLS -------------------------------------------------
+   Trois formes voisines mais des roles distincts :
+   - badge : etat (statut de commande, disponibilite)
+   - tag   : classification, souvent supprimable
+   - pill  : compteur ou filtre selectionnable */
+
+.sk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sk-space-1);
+  padding: var(--sk-space-1) var(--sk-space-3);
+  border: var(--sk-border-width) solid transparent;
+  border-radius: var(--sk-radius-pill);
+  font-size: var(--sk-text-2xs);
+  font-weight: var(--sk-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--sk-tracking-wide);
+  white-space: nowrap;
+}
+.sk-badge-success { color: var(--sk-success-fg); background: var(--sk-success-bg); border-color: var(--sk-success-border); }
+.sk-badge-danger  { color: var(--sk-danger-fg);  background: var(--sk-danger-bg);  border-color: var(--sk-danger-border); }
+.sk-badge-warning { color: var(--sk-warning-fg); background: var(--sk-warning-bg); border-color: var(--sk-warning-border); }
+.sk-badge-info    { color: var(--sk-info-fg);    background: var(--sk-info-bg);    border-color: var(--sk-info-border); }
+.sk-badge-neutral { color: var(--sk-neutral-fg); background: var(--sk-neutral-bg); border-color: var(--sk-neutral-border); }
+.sk-badge-brand   { color: var(--sk-brand-700);  background: var(--sk-brand-100);  border-color: var(--sk-brand-200); }
+
+/* Point de statut : lecture instantanee dans un tableau dense. */
+.sk-dot {
+  width: 8px; height: 8px;
+  border-radius: var(--sk-radius-circle);
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.sk-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sk-space-2);
+  padding: var(--sk-space-1) var(--sk-space-3);
+  background: var(--sk-bg-surface-sunken);
+  border: var(--sk-border-subtle);
+  border-radius: var(--sk-radius-sm);
+  font-size: var(--sk-text-xs);
+}
+.sk-tag-remove {
+  display: grid; place-items: center;
+  width: 16px; height: 16px;
+  color: var(--sk-text-muted);
+  background: none; border: 0;
+  border-radius: var(--sk-radius-circle);
+  cursor: pointer;
+  font-size: var(--sk-text-xs);
+}
+.sk-tag-remove:hover { color: var(--sk-danger-fg); background: var(--sk-danger-bg); }
+
+.sk-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sk-space-2);
+  padding: var(--sk-space-2) var(--sk-space-4);
+  background: var(--sk-bg-surface);
+  border: var(--sk-border-default);
+  border-radius: var(--sk-radius-pill);
+  font-size: var(--sk-text-sm);
+  font-weight: var(--sk-weight-medium);
+  cursor: pointer;
+  transition: var(--sk-transition-colors);
+}
+.sk-pill:hover { background: var(--sk-bg-hover); }
+.sk-pill[aria-pressed='true'],
+.sk-pill.sk-is-active {
+  color: var(--sk-text-on-brand);
+  background: var(--sk-brand-500);
+  border-color: var(--sk-brand-500);
+}
+.sk-pill-count {
+  padding: 0 var(--sk-space-2);
+  background: var(--sk-bg-active);
+  border-radius: var(--sk-radius-pill);
+  font-size: var(--sk-text-2xs);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- CARTES -------------------------------------------------------------- */
+
+.sk-card {
+  background: var(--sk-bg-surface);
+  border: var(--sk-border-subtle);
+  border-radius: var(--sk-radius-lg);
+  box-shadow: var(--sk-shadow-xs);
+  overflow: hidden;
+}
+.sk-card-interactive {
+  cursor: pointer;
+  transition: box-shadow var(--sk-duration-fast) var(--sk-ease-out),
+              transform var(--sk-duration-fast) var(--sk-ease-out);
+}
+.sk-card-interactive:hover {
+  box-shadow: var(--sk-shadow-md);
+  transform: translateY(-2px);
+}
+.sk-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sk-space-4);
+  padding: var(--sk-space-5) var(--sk-space-6);
+  border-bottom: var(--sk-border-subtle);
+}
+.sk-card-body { padding: var(--sk-space-6); }
+.sk-card-foot {
+  padding: var(--sk-space-4) var(--sk-space-6);
+  background: var(--sk-bg-surface-sunken);
+  border-top: var(--sk-border-subtle);
+}
+
+/* Carte KPI : un libelle, une grande valeur, une variation. */
+.sk-kpi { padding: var(--sk-space-5) var(--sk-space-6); }
+.sk-kpi-label {
+  font-size: var(--sk-text-xs);
+  font-weight: var(--sk-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--sk-tracking-wide);
+  color: var(--sk-text-secondary);
+}
+.sk-kpi-value {
+  margin-top: var(--sk-space-2);
+  font-family: var(--sk-font-heading);
+  font-size: var(--sk-text-h4);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--sk-tracking-tight);
+}
+.sk-kpi-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sk-space-1);
+  margin-top: var(--sk-space-2);
+  font-size: var(--sk-text-xs);
+  font-weight: var(--sk-weight-semibold);
+}
+.sk-kpi-delta-up { color: var(--sk-success-fg); }
+.sk-kpi-delta-down { color: var(--sk-danger-fg); }
+.sk-kpi-delta-flat { color: var(--sk-text-muted); }
+
+/* --- TABLEAUX ------------------------------------------------------------ */
+
+/* Conteneur a defilement : un tableau large scrolle DANS sa boite, la page
+   ne part jamais en travers. */
+.sk-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: var(--sk-border-subtle);
+  border-radius: var(--sk-radius-lg);
+  background: var(--sk-bg-surface);
+}
+.sk-table { width: 100%; border-collapse: collapse; font-size: var(--sk-text-sm); }
+.sk-table th {
+  padding: var(--sk-space-3) var(--sk-space-4);
+  text-align: left;
+  font-size: var(--sk-text-xs);
+  font-weight: var(--sk-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--sk-tracking-wide);
+  color: var(--sk-text-secondary);
+  background: var(--sk-bg-surface-sunken);
+  border-bottom: var(--sk-border-default);
+  white-space: nowrap;
+}
+/* En-tete cliquable pour le tri. */
+.sk-table th[data-sortable] { cursor: pointer; user-select: none; }
+.sk-table th[data-sortable]:hover { color: var(--sk-text-primary); }
+.sk-table td {
+  padding: var(--sk-space-4);
+  border-bottom: var(--sk-border-subtle);
+  vertical-align: middle;
+}
+.sk-table tbody tr:last-child td { border-bottom: 0; }
+.sk-table tbody tr:hover { background: var(--sk-bg-hover); }
+.sk-table-numeric { text-align: right; font-variant-numeric: tabular-nums; }
+/* Colonne d'actions collee a droite pendant le defilement horizontal. */
+.sk-table-actions { width: 1%; white-space: nowrap; text-align: right; }
+
+/* --- SELECTEUR DE STATUT -------------------------------------------------
+   Un `<select>` transparent superpose au badge : l'apparence est celle du
+   Design System, le comportement reste celui du navigateur (clavier,
+   accessibilite, roue de selection sur mobile). */
+.sk-status-select { position: relative; cursor: pointer; padding-right: var(--sk-space-2); }
+.sk-status-select select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  /* La police doit rester lisible dans la liste ouverte, que le navigateur
+     rend avec son propre style. */
+  font-size: var(--sk-text-sm);
+}
+.sk-status-select:hover { filter: brightness(.96); }
+.sk-status-select:focus-within { box-shadow: var(--sk-shadow-focus); }
+.sk-status-select svg { opacity: .6; margin-left: 2px; }
+
+/* --- GLISSER-DEPOSER -----------------------------------------------------
+   Trois retours visuels, indispensables pour que le deplacement soit
+   comprehensible : la poignee change de curseur, la ligne saisie s'efface,
+   et un trait marque le point d'insertion. */
+
+.sk-draggable {
+  transition: background-color var(--sk-duration-fast) var(--sk-ease-out),
+              opacity var(--sk-duration-fast) var(--sk-ease-out);
+}
+
+/* Poignee : c'est le seul endroit ou le curseur annonce le glisser. */
+.sk-drag-handle {
+  cursor: grab;
+  color: var(--sk-text-muted);
+  user-select: none;
+  /* Cible tactile confortable sans elargir la colonne. */
+  padding: var(--sk-space-2) var(--sk-space-1);
+  line-height: 1;
+}
+.sk-drag-handle:active { cursor: grabbing; }
+.sk-draggable:hover .sk-drag-handle { color: var(--sk-text-primary); }
+
+/* Ligne en cours de deplacement : estompee, pour qu'on suive des yeux la
+   place qu'elle va liberer. */
+.sk-is-dragging {
+  opacity: .35;
+  background: var(--sk-brand-100) !important;
+}
+
+/* Point d'insertion. Un `box-shadow` interne plutot qu'une bordure : il ne
+   decale pas la ligne d'un pixel, donc le tableau ne tremble pas pendant
+   le survol. */
+.sk-drop-above { box-shadow: inset 0 3px 0 0 var(--sk-brand-500); }
+.sk-drop-below { box-shadow: inset 0 -3px 0 0 var(--sk-brand-500); }
+.sk-drop-above, .sk-drop-below { background: var(--sk-brand-100) !important; }
+
+/* En mouvement reduit, on garde le reperage mais sans transition. */
+@media (prefers-reduced-motion: reduce) {
+  .sk-draggable { transition: none; }
+}
+
+/* --- PAGINATION ---------------------------------------------------------- */
+
+/* `position`/`height` reaffirmes : `.sk-pagination` est un <nav>, et
+   App.css declare `nav { position:absolute; height:90px }` pour le site
+   public. Sans ces remises a zero, la pagination flottait en haut de page. */
+.sk-pagination {
+  position: static;
+  height: auto;
+  width: auto;
+  border-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sk-space-4);
+  padding: var(--sk-space-4);
+  flex-wrap: wrap;
+}
+.sk-pagination-info { font-size: var(--sk-text-sm); color: var(--sk-text-secondary); }
+.sk-pagination-controls { display: flex; align-items: center; gap: var(--sk-space-1); }
+.sk-page-btn {
+  min-width: 34px; height: 34px;
+  padding: 0 var(--sk-space-2);
+  display: grid; place-items: center;
+  font-size: var(--sk-text-sm);
+  font-variant-numeric: tabular-nums;
+  background: var(--sk-bg-surface);
+  border: var(--sk-border-subtle);
+  border-radius: var(--sk-radius-sm);
+  cursor: pointer;
+  transition: var(--sk-transition-colors);
+}
+.sk-page-btn:hover:not(:disabled) { background: var(--sk-bg-hover); }
+.sk-page-btn[aria-current='page'] {
+  color: var(--sk-text-on-brand);
+  background: var(--sk-brand-500);
+  border-color: var(--sk-brand-500);
+  font-weight: var(--sk-weight-bold);
+}
+.sk-page-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+/* --- NAVIGATION / SIDEBAR / HEADER --------------------------------------- */
+
+/* La sidebar est un enfant flex du conteneur de page. `flex` explicite (au
+   lieu du seul `width`) l'empeche d'etre etiree ou compressee.
+   `position:fixed` plutot que `sticky` : en sticky, la hauteur de la
+   sidebar depend du flux parent et ses propres enfants flex se
+   retrouvaient ecrases sur 287px au lieu de 900. En fixed, elle occupe
+   toujours exactement la hauteur de la fenetre, et le contenu est decale
+   par une marge equivalente. */
+.sk-sidebar {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; bottom: 0; left: 0;
+  width: var(--sk-sidebar-width);
+  z-index: var(--sk-z-sticky);
+  background: var(--sk-ink-900);
+  color: var(--sk-text-inverse);
+}
+/* Reserve la place de la sidebar fixe : le contenu commence apres elle. */
+.sk-shell { display: flex; min-height: 100vh; }
+.sk-shell-main {
+  flex: 1;
+  min-width: 0;
+  margin-left: var(--sk-sidebar-width);
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 1023px) {
+  .sk-shell-main { margin-left: 0; }
+}
+.sk-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sk-space-3);
+  height: var(--sk-header-height);
+  padding: 0 var(--sk-space-5);
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  flex-shrink: 0;
+}
+/* `min-height:0` est indispensable : sans lui, un enfant flex en
+   `overflow:auto` refuse de rétrécir sous la taille de son contenu, donc
+   il ne defile pas et deborde de la sidebar.
+   `position`/`height`/`width` sont reaffirmes parce qu'App.css declare un
+   selecteur d'ELEMENT `nav { position:absolute; height:90px }` pour la
+   navigation du site public : sans ces remises a zero, la sidebar du
+   dashboard heritait de ces valeurs et sortait du flux. */
+.sk-sidebar-nav {
+  position: static;
+  height: auto;
+  width: auto;
+  padding-inline: var(--sk-space-3);
+  border-bottom: 0;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--sk-space-4) var(--sk-space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sk-sidebar-group {
+  margin: var(--sk-space-4) 0 var(--sk-space-2);
+  padding: 0 var(--sk-space-3);
+  font-size: var(--sk-text-2xs);
+  font-weight: var(--sk-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--sk-tracking-wider);
+  color: rgba(255, 255, 255, .38);
+}
+.sk-nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sk-space-3);
+  padding: var(--sk-space-3) var(--sk-space-3);
+  border: 0;
+  border-radius: var(--sk-radius-md);
+  background: transparent;
+  color: rgba(255, 255, 255, .72);
+  font-family: var(--sk-font-body);
+  font-size: var(--sk-text-sm);
+  font-weight: var(--sk-weight-medium);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  width: 100%;
+  transition: var(--sk-transition-colors);
+}
+.sk-nav-item:hover { color: var(--sk-white); background: rgba(255, 255, 255, .08); }
+.sk-nav-item.sk-is-active {
+  color: var(--sk-text-on-brand);
+  background: var(--sk-brand-500);
+  font-weight: var(--sk-weight-bold);
+}
+.sk-nav-item-count {
+  margin-left: auto;
+  padding: 0 var(--sk-space-2);
+  background: rgba(255, 255, 255, .16);
+  border-radius: var(--sk-radius-pill);
+  font-size: var(--sk-text-2xs);
+  font-variant-numeric: tabular-nums;
+}
+.sk-nav-icon { width: 18px; flex-shrink: 0; display: grid; place-items: center; }
+
+.sk-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sk-space-4);
+  height: var(--sk-header-height);
+  padding: 0 var(--sk-space-6);
+  background: var(--sk-bg-surface);
+  border-bottom: var(--sk-border-subtle);
+  position: sticky;
+  top: 0;
+  z-index: var(--sk-z-header);
+}
+
+/* --- FIL D'ARIANE -------------------------------------------------------- */
+.sk-breadcrumb {
+  display: flex; align-items: center; gap: var(--sk-space-2);
+  font-size: var(--sk-text-sm); color: var(--sk-text-secondary);
+}
+.sk-breadcrumb a { color: inherit; text-decoration: none; }
+.sk-breadcrumb a:hover { color: var(--sk-text-brand); }
+
+/* --- MODALE -------------------------------------------------------------- */
+
+.sk-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--sk-z-overlay);
+  display: grid;
+  place-items: center;
+  padding: var(--sk-space-4);
+  background: var(--sk-bg-overlay);
+  animation: sk-fade var(--sk-duration-fast) var(--sk-ease-out);
+}
+.sk-modal {
+  position: relative;
+  z-index: var(--sk-z-modal);
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: var(--sk-bg-surface);
+  border-radius: var(--sk-radius-xl);
+  box-shadow: var(--sk-shadow-xl);
+  animation: sk-pop var(--sk-duration-normal) var(--sk-ease-spring);
+}
+.sk-modal-lg { max-width: 780px; }
+.sk-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sk-space-4);
+  padding: var(--sk-space-6);
+  border-bottom: var(--sk-border-subtle);
+}
+.sk-modal-body { padding: var(--sk-space-6); }
+.sk-modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sk-space-3);
+  padding: var(--sk-space-5) var(--sk-space-6);
+  border-top: var(--sk-border-subtle);
+  background: var(--sk-bg-surface-sunken);
+}
+
+@keyframes sk-fade { from { opacity: 0; } }
+@keyframes sk-pop {
+  from { opacity: 0; transform: translateY(12px) scale(.97); }
+}
+
+/* --- INFOBULLE ----------------------------------------------------------- */
+/* Purement CSS : `title` n'est pas stylable, et une infobulle en JS pour un
+   simple libelle serait disproportionne. */
+.sk-tooltip { position: relative; display: inline-flex; }
+.sk-tooltip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--sk-z-tooltip);
+  padding: var(--sk-space-2) var(--sk-space-3);
+  background: var(--sk-ink-900);
+  color: var(--sk-white);
+  border-radius: var(--sk-radius-sm);
+  font-size: var(--sk-text-xs);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--sk-duration-fast) var(--sk-ease-out);
+}
+.sk-tooltip:hover::after,
+.sk-tooltip:focus-visible::after { opacity: 1; }
+
+/* --- MENU DEROULANT ------------------------------------------------------ */
+.sk-dropdown { position: relative; display: inline-flex; }
+.sk-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: var(--sk-z-popover);
+  min-width: 200px;
+  padding: var(--sk-space-2);
+  background: var(--sk-bg-surface);
+  border: var(--sk-border-subtle);
+  border-radius: var(--sk-radius-md);
+  box-shadow: var(--sk-shadow-lg);
+  animation: sk-pop var(--sk-duration-fast) var(--sk-ease-out);
+}
+.sk-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sk-space-3);
+  width: 100%;
+  padding: var(--sk-space-3);
+  border: 0;
+  border-radius: var(--sk-radius-sm);
+  background: transparent;
+  color: var(--sk-text-primary);
+  font-family: var(--sk-font-body);
+  font-size: var(--sk-text-sm);
+  text-align: left;
+  cursor: pointer;
+}
+.sk-dropdown-item:hover { background: var(--sk-bg-hover); }
+.sk-dropdown-item-danger { color: var(--sk-danger-fg); }
+.sk-dropdown-item-danger:hover { background: var(--sk-danger-bg); }
+.sk-dropdown-sep { height: 1px; margin: var(--sk-space-2) 0; background: var(--sk-ink-100); }
+
+/* --- NOTIFICATIONS (TOASTS) ---------------------------------------------- */
+.sk-toasts {
+  position: fixed;
+  bottom: var(--sk-space-6);
+  right: var(--sk-space-6);
+  z-index: var(--sk-z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sk-space-3);
+  pointer-events: none;
+}
+.sk-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sk-space-3);
+  min-width: 280px;
+  max-width: 400px;
+  padding: var(--sk-space-4);
+  background: var(--sk-bg-surface);
+  border: var(--sk-border-subtle);
+  border-left: 4px solid var(--sk-ink-300);
+  border-radius: var(--sk-radius-md);
+  box-shadow: var(--sk-shadow-lg);
+  pointer-events: auto;
+  animation: sk-slide-in var(--sk-duration-normal) var(--sk-ease-spring);
+}
+.sk-toast-success { border-left-color: var(--sk-success-fg); }
+.sk-toast-danger  { border-left-color: var(--sk-danger-fg); }
+.sk-toast-warning { border-left-color: var(--sk-warning-fg); }
+.sk-toast-info    { border-left-color: var(--sk-info-fg); }
+.sk-toast-title { font-size: var(--sk-text-sm); font-weight: var(--sk-weight-bold); }
+.sk-toast-msg { font-size: var(--sk-text-xs); color: var(--sk-text-secondary); margin-top: 2px; }
+
+@keyframes sk-slide-in { from { opacity: 0; transform: translateX(24px); } }
+
+/* --- SQUELETTES DE CHARGEMENT -------------------------------------------
+   L'animation de balayage indique que la donnee arrive, plutot qu'un vide
+   qui laisserait croire a une page cassee. */
+.sk-skeleton {
+  background: linear-gradient(90deg,
+    var(--sk-bg-surface-sunken) 25%,
+    rgba(21, 21, 20, .07) 50%,
+    var(--sk-bg-surface-sunken) 75%);
+  background-size: 200% 100%;
+  border-radius: var(--sk-radius-sm);
+  animation: sk-shimmer 1.4s linear infinite;
+}
+.sk-skeleton-text { height: 12px; margin: var(--sk-space-2) 0; }
+.sk-skeleton-title { height: 22px; width: 46%; }
+.sk-skeleton-circle { border-radius: var(--sk-radius-circle); }
+
+@keyframes sk-shimmer { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .sk-skeleton { animation: none; }
+}
+
+/* --- ETATS VIDES ET ERREURS ---------------------------------------------- */
+
+.sk-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sk-space-3);
+  padding: var(--sk-space-16) var(--sk-space-6);
+  text-align: center;
+}
+.sk-empty-icon {
+  display: grid; place-items: center;
+  width: 56px; height: 56px;
+  margin-bottom: var(--sk-space-2);
+  font-size: 26px;
+  background: var(--sk-bg-surface-sunken);
+  border-radius: var(--sk-radius-circle);
+}
+.sk-empty-title { font-size: var(--sk-text-lg); font-weight: var(--sk-weight-bold); }
+.sk-empty-text {
+  max-width: 42ch;
+  font-size: var(--sk-text-sm);
+  color: var(--sk-text-secondary);
+  line-height: var(--sk-leading-relaxed);
+}
+
+.sk-error-box {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sk-space-3);
+  padding: var(--sk-space-4);
+  background: var(--sk-danger-bg);
+  border: var(--sk-border-width) solid var(--sk-danger-border);
+  border-radius: var(--sk-radius-md);
+  color: var(--sk-danger-fg);
+  font-size: var(--sk-text-sm);
+}
+
+/* Encart d'information (avertissement de configuration, aide contextuelle). */
+.sk-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sk-space-3);
+  padding: var(--sk-space-4);
+  border: var(--sk-border-width) solid var(--sk-info-border);
+  background: var(--sk-info-bg);
+  border-radius: var(--sk-radius-md);
+  font-size: var(--sk-text-sm);
+  color: var(--sk-info-fg);
+}
+.sk-notice-warning {
+  border-color: var(--sk-warning-border);
+  background: var(--sk-warning-bg);
+  color: var(--sk-warning-fg);
+}
+
+/* --- UTILITAIRES DE DISPOSITION ------------------------------------------ */
+
+.sk-stack { display: flex; flex-direction: column; gap: var(--sk-space-4); }
+.sk-stack-sm { gap: var(--sk-space-2); }
+.sk-stack-lg { gap: var(--sk-space-8); }
+.sk-row { display: flex; align-items: center; gap: var(--sk-space-4); }
+.sk-row-between { justify-content: space-between; }
+.sk-row-wrap { flex-wrap: wrap; }
+.sk-spacer { flex: 1; }
+
+/* Grille auto-ajustable : les cartes se replacent seules selon la largeur,
+   sans media query. `minmax` fixe la largeur minimale d'une carte. */
+.sk-grid { display: grid; gap: var(--sk-grid-gutter); }
+.sk-grid-kpi { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.sk-grid-cards { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.sk-grid-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+/* Barre d'outils au-dessus d'un tableau : recherche, filtres, actions. */
+.sk-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--sk-space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--sk-space-4);
+}
+.sk-toolbar .sk-input-group { min-width: 240px; flex: 1; max-width: 380px; }
+
+/* Barre d'actions groupees, visible quand des lignes sont selectionnees. */
+.sk-bulkbar {
+  display: flex;
+  align-items: center;
+  gap: var(--sk-space-4);
+  padding: var(--sk-space-3) var(--sk-space-4);
+  margin-bottom: var(--sk-space-4);
+  background: var(--sk-brand-100);
+  border: var(--sk-border-width) solid var(--sk-brand-200);
+  border-radius: var(--sk-radius-md);
+  font-size: var(--sk-text-sm);
+}
+
+/* --- RESPONSIVE ----------------------------------------------------------
+   Sous 1024px la sidebar devient un tiroir hors-ecran, pousse par la classe
+   `sk-is-open`. Le dashboard reste utilisable sur tablette. */
+/* Le bouton d'ouverture du tiroir n'a de sens qu'en dessous de 1024px,
+   ou la sidebar est masquee. */
+.sk-only-mobile { display: none; }
+
+@media (max-width: 1023px) {
+  .sk-only-mobile { display: inline-flex; }
+  .sk-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    height: auto;
+    z-index: var(--sk-z-drawer);
+    transform: translateX(-100%);
+    transition: transform var(--sk-duration-normal) var(--sk-ease-out);
+    box-shadow: var(--sk-shadow-xl);
+  }
+  .sk-sidebar.sk-is-open { transform: translateX(0); }
+  .sk-header { padding: 0 var(--sk-space-4); }
+}
+
+@media (max-width: 639px) {
+  .sk-modal { max-width: none; border-radius: var(--sk-radius-lg); }
+  .sk-toasts { left: var(--sk-space-4); right: var(--sk-space-4); bottom: var(--sk-space-4); }
+  .sk-toast { min-width: 0; max-width: none; }
+  .sk-card-body, .sk-card-head { padding: var(--sk-space-4); }
+  .sk-pagination { justify-content: center; }
+}
+
+/* --- RANGEE DE STATUTS (tableau des commandes) ----------------------------
+   Tous les etats d'une commande cote a cote, dans l'ordre du parcours, pour
+   qu'on lise sa position sans ouvrir le detail.
+
+   Les boutons sont resserres : sept elements plus « Détail » dans une seule
+   cellule depassaient la largeur d'un portable. On reduit le padding et on
+   interdit le retrecissement, de sorte que les libelles restent lisibles.
+   Si la place manque malgre tout, c'est le tableau qui defile (voir
+   `.sk-table-wrap`), jamais la rangee qui s'empile. */
+.sk-status-row { display: flex; flex-wrap: nowrap; gap: 3px; }
+.sk-status-row .sk-btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  padding-inline: var(--sk-space-2);
+  letter-spacing: 0;
+}
+/* L'etat courant reste lisible une fois desactive : on ne baisse pas son
+   opacite comme pour un bouton ordinairement inactif, puisqu'il porte
+   l'information principale de la ligne. */
+.sk-status-row .sk-btn:disabled { opacity: 1; cursor: default; }
