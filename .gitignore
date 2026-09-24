@@ -2,3 +2,5 @@ node_modules
 convert_all_images.sh
 .DS_Store
 dist
+.env
+.env.local
